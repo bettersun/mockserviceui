@@ -10,18 +10,24 @@ class MockServicePluginImpl extends MockServicePlugin {
   // go-flutter插件中的包名，两者必须一致
   final channel = MethodChannel('bettersun.go-flutter.plugin.mockservice');
 
-  final helo = 'hello';
-  final run = 'run';
-  final close = 'close';
-  final hostlist = 'hostlist';
-  final infolist = 'infolist';
+  final funcNameHelo = 'hello';
+
+  final funcNameRun = 'run';
+  final funcNameClose = 'close';
+  final funcNameReload = 'reload';
+  final funcNameIsRunning = 'IsRunning';
+
+  final funcNameSaveInfo = 'saveInfo';
+
+  final funcNameHostlist = 'hostlist';
+  final funcNameInfolist = 'infolist';
 
   final ModelGo modelGo = ModelGo();
 
   /// 获取目标主机列表
   @override
   Future<List<String>> targetHostList() async {
-    final Map m = await channel.invokeMethod(hostlist);
+    final Map m = await channel.invokeMethod(funcNameHostlist);
 
     final List<String> list = modelGo.fromGoHostList(m);
     return list;
@@ -30,22 +36,42 @@ class MockServicePluginImpl extends MockServicePlugin {
   /// 获取模拟服务信息列表
   @override
   Future<List<MockServiceInfo>> mockServiceInfoList() async {
-    final Map m = await channel.invokeMethod(infolist);
+    final Map m = await channel.invokeMethod(funcNameInfolist);
     final List<MockServiceInfo> list = modelGo.fromGoInfoList(m);
     return list;
   }
 
-  /// 运行模拟服务
+  /// 运行服务
   @override
-  Future<String> runMockService() async {
-    final String result = await channel.invokeMethod('run');
+  Future<String> runService() async {
+    final String result = await channel.invokeMethod(funcNameRun);
     return result;
   }
 
-  /// 关闭模拟服务
+  /// 关闭服务
   @override
-  Future<String> closeMockService() async {
-    final String result = await channel.invokeMethod('close');
+  Future<String> closeService() async {
+    final String result = await channel.invokeMethod(funcNameClose);
+    return result;
+  }
+
+  /// 重新加载(运行时各种配置及输入文件)
+  @override
+  Future<String> reload() async {
+    final String result = await channel.invokeMethod(funcNameReload);
+    return result;
+  }
+
+  @override
+  Future<String> saveInfo(MockServiceInfo info) async {
+    final Map m = info.toJson();
+    final String result = await channel.invokeMethod(funcNameSaveInfo, m);
+    return result;
+  }
+
+  @override
+  Future<bool> isRunning() async {
+    final bool result = await channel.invokeMethod(funcNameIsRunning);
     return result;
   }
 }

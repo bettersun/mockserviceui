@@ -25,25 +25,28 @@ class MockServiceBloc extends Bloc<MockServiceEvent, MockServiceState> {
       yield MockServiceDoneState(view: view);
     }
 
-    if (event is MockServiceRunEvent) {
-      final MockServiceView view = await service.run();
+    // 启动服务/关闭服务
+    if (event is MockServiceToggleServiceEvent) {
+      final MockServiceDoneState nowState = state as MockServiceDoneState;
+      final MockServiceView view = await service.toggleService(nowState.view);
       yield MockServiceDoneState(view: view);
     }
 
-    if (event is MockServiceCloseEvent) {
-      final MockServiceView view = await service.close();
+    // 重载
+    if (event is MockServiceReloadEvent) {
+      final MockServiceView view = await service.reload();
       yield MockServiceDoneState(view: view);
     }
 
-    /// 改变项目值
+    // 改变项目值
     if (event is MockServiceChangeItemValueEvent) {
       final MockServiceDoneState nowState = state as MockServiceDoneState;
       final MockServiceView view =
-          await service.changeItemValue(nowState.view, event);
+          service.changeItemValue(nowState.view, event);
       yield MockServiceDoneState(view: view);
     }
 
-    /// 改变列表值
+    // 改变列表值
     if (event is MockServiceChangeListValueEvent) {
       final MockServiceDoneState nowState = state as MockServiceDoneState;
       final MockServiceView view =

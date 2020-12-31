@@ -10,6 +10,7 @@ import 'mock_service_service.dart';
 class MockServiceServiceImpl extends MockServiceService {
   KiwiContainer container = KiwiContainer();
 
+  /// 初始化
   @override
   Future<MockServiceView> init() async {
     final MockServicePlugin plugin = container<MockServicePlugin>();
@@ -22,9 +23,6 @@ class MockServiceServiceImpl extends MockServiceService {
     if (targetHostList.isNotEmpty) {
       defaultTargetHost = targetHostList[0];
     }
-
-    // // 添加一个空值
-    // targetHostList.insert(0, '');
 
     // 模拟服务信息列表
     final List<MockServiceInfo> mockServiceInfoList =
@@ -43,32 +41,83 @@ class MockServiceServiceImpl extends MockServiceService {
       defaultTargetHost: defaultTargetHost,
       targetHostList: targetHostList,
       infoList: infoViewList,
+      isRunning: false,
     );
 
     return view;
   }
 
+  /// 重新加载(运行时各种配置及输入文件)
   @override
-  Future<MockServiceView> run() async {
+  Future<MockServiceView> reload() async {
     final MockServicePlugin plugin = container<MockServicePlugin>();
-    await plugin.runMockService();
+    // 重新加载(运行时各种配置及输入文件)
+    await plugin.reload();
 
-    return MockServiceView();
+    // 目标主机列表
+    final List<String> targetHostList = await plugin.targetHostList();
+
+    // 默认目标主机
+    String defaultTargetHost = '';
+    if (targetHostList.isNotEmpty) {
+      defaultTargetHost = targetHostList[0];
+    }
+
+    // 模拟服务信息列表
+    final List<MockServiceInfo> mockServiceInfoList =
+        await plugin.mockServiceInfoList();
+
+    // 模拟服务信息View列表
+    final List<MockServiceInfoView> infoViewList = [];
+    for (final MockServiceInfo info in mockServiceInfoList) {
+      final MockServiceInfoView infoView =
+          fromMockServiceInfo(info, defaultTargetHost);
+
+      infoViewList.add(infoView);
+    }
+
+    // 服务运行中标志
+    final bool isRunning = await plugin.isRunning();
+
+    // 服务运行中标志为true时，重新运行下服务(主要用于新添加的URI)
+    if (isRunning) {
+      await plugin.runService();
+    }
+
+    final MockServiceView newView = MockServiceView(
+      info: '已重新加载',
+      defaultTargetHost: defaultTargetHost,
+      targetHostList: targetHostList,
+      infoList: infoViewList,
+      isRunning: isRunning,
+    );
+
+    return newView;
   }
 
-  // @override
-  // Future<MockServiceView> reload() async {
-  //   await MockServicePlugin.reload();
-
-  //   return MockServiceView();
-  // }
-
+  /// 运行服务/关闭服务
   @override
-  Future<MockServiceView> close() async {
+  Future<MockServiceView> toggleService(MockServiceView view) async {
     final MockServicePlugin plugin = container<MockServicePlugin>();
-    await plugin.closeMockService();
 
-    return MockServiceView();
+    bool isRunning;
+    if (view.isRunning) {
+      // 关闭服务
+      await plugin.closeService();
+      isRunning = false;
+    } else {
+      // 运行服务
+      await plugin.runService();
+      isRunning = true;
+    }
+    final info = isRunning ? '服务运行中' : '服务已关闭';
+
+    final MockServiceView newView = view.copyWith(
+      info: info,
+      isRunning: isRunning,
+    );
+
+    return newView;
   }
 
   /// 改变项目值
@@ -103,13 +152,15 @@ class MockServiceServiceImpl extends MockServiceService {
 
   /// 改变列表值
   @override
-  MockServiceView changeListValue(
-      MockServiceView view, MockServiceChangeListValueEvent e) {
+  Future<MockServiceView> changeListValue(
+      MockServiceView view, MockServiceChangeListValueEvent e) async {
+    final MockServicePlugin plugin = container<MockServicePlugin>();
+
     final List<MockServiceInfoView> infoList = [];
     for (int i = 0; i < view.infoList.length; i++) {
       if (i == e.index) {
         // 使用默认目标主机的值发生改变
-        final bool istUseDefaultTargetHostChanged =
+        final bool isUseDefaultTargetHostChanged =
             e.key == MockServiceItemKey.infoListUseDefaultTargetHost;
         // 使用默认目标主机的值发生改变
         final bool istUseMockServiceChanged =
@@ -118,16 +169,16 @@ class MockServiceServiceImpl extends MockServiceService {
         // 当前使用的目标主机
         String currentTargetHost = view.infoList[i].currentTargetHost;
         // 使用默认目标主机的值发生改变 并且 使用默认目标主机时，当前使用的目标主机 设置为 默认目标主机
-        if (istUseDefaultTargetHostChanged && (e.newVal as bool)) {
+        if (isUseDefaultTargetHostChanged && (e.newVal as bool)) {
           currentTargetHost = view.defaultTargetHost;
         }
         // 使用默认目标主机的值发生改变 并且 不使用默认目标主机时，当前使用的目标主机 设置为 当前的目标主机
-        if (istUseDefaultTargetHostChanged && !(e.newVal as bool)) {
+        if (isUseDefaultTargetHostChanged && !(e.newVal as bool)) {
           currentTargetHost = view.infoList[i].targetHost;
         }
 
         final MockServiceInfoView infoView = view.infoList[i].copyWith(
-          useDefaultTargetHost: istUseDefaultTargetHostChanged
+          useDefaultTargetHost: isUseDefaultTargetHostChanged
               ? e.newVal as bool
               : view.infoList[i].useDefaultTargetHost,
           currentTargetHost: currentTargetHost,
@@ -135,6 +186,16 @@ class MockServiceServiceImpl extends MockServiceService {
               ? e.newVal as bool
               : view.infoList[i].useMockService,
         );
+
+        // 通知Go端更新
+        final MockServiceInfo info = MockServiceInfo(
+          useDefaultTargetHost: infoView.useDefaultTargetHost,
+          uri: infoView.uri,
+          targetHost: infoView.targetHost,
+          useMockService: infoView.useMockService,
+          responseFile: infoView.responseFile,
+        );
+        await plugin.saveInfo(info);
 
         infoList.add(infoView);
       } else {

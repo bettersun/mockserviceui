@@ -35,26 +35,18 @@ class MockServiceChangeListValueEvent extends MockServiceEvent {
   String toString() => 'MockServiceChangeListValueEvent';
 }
 
-/// 运行服务Event
-class MockServiceRunEvent extends MockServiceEvent {
-  MockServiceRunEvent();
+/// 运行服务/关闭服务Event
+class MockServiceToggleServiceEvent extends MockServiceEvent {
+  MockServiceToggleServiceEvent();
 
   @override
-  String toString() => 'MockServiceRunEvent';
+  String toString() => 'MockServiceToggleServiceEvent';
 }
 
-/// 重新加载运行时模拟服务信息Event
+/// 重新加载(运行时各种配置及输入文件)Event
 class MockServiceReloadEvent extends MockServiceEvent {
   MockServiceReloadEvent();
 
   @override
   String toString() => 'MockServiceReloadEvent';
-}
-
-/// 关闭服务Event
-class MockServiceCloseEvent extends MockServiceEvent {
-  MockServiceCloseEvent();
-
-  @override
-  String toString() => 'MockServiceCloseEvent';
 }

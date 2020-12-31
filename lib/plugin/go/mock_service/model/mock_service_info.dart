@@ -30,4 +30,16 @@ class MockServiceInfo {
     useMockService = json['useMockService'] as bool;
     responseFile = json['responseFile'] as String;
   }
+
+  Map<dynamic, dynamic> toJson() {
+    final Map<dynamic, dynamic> data = <dynamic, dynamic>{};
+
+    data['useDefaultTargetHost'] = useDefaultTargetHost;
+    data['targetHost'] = targetHost;
+    data['uri'] = uri;
+    data['useMockService'] = useMockService;
+    data['responseFile'] = responseFile;
+
+    return data;
+  }
 }

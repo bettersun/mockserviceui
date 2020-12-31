@@ -68,17 +68,36 @@ class MockServicePluginImplMock extends MockServicePlugin {
     return list;
   }
 
-  /// 运行模拟服务
+  /// 运行服务
   @override
-  Future<String> runMockService() async {
+  Future<String> runService() async {
     final String result = await channel.invokeMethod('run');
     return result;
   }
 
-  /// 关闭模拟服务
+  /// 关闭服务
   @override
-  Future<String> closeMockService() async {
+  Future<String> closeService() async {
     final String result = await channel.invokeMethod('close');
     return result;
+  }
+
+  /// 重新加载(运行时各种配置及输入文件)
+  @override
+  Future<String> reload() {
+    // TODO: implement saveInfo
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String> saveInfo(MockServiceInfo info) {
+    // TODO: implement saveInfo
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> isRunning() {
+    // TODO: implement isRunning
+    throw UnimplementedError();
   }
 }

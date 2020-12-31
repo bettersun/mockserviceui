@@ -41,7 +41,7 @@ class _MockServicePageState extends State<MockServicePage> {
             child: const Icon(Icons.refresh),
             onPressed: () async {
               // 初始化
-              _bloc.add(MockServiceInitEvent());
+              _bloc.add(MockServiceReloadEvent());
             },
           ),
         ),
@@ -65,7 +65,7 @@ class _MockServicePageState extends State<MockServicePage> {
                   HeaderPanel(view: state.view),
                   // Tab面板
                   OperatePanel(view: state.view),
-                  // 搜索结果面板
+                  // 详细面板
                   Expanded(
                     child: DetailPanel(view: state.view),
                   )

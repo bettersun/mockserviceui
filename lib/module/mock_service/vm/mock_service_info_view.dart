@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:mockserviceui/plugin/go/plugin.dart';
 
 /// 模拟服务信息View
 class MockServiceInfoView extends Equatable {

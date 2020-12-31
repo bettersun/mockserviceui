@@ -7,20 +7,17 @@ abstract class MockServiceService {
   /// 初始化
   Future<MockServiceView> init();
 
-  /// 运行服务
-  Future<MockServiceView> run();
+  /// 重新加载(运行时各种配置及输入文件)
+  Future<MockServiceView> reload();
 
-  // /// 重新加载运行时模拟服务信息
-  // Future<MockServiceView> reload();
-
-  /// 关闭服务
-  Future<MockServiceView> close();
+  /// 运行服务/关闭服务
+  Future<MockServiceView> toggleService(MockServiceView view);
 
   /// 改变项目值
   MockServiceView changeItemValue(
       MockServiceView view, MockServiceChangeItemValueEvent e);
 
   /// 改变列表值
-  MockServiceView changeListValue(
+  Future<MockServiceView> changeListValue(
       MockServiceView view, MockServiceChangeListValueEvent e);
 }

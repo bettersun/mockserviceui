@@ -17,6 +17,6 @@ class Kiwi {
         .registerFactory<MockServiceService>((c) => MockServiceServiceImpl());
     // 插件
     container
-        .registerFactory<MockServicePlugin>((c) => MockServicePluginImplMock());
+        .registerFactory<MockServicePlugin>((c) => MockServicePluginImpl());
   }
 }

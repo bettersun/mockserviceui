@@ -9,9 +9,18 @@ abstract class MockServicePlugin {
   /// 获取模拟服务信息列表
   Future<List<MockServiceInfo>> mockServiceInfoList();
 
-  /// 运行模拟服务
-  Future<String> runMockService();
+  /// 运行服务
+  Future<String> runService();
 
-  /// 关闭模拟服务
-  Future<String> closeMockService();
+  /// 关闭服务
+  Future<String> closeService();
+
+  /// 重新加载(运行时各种配置及输入文件)
+  Future<String> reload();
+
+  /// 运行中
+  Future<bool> isRunning();
+
+  /// 保存
+  Future<String> saveInfo(MockServiceInfo info);
 }

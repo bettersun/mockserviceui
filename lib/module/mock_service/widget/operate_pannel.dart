@@ -14,6 +14,8 @@ class OperatePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String toggleText = view.isRunning ? '关闭服务' : '运行服务';
+
     return Container(
       alignment: Alignment.center,
       color: Colors.blue[50],
@@ -25,42 +27,18 @@ class OperatePanel extends StatelessWidget {
         children: [
           Row(
             children: [
-              // 启动服务
+              // 启动服务/关闭服务
               FlatButton(
                 color: Colors.blue[300],
-                child: Text('启动服务'),
+                child: Text(toggleText),
                 onPressed: () {
                   BlocProvider.of<MockServiceBloc>(context)
-                      .add(MockServiceRunEvent());
-                },
-              ),
-              Container(
-                width: 4,
-              ),
-              // // 重新加载模拟服务信息
-              // FlatButton(
-              //   color: Colors.blue[300],
-              //   child: Text('重新加载模拟服务信息'),
-              //   onPressed: () {
-              //     BlocProvider.of<MockServiceBloc>(context)
-              //         .add(MockServiceReloadEvent());
-              //   },
-              // ),
-              // Container(
-              //   width: 4,
-              // ),
-              // 关闭服务
-              FlatButton(
-                color: Colors.blue[300],
-                child: Text('关闭服务'),
-                onPressed: () {
-                  BlocProvider.of<MockServiceBloc>(context)
-                      .add(MockServiceCloseEvent());
+                      .add(MockServiceToggleServiceEvent());
                 },
               ),
             ],
           ),
-          // 文件数
+          // 运行信息
           Row(
             children: [
               Container(
