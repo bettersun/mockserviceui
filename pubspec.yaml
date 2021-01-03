@@ -36,16 +36,6 @@ dependencies:
   flutter_bloc: 6.0.5
   equatable:
 
-  # shared_preferences(Windows)
-  # 必须下面两个依赖都引入
-  shared_preferences: ^0.5.7
-  shared_preferences_windows: ^0.0.1
-
-  # file_picker: ^2.0.0
-
-  # UUID
-  uuid: 2.2.2
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

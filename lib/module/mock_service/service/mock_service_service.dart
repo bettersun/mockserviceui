@@ -20,4 +20,8 @@ abstract class MockServiceService {
   /// 改变列表值
   Future<MockServiceView> changeListValue(
       MockServiceView view, MockServiceChangeListValueEvent e);
+
+  /// 更新模拟服务信息
+  Future<MockServiceView> updateItem(
+      MockServiceView view, MockServiceUpdateInfoEvent e);
 }

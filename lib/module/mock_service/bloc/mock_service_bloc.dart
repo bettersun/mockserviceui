@@ -53,5 +53,13 @@ class MockServiceBloc extends Bloc<MockServiceEvent, MockServiceState> {
           await service.changeListValue(nowState.view, event);
       yield MockServiceDoneState(view: view);
     }
+
+    // 更新模拟服务信息
+    if (event is MockServiceUpdateInfoEvent) {
+      final MockServiceDoneState nowState = state as MockServiceDoneState;
+      final MockServiceView view =
+          await service.updateItem(nowState.view, event);
+      yield MockServiceDoneState(view: view);
+    }
   }
 }

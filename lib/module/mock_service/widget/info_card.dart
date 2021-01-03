@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mockserviceui/common/const/const.dart';
-import 'package:mockserviceui/module/mock_service/const/const.dart';
 
+import '../../info_detail/info_detail_page.dart';
+import '../../mock_service/const/const.dart';
 import '../bloc/bloc.dart';
 import '../vm/vm.dart';
 
@@ -108,9 +109,20 @@ class InfoCard extends StatelessWidget {
                   left: ThemeConst.sideWidth, right: ThemeConst.sideWidth),
               child: InkWell(
                 child: Icon(Icons.arrow_right),
-                onTap: () {
+                onTap: () async {
                   //
-                  print('详细设置');
+                  print('详细');
+                  // 详细
+                  await Navigator.of(context).push<dynamic>(
+                    MaterialPageRoute<dynamic>(builder: (_) {
+                      return InfoDetailPage(infoView: infoView);
+                    }),
+                  ).then((value) {
+                    // 更新模拟服务信息
+                    BlocProvider.of<MockServiceBloc>(context).add(
+                        MockServiceUpdateInfoEvent(
+                            infoView: value as MockServiceInfoView));
+                  });
                 },
               ),
             ),

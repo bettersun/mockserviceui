@@ -1,8 +1,8 @@
 import 'package:kiwi/kiwi.dart';
-import 'package:mockserviceui/module/mock_service/bloc/mock_service_event.dart';
-import 'package:mockserviceui/module/mock_service/const/const.dart';
 import 'package:mockserviceui/plugin/go/plugin.dart';
 
+import '../bloc/mock_service_event.dart';
+import '../const/const.dart';
 import '../vm/vm.dart';
 import 'mock_service_service.dart';
 
@@ -227,5 +227,11 @@ class MockServiceServiceImpl extends MockServiceService {
       useMockService: model.useMockService,
       responseFile: model.responseFile ?? '',
     );
+  }
+
+  @override
+  Future<MockServiceView> updateItem(
+      MockServiceView view, MockServiceUpdateInfoEvent e) async {
+    return view.copyWith(info: '更新信息');
   }
 }

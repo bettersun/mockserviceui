@@ -1,3 +1,5 @@
+import 'package:mockserviceui/module/mock_service/vm/vm.dart';
+
 /// 模拟服务Event
 abstract class MockServiceEvent {}
 
@@ -9,9 +11,10 @@ class MockServiceInitEvent extends MockServiceEvent {
 
 /// 改变项目值Event
 class MockServiceChangeItemValueEvent extends MockServiceEvent {
-  // Key
+  /// Key
   final String key;
-  // 最新值
+
+  /// 最新值
   final dynamic newVal;
 
   MockServiceChangeItemValueEvent({this.key, this.newVal});
@@ -22,11 +25,13 @@ class MockServiceChangeItemValueEvent extends MockServiceEvent {
 
 /// 改变列表值Event
 class MockServiceChangeListValueEvent extends MockServiceEvent {
-  // 下标
+  /// 下标
   final int index;
-  // Key
+
+  /// Key
   final String key;
-  // 最新值
+
+  /// 最新值
   final dynamic newVal;
 
   MockServiceChangeListValueEvent({this.index, this.key, this.newVal});
@@ -49,4 +54,15 @@ class MockServiceReloadEvent extends MockServiceEvent {
 
   @override
   String toString() => 'MockServiceReloadEvent';
+}
+
+/// 更新模拟服务信息Event
+class MockServiceUpdateInfoEvent extends MockServiceEvent {
+  ///
+  final MockServiceInfoView infoView;
+
+  MockServiceUpdateInfoEvent({this.infoView});
+
+  @override
+  String toString() => 'MockServiceUpdateInfoEvent';
 }

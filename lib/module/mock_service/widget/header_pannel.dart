@@ -21,16 +21,6 @@ class HeaderPanel extends StatefulWidget {
 }
 
 class _HeaderPanelState extends State<HeaderPanel> {
-  /// 模拟服务Bloc
-  MockServiceBloc _bloc;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _bloc = BlocProvider.of<MockServiceBloc>(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +36,7 @@ class _HeaderPanelState extends State<HeaderPanel> {
             value: widget.view.defaultTargetHost,
             onChanged: (value) {
               if (value != widget.view.defaultTargetHost) {
-                _bloc.add(
+                BlocProvider.of<MockServiceBloc>(context).add(
                   MockServiceChangeItemValueEvent(
                     key: MockServiceItemKey.defaultTargetHost,
                     newVal: value,
