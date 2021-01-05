@@ -4,6 +4,12 @@ import 'detail_response_view.dart';
 
 /// 模拟服务信息详细View
 class InfoDetailView extends Equatable {
+  /// 运行时信息
+  final String info;
+
+  // /// 默认目标主机
+  // final String defaultTargetHost;
+
   /// 使用默认目标主机
   final bool useDefaultTargetHost;
 
@@ -11,7 +17,7 @@ class InfoDetailView extends Equatable {
   final String targetHost;
 
   /// 当前使用的目标主机
-  /// 使用默认目标主机为true时，表示默认目标主机
+  /// 使用默认目标主机为true时，表示 '默认目标主机'
   /// 使用默认目标主机为false时，表示当前的目标主机
   final String currentTargetHost;
 
@@ -28,6 +34,8 @@ class InfoDetailView extends Equatable {
   final List<DetailResponseView> responseList;
 
   const InfoDetailView({
+    this.info = '',
+    // this.defaultTargetHost = '',
     this.useDefaultTargetHost = false,
     this.targetHost = '',
     this.currentTargetHost = '',
@@ -39,6 +47,8 @@ class InfoDetailView extends Equatable {
 
   @override
   List<Object> get props => [
+        info,
+        // defaultTargetHost,
         useDefaultTargetHost,
         targetHost,
         currentTargetHost,
@@ -49,6 +59,8 @@ class InfoDetailView extends Equatable {
       ];
 
   InfoDetailView copyWith({
+    String info,
+    // String defaultTargetHost,
     bool useDefaultTargetHost,
     String targetHost,
     String currentTargetHost,
@@ -58,6 +70,8 @@ class InfoDetailView extends Equatable {
     List<DetailResponseView> responseList,
   }) {
     return InfoDetailView(
+      info: info ?? this.info,
+      // defaultTargetHost: defaultTargetHost ?? this.defaultTargetHost,
       useDefaultTargetHost: useDefaultTargetHost ?? this.useDefaultTargetHost,
       targetHost: targetHost ?? this.targetHost,
       currentTargetHost: currentTargetHost ?? this.currentTargetHost,

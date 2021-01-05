@@ -56,6 +56,10 @@ class _MockServicePageState extends State<MockServicePage> {
         if (state is MockServiceDoneState) {
           // 构建组件
           return Scaffold(
+            appBar: AppBar(
+              title: Text('模拟服务'),
+              centerTitle: true,
+            ),
             body: Container(
               padding: EdgeInsets.all(ThemeConst.sideWidth),
               color: Theme.of(context).bannerTheme.backgroundColor,

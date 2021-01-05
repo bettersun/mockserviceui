@@ -2,6 +2,9 @@ import 'package:equatable/equatable.dart';
 
 /// 模拟服务信息View
 class MockServiceInfoView extends Equatable {
+  // /// 默认目标主机
+  // final String defaultTargetHost;
+
   /// 使用默认目标主机
   final bool useDefaultTargetHost;
 
@@ -23,6 +26,7 @@ class MockServiceInfoView extends Equatable {
   final String responseFile;
 
   const MockServiceInfoView({
+    // this.defaultTargetHost = '',
     this.useDefaultTargetHost = false,
     this.targetHost = '',
     this.currentTargetHost = '',
@@ -33,6 +37,7 @@ class MockServiceInfoView extends Equatable {
 
   @override
   List<Object> get props => [
+        // defaultTargetHost,
         useDefaultTargetHost,
         targetHost,
         currentTargetHost,
@@ -42,6 +47,7 @@ class MockServiceInfoView extends Equatable {
       ];
 
   MockServiceInfoView copyWith({
+    String defaultTargetHost,
     bool useDefaultTargetHost,
     String targetHost,
     String currentTargetHost,
@@ -50,6 +56,7 @@ class MockServiceInfoView extends Equatable {
     String responseFile,
   }) {
     return MockServiceInfoView(
+      // defaultTargetHost: defaultTargetHost ?? this.defaultTargetHost,
       useDefaultTargetHost: useDefaultTargetHost ?? this.useDefaultTargetHost,
       targetHost: targetHost ?? this.targetHost,
       currentTargetHost: currentTargetHost ?? this.currentTargetHost,

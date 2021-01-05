@@ -1,7 +1,5 @@
 github.com/Xuanwo/go-locale v0.3.0 h1:clHbJN2GT4xGZ8BqcIJr42Yfoe06iYzI36LIxBnQ6DY=
 github.com/Xuanwo/go-locale v0.3.0/go.mod h1:6qbT9M726OJgyiGZro2YwPmx63wQzlH+VvtjJWQoftw=
-github.com/bettersun/moist v0.0.5 h1:3abYMbQbCbFl/8JxC4+v9kXRt0lrCXyMt30b+QbEvQk=
-github.com/bettersun/moist v0.0.5/go.mod h1:/0HKPU3oLF2KqU5fDVVpE3tLO7ao4PzQvDA4vDjqyCo=
 github.com/bettersun/moist v0.0.6 h1:kR0sM0fyE/9TZ1igPDJEoJQlsnrx7KV4o7thOWWqRk0=
 github.com/bettersun/moist v0.0.6/go.mod h1:+n4HG3dZc9r/EVZTzjyGbprx5kbgeXWHe9DiI25NM3k=
 github.com/bettersun/moist/yaml v0.0.0-20201229122944-f48691f8f589 h1:hcdFgRMa8X6+PFTtD6OLDABkR9Aoqh9/080ahiGh46o=
@@ -45,6 +43,7 @@ golang.org/x/tools v0.0.0-20190328211700-ab21143f2384/go.mod h1:LCzVGOaR6xXOjkQ3
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v2 v2.2.2/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
+gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c h1:dUUwHk2QECo/6vqA44rthZ8ie2QXMNeKRTHCNY2nXvo=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 h1:tQIYjPdBoyREyB9XMu+nnTclpTYkz2zFM+lzLJFO4gQ=
 gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=

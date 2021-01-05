@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/go-flutter-desktop/go-flutter"
 
-	"github.com/bettersun/mockservice"
+	mockservicechannel "github.com/bettersun/mockservice/channel"
 )
 
 var options = []flutter.Option{
@@ -11,5 +11,5 @@ var options = []flutter.Option{
 	flutter.WindowDimensionLimits(800, 500, 1280, 800),
 
 	// 添加插件
-	flutter.AddPlugin(mockservice.MockServicePlugin{}),
+	flutter.AddPlugin(mockservicechannel.MockServicePlugin{}),
 }

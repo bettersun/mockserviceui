@@ -4,29 +4,43 @@ import 'mock_service_info.dart';
 class ModelGo {
   //
   List<String> fromGoHostList(Map<dynamic, dynamic> json) {
-    final List<String> hostList = [];
+    final List<String> list = [];
 
     // 对应Go端的Map键
     if (json['HostList'] != null) {
       json['HostList'].forEach((v) {
-        hostList.add(v as String);
+        list.add(v as String);
       });
     }
 
-    return hostList;
+    return list;
   }
 
   //
   List<MockServiceInfo> fromGoInfoList(Map<dynamic, dynamic> json) {
-    final List<MockServiceInfo> infoList = [];
+    final List<MockServiceInfo> list = [];
 
     // 对应Go端的Map键
     if (json['InfoList'] != null) {
       json['InfoList'].forEach((v) {
-        infoList.add(MockServiceInfo.fromJson(v as Map<dynamic, dynamic>));
+        list.add(MockServiceInfo.fromJson(v as Map<dynamic, dynamic>));
       });
     }
 
-    return infoList;
+    return list;
+  }
+
+  //
+  List<String> fromGoResponseList(Map<dynamic, dynamic> json) {
+    final List<String> list = [];
+
+    // 对应Go端的Map键
+    if (json['ResponseList'] != null) {
+      json['ResponseList'].forEach((v) {
+        list.add(v as String);
+      });
+    }
+
+    return list;
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../common/const/const.dart';
 import '../mock_service/vm/vm.dart';
 import 'bloc/bloc.dart';
-import 'util/util.dart';
 import 'widget/widget.dart';
 
 /// 模拟服务信息详细画面
@@ -46,12 +45,22 @@ class _InfoDetailPageState extends State<InfoDetailPage> {
           return Scaffold(
             appBar: AppBar(
               title: Text('模拟服务信息详细'),
+              centerTitle: true,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {
+                  // 模拟服务信息详细View转模拟服务信息View
+                  final MockServiceInfoView infoView = MockServiceInfoView(
+                    useDefaultTargetHost: state.view.useDefaultTargetHost,
+                    currentTargetHost: state.view.currentTargetHost,
+                    targetHost: state.view.targetHost,
+                    uri: state.view.uri,
+                    useMockService: state.view.useMockService,
+                    responseFile: state.view.responseFile,
+                  );
+
                   // Pop
-                  Navigator.maybePop(context,
-                      InfoDetailUtil.toMockServiceInfoView(state.view));
+                  Navigator.maybePop(context, infoView);
                 },
               ),
             ),

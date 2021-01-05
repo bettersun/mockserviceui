@@ -28,7 +28,8 @@ class InfoDetailBloc extends Bloc<InfoDetailEvent, InfoDetailState> {
     // 改变项目值
     if (event is InfoDetailChangeItemValueEvent) {
       final InfoDetailDoneState nowState = state as InfoDetailDoneState;
-      final InfoDetailView view = service.changeItemValue(nowState.view, event);
+      final InfoDetailView view =
+          await service.changeItemValue(nowState.view, event);
       yield InfoDetailDoneState(view: view);
     }
 
@@ -40,10 +41,10 @@ class InfoDetailBloc extends Bloc<InfoDetailEvent, InfoDetailState> {
       yield InfoDetailDoneState(view: view);
     }
 
-    // 保存
-    if (event is InfoDetailSaveEvent) {
+    // 重新加载响应文件列表
+    if (event is InfoDetailReloadResponseEvent) {
       final InfoDetailDoneState nowState = state as InfoDetailDoneState;
-      final InfoDetailView view = await service.save(nowState.view, event);
+      final InfoDetailView view = await service.reloadResponse(nowState.view);
       yield InfoDetailDoneState(view: view);
     }
   }

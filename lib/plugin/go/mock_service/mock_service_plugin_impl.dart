@@ -21,6 +21,7 @@ class MockServicePluginImpl extends MockServicePlugin {
 
   final funcNameHostlist = 'hostlist';
   final funcNameInfolist = 'infolist';
+  final funcNameResponselist = 'responselist';
 
   final ModelGo modelGo = ModelGo();
 
@@ -50,28 +51,48 @@ class MockServicePluginImpl extends MockServicePlugin {
 
   /// 关闭服务
   @override
-  Future<String> closeService() async {
-    final String result = await channel.invokeMethod(funcNameClose);
+  Future<bool> closeService() async {
+    final bool result = await channel.invokeMethod(funcNameClose);
+    if (!result) {
+      print('服务关闭失败');
+    }
     return result;
   }
 
   /// 重新加载(运行时各种配置及输入文件)
   @override
-  Future<String> reload() async {
-    final String result = await channel.invokeMethod(funcNameReload);
+  Future<bool> reload() async {
+    final bool result = await channel.invokeMethod(funcNameReload);
+    if (!result) {
+      print('保存失败');
+    }
     return result;
   }
 
+  ///
   @override
-  Future<String> saveInfo(MockServiceInfo info) async {
+  Future<bool> saveInfo(MockServiceInfo info) async {
     final Map m = info.toJson();
-    final String result = await channel.invokeMethod(funcNameSaveInfo, m);
+    final bool result = await channel.invokeMethod(funcNameSaveInfo, m);
+    if (!result) {
+      print('保存失败');
+    }
     return result;
   }
 
+  /// 运行中状态
   @override
   Future<bool> isRunning() async {
     final bool result = await channel.invokeMethod(funcNameIsRunning);
     return result;
+  }
+
+  /// 获取响应文件列表
+  @override
+  Future<List<String>> responseFileList(String uri) async {
+    final Map m = await channel.invokeMethod(funcNameResponselist, uri);
+
+    final List<String> list = modelGo.fromGoResponseList(m);
+    return list;
   }
 }

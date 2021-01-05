@@ -77,20 +77,20 @@ class MockServicePluginImplMock extends MockServicePlugin {
 
   /// 关闭服务
   @override
-  Future<String> closeService() async {
-    final String result = await channel.invokeMethod('close');
+  Future<bool> closeService() async {
+    final bool result = await channel.invokeMethod('close');
     return result;
   }
 
   /// 重新加载(运行时各种配置及输入文件)
   @override
-  Future<String> reload() {
+  Future<bool> reload() {
     // TODO: implement saveInfo
     throw UnimplementedError();
   }
 
   @override
-  Future<String> saveInfo(MockServiceInfo info) {
+  Future<bool> saveInfo(MockServiceInfo info) {
     // TODO: implement saveInfo
     throw UnimplementedError();
   }
@@ -98,6 +98,12 @@ class MockServicePluginImplMock extends MockServicePlugin {
   @override
   Future<bool> isRunning() {
     // TODO: implement isRunning
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<String>> responseFileList(String uri) {
+    // TODO: implement responseFileList
     throw UnimplementedError();
   }
 }

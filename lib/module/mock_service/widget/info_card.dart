@@ -36,17 +36,17 @@ class InfoCard extends StatelessWidget {
               child: Container(
                 margin: ThemeConst.cellMargin,
                 padding: ThemeConst.cellPadding,
-                // 使用模拟服务时，目标主机背景色为灰色
-                color:
-                    infoView.useMockService ? Colors.grey : Colors.transparent,
-                child: Text(infoView.currentTargetHost),
+                child: Text(infoView.uri),
               ),
             ),
             Expanded(
               child: Container(
                 margin: ThemeConst.cellMargin,
                 padding: ThemeConst.cellPadding,
-                child: Text(infoView.uri),
+                // 使用模拟服务时，目标主机背景色为灰色
+                color:
+                    infoView.useMockService ? Colors.grey : Colors.transparent,
+                child: Text(infoView.currentTargetHost),
               ),
             ),
             Expanded(

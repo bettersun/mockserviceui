@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mockserviceui/common/const/const.dart';
 
 import '../bloc/bloc.dart';
@@ -19,13 +20,28 @@ class MiddlePanel extends StatelessWidget {
       height: 30,
       padding: EdgeInsets.all(ThemeConst.sideWidth),
       child: Row(
+        // 用于左右两端表示组件
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Row(
+            children: [
+              //
+              FlatButton(
+                color: Colors.blue[300],
+                child: Text('重载响应文件列表'),
+                onPressed: () {
+                  BlocProvider.of<InfoDetailBloc>(context)
+                      .add(InfoDetailReloadResponseEvent());
+                },
+              ),
+            ],
+          ),
           // 运行信息
           Row(
             children: [
               Container(
                 padding: EdgeInsets.only(right: 4.0),
-                child: Text(''),
+                child: Text(view.info),
               ),
             ],
           ),

@@ -8,13 +8,13 @@ abstract class InfoDetailService {
   Future<InfoDetailView> init(InfoDetailInitEvent e);
 
   /// 改变项目值
-  InfoDetailView changeItemValue(
+  Future<InfoDetailView> changeItemValue(
       InfoDetailView view, InfoDetailChangeItemValueEvent e);
 
   /// 改变列表值
   Future<InfoDetailView> changeListValue(
       InfoDetailView view, InfoDetailChangeListValueEvent e);
 
-  /// 保存
-  Future<InfoDetailView> save(InfoDetailView view, InfoDetailSaveEvent e);
+  /// 重新加载响应文件列表
+  Future<InfoDetailView> reloadResponse(InfoDetailView view);
 }

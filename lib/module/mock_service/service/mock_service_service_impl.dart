@@ -1,6 +1,7 @@
 import 'package:kiwi/kiwi.dart';
 import 'package:mockserviceui/plugin/go/plugin.dart';
 
+import '../../biz/util/mock_service_util.dart';
 import '../bloc/mock_service_event.dart';
 import '../const/const.dart';
 import '../vm/vm.dart';
@@ -156,15 +157,23 @@ class MockServiceServiceImpl extends MockServiceService {
       MockServiceView view, MockServiceChangeListValueEvent e) async {
     final MockServicePlugin plugin = container<MockServicePlugin>();
 
+    bool result = true;
+
     final List<MockServiceInfoView> infoList = [];
     for (int i = 0; i < view.infoList.length; i++) {
       if (i == e.index) {
         // 使用默认目标主机的值发生改变
         final bool isUseDefaultTargetHostChanged =
             e.key == MockServiceItemKey.infoListUseDefaultTargetHost;
-        // 使用默认目标主机的值发生改变
-        final bool istUseMockServiceChanged =
-            e.key == MockServiceItemKey.infoListUseMockService;
+
+        // // 当前使用的目标主机
+        // final String currentTargetHost = MockServiceUtil.getCurrentTargetHost(
+        //   view.infoList[i].currentTargetHost,
+        //   view.defaultTargetHost,
+        //   view.infoList[i].targetHost,
+        //   isUseDefaultTargetHostChanged,
+        //   e.newVal as bool,
+        // );
 
         // 当前使用的目标主机
         String currentTargetHost = view.infoList[i].currentTargetHost;
@@ -172,10 +181,14 @@ class MockServiceServiceImpl extends MockServiceService {
         if (isUseDefaultTargetHostChanged && (e.newVal as bool)) {
           currentTargetHost = view.defaultTargetHost;
         }
-        // 使用默认目标主机的值发生改变 并且 不使用默认目标主机时，当前使用的目标主机 设置为 当前的目标主机
+        // 使用默认目标主机的值发生改变 并且 不使用默认目标主机时，当前使用的目标主机 设置为 当前数据的 目标主机
         if (isUseDefaultTargetHostChanged && !(e.newVal as bool)) {
           currentTargetHost = view.infoList[i].targetHost;
         }
+
+        // 使用默认目标主机的值发生改变
+        final bool istUseMockServiceChanged =
+            e.key == MockServiceItemKey.infoListUseMockService;
 
         final MockServiceInfoView infoView = view.infoList[i].copyWith(
           useDefaultTargetHost: isUseDefaultTargetHostChanged
@@ -195,7 +208,11 @@ class MockServiceServiceImpl extends MockServiceService {
           useMockService: infoView.useMockService,
           responseFile: infoView.responseFile,
         );
-        await plugin.saveInfo(info);
+        result = await plugin.saveInfo(info);
+        // TODO
+        if (!result) {
+          print('保存失败');
+        }
 
         infoList.add(infoView);
       } else {
@@ -203,7 +220,13 @@ class MockServiceServiceImpl extends MockServiceService {
       }
     }
 
-    final MockServiceView newView = view.copyWith(infoList: infoList);
+    // final MockServiceView newView = view.copyWith(infoList: infoList);
+    MockServiceView newView;
+    if (result) {
+      newView = view.copyWith(info: '', infoList: infoList);
+    } else {
+      newView = view.copyWith(info: '保存失败', infoList: infoList);
+    }
 
     return newView;
   }
@@ -220,6 +243,7 @@ class MockServiceServiceImpl extends MockServiceService {
     }
 
     return MockServiceInfoView(
+      // defaultTargetHost: defaultTargetHost,
       useDefaultTargetHost: model.useDefaultTargetHost,
       targetHost: model.targetHost ?? '',
       currentTargetHost: currentTargetHost,
@@ -232,6 +256,24 @@ class MockServiceServiceImpl extends MockServiceService {
   @override
   Future<MockServiceView> updateItem(
       MockServiceView view, MockServiceUpdateInfoEvent e) async {
-    return view.copyWith(info: '更新信息');
+    final List<MockServiceInfoView> infoList = [];
+
+    for (final MockServiceInfoView infoView in view.infoList) {
+      if (infoView.uri == e.infoView.uri) {
+        // 当前使用的目标主机
+        final String currentTargetHost = e.infoView.useDefaultTargetHost
+            ? view.defaultTargetHost
+            : e.infoView.targetHost;
+
+        final MockServiceInfoView newInfoView = e.infoView.copyWith(
+          currentTargetHost: currentTargetHost,
+        );
+        infoList.add(newInfoView);
+      } else {
+        infoList.add(infoView);
+      }
+    }
+
+    return view.copyWith(infoList: infoList);
   }
 }

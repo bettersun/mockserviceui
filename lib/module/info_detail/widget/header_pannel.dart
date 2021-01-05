@@ -21,30 +21,52 @@ class HeaderPanel extends StatefulWidget {
 
 /// 画面State
 class _HeaderPanelState extends State<HeaderPanel> {
-  // 目标主机
-  TextEditingController _targetHostPathCtrlr;
   // URI
-  TextEditingController _uriCtrlr;
+  final TextEditingController _uriCtrlr = TextEditingController();
+  // 目标主机
+  final TextEditingController _targetHostPathCtrlr = TextEditingController();
   // 响应文件
-  TextEditingController _responseFileCtrlr;
+  final TextEditingController _responseFileCtrlr = TextEditingController();
+
+  // 目标主机
+  TextFormField inputTargetHost;
 
   @override
   void initState() {
     super.initState();
-
-    _targetHostPathCtrlr = TextEditingController();
-    _uriCtrlr = TextEditingController();
-    _responseFileCtrlr = TextEditingController();
+    // URI
+    _uriCtrlr.text = widget.view.uri;
+    // 目标主机
+    _targetHostPathCtrlr.text = widget.view.targetHost;
   }
 
   @override
   Widget build(BuildContext context) {
-    // 目标主机
-    _targetHostPathCtrlr.text = widget.view.targetHost;
-    // URI
-    _uriCtrlr.text = widget.view.uri;
     // 响应文件
     _responseFileCtrlr.text = widget.view.responseFile;
+
+    // 使用默认目标主机时
+    if (widget.view.useDefaultTargetHost) {
+      inputTargetHost = TextFormField(
+        controller: TextEditingController(text: widget.view.currentTargetHost),
+        // 使用默认目标主机时，不可编辑
+        enabled: !widget.view.useDefaultTargetHost,
+      );
+    } else {
+      // 不使用默认目标主机时
+      inputTargetHost = TextFormField(
+        controller: _targetHostPathCtrlr,
+        // 使用默认目标主机时，不可编辑
+        enabled: !widget.view.useDefaultTargetHost,
+        onChanged: (value) {
+          BlocProvider.of<InfoDetailBloc>(context)
+              .add(InfoDetailChangeItemValueEvent(
+            key: InfoDetailItemKey.targetHost,
+            newVal: value,
+          ));
+        },
+      );
+    }
 
     return Container(
       color: Colors.blue[200],
@@ -60,21 +82,13 @@ class _HeaderPanelState extends State<HeaderPanel> {
                   children: [
                     Container(
                       padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                      child: Text('目标主机'),
+                      child: Text('URI'),
                     ),
                     Expanded(
-                      // padding: EdgeInsets.all(ThemeConst.sideWidth),s
+                      // padding: EdgeInsets.all(ThemeConst.sideWidth),
                       child: TextFormField(
-                        controller: _targetHostPathCtrlr,
-                        onChanged: (value) {
-                          if (value != widget.view.targetHost) {
-                            BlocProvider.of<InfoDetailBloc>(context)
-                                .add(InfoDetailChangeItemValueEvent(
-                              key: InfoDetailItemKey.targetHost,
-                              newVal: value,
-                            ));
-                          }
-                        },
+                        controller: _uriCtrlr,
+                        enabled: false,
                       ),
                     ),
                   ],
@@ -85,22 +99,10 @@ class _HeaderPanelState extends State<HeaderPanel> {
                   children: [
                     Container(
                       padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                      child: Text('URI'),
+                      child: Text('目标主机'),
                     ),
                     Expanded(
-                      // padding: EdgeInsets.all(ThemeConst.sideWidth),
-                      child: TextFormField(
-                        controller: _uriCtrlr,
-                        onChanged: (value) {
-                          if (value != widget.view.uri) {
-                            BlocProvider.of<InfoDetailBloc>(context)
-                                .add(InfoDetailChangeItemValueEvent(
-                              key: InfoDetailItemKey.uri,
-                              newVal: value,
-                            ));
-                          }
-                        },
-                      ),
+                      child: inputTargetHost,
                     ),
                   ],
                 ),

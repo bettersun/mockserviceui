@@ -42,10 +42,10 @@ class InfoDetailChangeListValueEvent extends InfoDetailEvent {
   String toString() => 'InfoDetailChangeListValueEvent';
 }
 
-/// 保存Event
-class InfoDetailSaveEvent extends InfoDetailEvent {
-  InfoDetailSaveEvent();
+/// 重新加载响应文件列表Event
+class InfoDetailReloadResponseEvent extends InfoDetailEvent {
+  InfoDetailReloadResponseEvent();
 
   @override
-  String toString() => 'InfoDetailSaveEvent';
+  String toString() => 'InfoDetailReloadResponseEvent';
 }
