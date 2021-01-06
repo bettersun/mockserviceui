@@ -132,6 +132,21 @@ class _HeaderPanelState extends State<HeaderPanel> {
                 height: 20,
                 child: Row(
                   children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 8.0, right: 4.0),
+                      child: Text('请求方法'),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: Text(widget.view.method),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 20,
+                child: Row(
+                  children: [
                     Text('使用默认目标主机'),
                     Switch(
                       value: widget.view.useDefaultTargetHost,

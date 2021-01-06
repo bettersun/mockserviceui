@@ -22,8 +22,17 @@ class ResponseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(ThemeConst.sideWidth),
+      margin: index == 0
+          ? EdgeInsets.all(ThemeConst.sideWidth)
+          : EdgeInsets.only(
+              left: ThemeConst.sideWidth,
+              right: ThemeConst.sideWidth,
+              bottom: ThemeConst.sideWidth),
       child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(2.0)),
+          color: index % 2 == 0 ? Colors.transparent : Colors.blue[50],
+        ),
         height: 20,
         child: Row(
           children: [
