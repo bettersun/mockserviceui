@@ -1,7 +1,6 @@
 import 'package:kiwi/kiwi.dart';
 import 'package:mockserviceui/plugin/go/plugin.dart';
 
-import '../../biz/util/mock_service_util.dart';
 import '../bloc/mock_service_event.dart';
 import '../const/const.dart';
 import '../vm/vm.dart';
