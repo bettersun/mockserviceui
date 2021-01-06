@@ -33,6 +33,7 @@ class InfoCard extends StatelessWidget {
               child: Text(index.toString()),
             ),
             Expanded(
+              flex: 3,
               child: Container(
                 margin: ThemeConst.cellMargin,
                 padding: ThemeConst.cellPadding,
@@ -40,6 +41,15 @@ class InfoCard extends StatelessWidget {
               ),
             ),
             Expanded(
+              flex: 1,
+              child: Container(
+                margin: ThemeConst.cellMargin,
+                padding: ThemeConst.cellPadding,
+                child: Text(infoView.method),
+              ),
+            ),
+            Expanded(
+              flex: 3,
               child: Container(
                 margin: ThemeConst.cellMargin,
                 padding: ThemeConst.cellPadding,
@@ -50,6 +60,7 @@ class InfoCard extends StatelessWidget {
               ),
             ),
             Expanded(
+              flex: 3,
               child: Container(
                 margin: ThemeConst.cellMargin,
                 padding: ThemeConst.cellPadding,

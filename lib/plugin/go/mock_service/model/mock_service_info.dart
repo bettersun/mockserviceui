@@ -9,6 +9,9 @@ class MockServiceInfo {
   /// URI
   String uri;
 
+  /// HTTP请求方法
+  String method;
+
   /// 使用模拟服务
   bool useMockService;
 
@@ -19,6 +22,7 @@ class MockServiceInfo {
     this.useDefaultTargetHost = false,
     this.targetHost = '',
     this.uri = '',
+    this.method = '',
     this.useMockService = false,
     this.responseFile = '',
   });
@@ -27,6 +31,7 @@ class MockServiceInfo {
     useDefaultTargetHost = json['useDefaultTargetHost'] as bool;
     targetHost = json['targetHost'] as String;
     uri = json['uri'] as String;
+    method = json['method'] as String;
     useMockService = json['useMockService'] as bool;
     responseFile = json['responseFile'] as String;
   }
@@ -37,6 +42,7 @@ class MockServiceInfo {
     data['useDefaultTargetHost'] = useDefaultTargetHost;
     data['targetHost'] = targetHost;
     data['uri'] = uri;
+    data['method'] = method;
     data['useMockService'] = useMockService;
     data['responseFile'] = responseFile;
 

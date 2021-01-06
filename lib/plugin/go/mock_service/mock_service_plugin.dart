@@ -25,5 +25,5 @@ abstract class MockServicePlugin {
   Future<bool> saveInfo(MockServiceInfo info);
 
   /// 获取响应文件列表
-  Future<List<String>> responseFileList(String uri);
+  Future<List<String>> responseFileList(String uri, String method);
 }

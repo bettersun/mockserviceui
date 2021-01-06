@@ -19,6 +19,9 @@ class MockServiceInfoView extends Equatable {
   /// URI
   final String uri;
 
+  /// HTTP请求方法
+  final String method;
+
   /// 使用模拟服务
   final bool useMockService;
 
@@ -31,6 +34,7 @@ class MockServiceInfoView extends Equatable {
     this.targetHost = '',
     this.currentTargetHost = '',
     this.uri = '',
+    this.method = '',
     this.useMockService = false,
     this.responseFile = '',
   });
@@ -42,6 +46,7 @@ class MockServiceInfoView extends Equatable {
         targetHost,
         currentTargetHost,
         uri,
+        method,
         useMockService,
         responseFile
       ];
@@ -52,6 +57,7 @@ class MockServiceInfoView extends Equatable {
     String targetHost,
     String currentTargetHost,
     String uri,
+    String method,
     bool useMockService,
     String responseFile,
   }) {
@@ -61,6 +67,7 @@ class MockServiceInfoView extends Equatable {
       targetHost: targetHost ?? this.targetHost,
       currentTargetHost: currentTargetHost ?? this.currentTargetHost,
       uri: uri ?? this.uri,
+      method: method ?? this.method,
       useMockService: useMockService ?? this.useMockService,
       responseFile: responseFile ?? this.responseFile,
     );

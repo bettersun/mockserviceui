@@ -55,6 +55,7 @@ class _InfoDetailPageState extends State<InfoDetailPage> {
                     currentTargetHost: state.view.currentTargetHost,
                     targetHost: state.view.targetHost,
                     uri: state.view.uri,
+                    method: state.view.method,
                     useMockService: state.view.useMockService,
                     responseFile: state.view.responseFile,
                   );

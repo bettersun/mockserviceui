@@ -18,7 +18,7 @@ class InfoDetailServiceImpl extends InfoDetailService {
     // 获取响应文件列表
     final MockServicePlugin plugin = container<MockServicePlugin>();
     final List<String> responseFileList =
-        await plugin.responseFileList(e.infoView.uri);
+        await plugin.responseFileList(e.infoView.uri, e.infoView.method);
 
     // 响应文件View列表
     final List<DetailResponseView> responseList = [];
@@ -41,6 +41,7 @@ class InfoDetailServiceImpl extends InfoDetailService {
       useDefaultTargetHost: e.infoView.useDefaultTargetHost,
       useMockService: e.infoView.useMockService,
       uri: e.infoView.uri,
+      method: e.infoView.method,
       targetHost: e.infoView.targetHost,
       currentTargetHost: currentTargetHost,
       responseFile: e.infoView.responseFile,
@@ -131,7 +132,7 @@ class InfoDetailServiceImpl extends InfoDetailService {
     // 获取响应文件列表
     final MockServicePlugin plugin = container<MockServicePlugin>();
     final List<String> responseFileList =
-        await plugin.responseFileList(view.uri);
+        await plugin.responseFileList(view.uri, view.method);
 
     // 响应文件View列表
     final List<DetailResponseView> responseList = [];
@@ -158,6 +159,7 @@ class InfoDetailServiceImpl extends InfoDetailService {
     final MockServiceInfo info = MockServiceInfo(
       useDefaultTargetHost: view.useDefaultTargetHost,
       uri: view.uri,
+      method: view.method,
       targetHost: view.targetHost,
       useMockService: view.useMockService,
       responseFile: view.responseFile,

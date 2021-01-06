@@ -89,10 +89,14 @@ class MockServicePluginImpl extends MockServicePlugin {
 
   /// 获取响应文件列表
   @override
-  Future<List<String>> responseFileList(String uri) async {
-    final Map m = await channel.invokeMethod(funcNameResponselist, uri);
+  Future<List<String>> responseFileList(String uri, String method) async {
+    final Map mParams = {};
+    mParams['uri'] = uri;
+    mParams['method'] = method;
 
+    final Map m = await channel.invokeMethod(funcNameResponselist, mParams);
     final List<String> list = modelGo.fromGoResponseList(m);
+
     return list;
   }
 }

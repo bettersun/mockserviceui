@@ -165,15 +165,6 @@ class MockServiceServiceImpl extends MockServiceService {
         final bool isUseDefaultTargetHostChanged =
             e.key == MockServiceItemKey.infoListUseDefaultTargetHost;
 
-        // // 当前使用的目标主机
-        // final String currentTargetHost = MockServiceUtil.getCurrentTargetHost(
-        //   view.infoList[i].currentTargetHost,
-        //   view.defaultTargetHost,
-        //   view.infoList[i].targetHost,
-        //   isUseDefaultTargetHostChanged,
-        //   e.newVal as bool,
-        // );
-
         // 当前使用的目标主机
         String currentTargetHost = view.infoList[i].currentTargetHost;
         // 使用默认目标主机的值发生改变 并且 使用默认目标主机时，当前使用的目标主机 设置为 默认目标主机
@@ -203,6 +194,7 @@ class MockServiceServiceImpl extends MockServiceService {
         final MockServiceInfo info = MockServiceInfo(
           useDefaultTargetHost: infoView.useDefaultTargetHost,
           uri: infoView.uri,
+          method: infoView.method,
           targetHost: infoView.targetHost,
           useMockService: infoView.useMockService,
           responseFile: infoView.responseFile,
@@ -247,6 +239,7 @@ class MockServiceServiceImpl extends MockServiceService {
       targetHost: model.targetHost ?? '',
       currentTargetHost: currentTargetHost,
       uri: model.uri ?? '',
+      method: model.method ?? '',
       useMockService: model.useMockService,
       responseFile: model.responseFile ?? '',
     );
@@ -258,7 +251,8 @@ class MockServiceServiceImpl extends MockServiceService {
     final List<MockServiceInfoView> infoList = [];
 
     for (final MockServiceInfoView infoView in view.infoList) {
-      if (infoView.uri == e.infoView.uri) {
+      if (infoView.uri == e.infoView.uri &&
+          infoView.method == e.infoView.method) {
         // 当前使用的目标主机
         final String currentTargetHost = e.infoView.useDefaultTargetHost
             ? view.defaultTargetHost

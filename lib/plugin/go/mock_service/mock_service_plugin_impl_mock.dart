@@ -102,7 +102,7 @@ class MockServicePluginImplMock extends MockServicePlugin {
   }
 
   @override
-  Future<List<String>> responseFileList(String uri) {
+  Future<List<String>> responseFileList(String uri, String method) {
     // TODO: implement responseFileList
     throw UnimplementedError();
   }
