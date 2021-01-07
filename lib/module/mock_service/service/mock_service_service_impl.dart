@@ -183,13 +183,13 @@ class MockServiceServiceImpl extends MockServiceService {
             e.key == MockServiceItemKey.infoListUseMockService;
 
         // 响应状态码发生改变
-        print('statusCode');
+        // print('statusCode');
         int statusCode = view.infoList[i].statusCode;
         if (e.key == MockServiceItemKey.infoListStatusCode) {
-          print(e.newVal);
+          // print(e.newVal);
           // final String newStatusCode = e.newVal as String;
           statusCode = int.tryParse(e.newVal as String) ?? 0;
-          print(statusCode);
+          // print(statusCode);
         }
 
         print(view.infoList[i].statusCodeList);
