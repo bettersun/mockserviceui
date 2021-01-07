@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:kiwi/kiwi.dart';
 import 'package:mockserviceui/plugin/go/plugin.dart';
 
@@ -180,6 +182,18 @@ class MockServiceServiceImpl extends MockServiceService {
         final bool istUseMockServiceChanged =
             e.key == MockServiceItemKey.infoListUseMockService;
 
+        // 响应状态码发生改变
+        print('statusCode');
+        int statusCode = view.infoList[i].statusCode;
+        if (e.key == MockServiceItemKey.infoListStatusCode) {
+          print(e.newVal);
+          // final String newStatusCode = e.newVal as String;
+          statusCode = int.tryParse(e.newVal as String) ?? 0;
+          print(statusCode);
+        }
+
+        print(view.infoList[i].statusCodeList);
+
         final MockServiceInfoView infoView = view.infoList[i].copyWith(
           useDefaultTargetHost: isUseDefaultTargetHostChanged
               ? e.newVal as bool
@@ -188,15 +202,17 @@ class MockServiceServiceImpl extends MockServiceService {
           useMockService: istUseMockServiceChanged
               ? e.newVal as bool
               : view.infoList[i].useMockService,
+          statusCode: statusCode,
         );
 
         // 通知Go端更新
         final MockServiceInfo info = MockServiceInfo(
           useDefaultTargetHost: infoView.useDefaultTargetHost,
+          useMockService: infoView.useMockService,
           uri: infoView.uri,
           method: infoView.method,
+          statusCode: infoView.statusCode,
           targetHost: infoView.targetHost,
-          useMockService: infoView.useMockService,
           responseFile: infoView.responseFile,
         );
         result = await plugin.saveInfo(info);
@@ -233,6 +249,12 @@ class MockServiceServiceImpl extends MockServiceService {
       currentTargetHost = defaultTargetHost;
     }
 
+    // TODO 响应状态码
+    final List<String> statusCodeList = ['', '200', '401', '404', '500'];
+    if (!statusCodeList.contains(model.statusCode.toString())) {
+      statusCodeList.add(model.statusCode.toString());
+    }
+
     return MockServiceInfoView(
       // defaultTargetHost: defaultTargetHost,
       useDefaultTargetHost: model.useDefaultTargetHost,
@@ -240,6 +262,8 @@ class MockServiceServiceImpl extends MockServiceService {
       currentTargetHost: currentTargetHost,
       uri: model.uri ?? '',
       method: model.method ?? '',
+      statusCode: model.statusCode ?? 0,
+      statusCodeList: statusCodeList,
       useMockService: model.useMockService,
       responseFile: model.responseFile ?? '',
     );

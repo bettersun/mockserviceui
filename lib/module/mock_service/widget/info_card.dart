@@ -67,28 +67,67 @@ class InfoCard extends StatelessWidget {
                 child: Text(infoView.currentTargetHost),
               ),
             ),
+            // 响应状态码
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: ThemeConst.cellMargin,
+                padding: ThemeConst.cellPadding,
+                // 不使用模拟服务时，背景色为灰色
+                color:
+                    infoView.useMockService ? Colors.transparent : Colors.grey,
+                child: DropdownButton<String>(
+                  value: infoView.statusCode.toString(),
+                  disabledHint: Text(infoView.statusCode.toString()),
+                  onChanged: !infoView.useMockService
+                      ? null // 不使用模拟服务时，禁用下拉框
+                      : (value) {
+                          if (value != infoView.statusCode.toString()) {
+                            // 触发事件
+                            BlocProvider.of<MockServiceBloc>(context).add(
+                              MockServiceChangeListValueEvent(
+                                index: index,
+                                key: MockServiceItemKey.infoListStatusCode,
+                                newVal: value,
+                              ),
+                            );
+                          }
+                        },
+                  isExpanded: true,
+                  items: infoView.statusCodeList
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+            // 响应文件
             Expanded(
               flex: 3,
               child: Container(
                 margin: ThemeConst.cellMargin,
                 padding: ThemeConst.cellPadding,
-                // 不使用模拟服务时，响应JSON背景色为灰色
+                // 不使用模拟服务时，背景色为灰色
                 color:
                     infoView.useMockService ? Colors.transparent : Colors.grey,
                 child: Text(infoView.responseFile),
               ),
             ),
+            // 使用默认目标主机
             Row(
               children: [
                 Container(
                   height: 20,
                   child: Row(
                     children: [
-                      Text('使用默认目标主机'),
+                      Text('默认目标主机'),
                       Switch(
                         value: infoView.useDefaultTargetHost,
                         onChanged: (value) {
-                          // 使用默认目标主机
+                          // 触发事件
                           BlocProvider.of<MockServiceBloc>(context)
                               .add(MockServiceChangeListValueEvent(
                             index: index,
@@ -101,15 +140,16 @@ class InfoCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                // 使用模拟服务
                 Container(
                   height: 20,
                   child: Row(
                     children: [
-                      Text('使用模拟服务'),
+                      Text('模拟服务'),
                       Switch(
                         value: infoView.useMockService,
                         onChanged: (value) {
-                          // 使用模拟服务
+                          // 触发事件
                           BlocProvider.of<MockServiceBloc>(context)
                               .add(MockServiceChangeListValueEvent(
                             index: index,

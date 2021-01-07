@@ -9,4 +9,7 @@ class MockServiceItemKey {
 
   /// 模拟服务信息列表 使用模拟服务
   static const String infoListUseMockService = 'infoListUseMockService';
+
+  /// 模拟服务信息列表 响应状态码
+  static const String infoListStatusCode = 'infoListStatusCode';
 }

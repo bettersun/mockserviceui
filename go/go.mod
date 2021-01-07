@@ -8,7 +8,9 @@ require (
 	github.com/pkg/errors v0.9.1
 )
 
-// 使用本地目录改写go.mod的mockservice依赖
+// 使用本地目录改写依赖
+replace github.com/bettersun/moist => ../../moist
+
 replace github.com/bettersun/mockservice => ../../mockservice
 
 replace github.com/bettersun/mockservice/channel => ../../mockservice/channel

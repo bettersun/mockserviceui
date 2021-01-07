@@ -3,6 +3,9 @@ class MockServiceInfo {
   /// 使用默认目标主机
   bool useDefaultTargetHost;
 
+  /// 使用模拟服务
+  bool useMockService;
+
   /// 目标主机
   String targetHost;
 
@@ -12,27 +15,29 @@ class MockServiceInfo {
   /// HTTP请求方法
   String method;
 
-  /// 使用模拟服务
-  bool useMockService;
+  /// 响应状态码
+  int statusCode;
 
   /// 响应文件
   String responseFile;
 
   MockServiceInfo({
     this.useDefaultTargetHost = false,
+    this.useMockService = false,
     this.targetHost = '',
     this.uri = '',
     this.method = '',
-    this.useMockService = false,
+    this.statusCode = 0,
     this.responseFile = '',
   });
 
   MockServiceInfo.fromJson(Map<dynamic, dynamic> json) {
     useDefaultTargetHost = json['useDefaultTargetHost'] as bool;
+    useMockService = json['useMockService'] as bool;
     targetHost = json['targetHost'] as String;
     uri = json['uri'] as String;
     method = json['method'] as String;
-    useMockService = json['useMockService'] as bool;
+    statusCode = (json['statusCode'] as double).toInt();
     responseFile = json['responseFile'] as String;
   }
 
@@ -40,10 +45,11 @@ class MockServiceInfo {
     final Map<dynamic, dynamic> data = <dynamic, dynamic>{};
 
     data['useDefaultTargetHost'] = useDefaultTargetHost;
+    data['useMockService'] = useMockService;
     data['targetHost'] = targetHost;
     data['uri'] = uri;
     data['method'] = method;
-    data['useMockService'] = useMockService;
+    data['statusCode'] = statusCode;
     data['responseFile'] = responseFile;
 
     return data;

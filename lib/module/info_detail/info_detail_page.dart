@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/const/const.dart';
+import '../biz/util/mock_service_util.dart';
 import '../mock_service/vm/vm.dart';
 import 'bloc/bloc.dart';
 import 'widget/widget.dart';
@@ -52,11 +53,13 @@ class _InfoDetailPageState extends State<InfoDetailPage> {
                   // 模拟服务信息详细View转模拟服务信息View
                   final MockServiceInfoView infoView = MockServiceInfoView(
                     useDefaultTargetHost: state.view.useDefaultTargetHost,
+                    useMockService: state.view.useMockService,
                     currentTargetHost: state.view.currentTargetHost,
                     targetHost: state.view.targetHost,
                     uri: state.view.uri,
                     method: state.view.method,
-                    useMockService: state.view.useMockService,
+                    statusCode: state.view.statusCode,
+                    statusCodeList: state.view.statusCodeList,
                     responseFile: state.view.responseFile,
                   );
 

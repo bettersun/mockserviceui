@@ -23,6 +23,8 @@ class HeaderPanel extends StatefulWidget {
 class _HeaderPanelState extends State<HeaderPanel> {
   // URI
   final TextEditingController _uriCtrlr = TextEditingController();
+  // 请求方法
+  final TextEditingController _methodCtrlr = TextEditingController();
   // 目标主机
   final TextEditingController _targetHostPathCtrlr = TextEditingController();
   // 响应文件
@@ -36,6 +38,8 @@ class _HeaderPanelState extends State<HeaderPanel> {
     super.initState();
     // URI
     _uriCtrlr.text = widget.view.uri;
+    // 请求方法
+    _methodCtrlr.text = widget.view.method;
     // 目标主机
     _targetHostPathCtrlr.text = widget.view.targetHost;
   }
@@ -45,9 +49,14 @@ class _HeaderPanelState extends State<HeaderPanel> {
     // 响应文件
     _responseFileCtrlr.text = widget.view.responseFile;
 
+    const String lblTxtTargetHost = '目标主机';
+
     // 使用默认目标主机时
     if (widget.view.useDefaultTargetHost) {
       inputTargetHost = TextFormField(
+        decoration: InputDecoration(
+          labelText: lblTxtTargetHost,
+        ),
         controller: TextEditingController(text: widget.view.currentTargetHost),
         // 使用默认目标主机时，不可编辑
         enabled: !widget.view.useDefaultTargetHost,
@@ -55,6 +64,9 @@ class _HeaderPanelState extends State<HeaderPanel> {
     } else {
       // 不使用默认目标主机时
       inputTargetHost = TextFormField(
+        decoration: InputDecoration(
+          labelText: lblTxtTargetHost,
+        ),
         controller: _targetHostPathCtrlr,
         // 使用默认目标主机时，不可编辑
         enabled: !widget.view.useDefaultTargetHost,
@@ -78,76 +90,49 @@ class _HeaderPanelState extends State<HeaderPanel> {
           Row(
             children: [
               Expanded(
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                      child: Text('URI'),
+                flex: 5,
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: ThemeConst.paddingItem,
+                      right: ThemeConst.paddingItem),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'URI',
                     ),
-                    Expanded(
-                      // padding: EdgeInsets.all(ThemeConst.sideWidth),
-                      child: TextFormField(
-                        controller: _uriCtrlr,
-                        enabled: false,
-                      ),
-                    ),
-                  ],
+                    controller: _uriCtrlr,
+                    enabled: false,
+                  ),
                 ),
               ),
               Expanded(
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                      child: Text('目标主机'),
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: ThemeConst.paddingItem,
+                      right: ThemeConst.paddingItem),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: '请求方法',
                     ),
-                    Expanded(
-                      child: inputTargetHost,
-                    ),
-                  ],
+                    controller: _methodCtrlr,
+                    enabled: false,
+                  ),
                 ),
               ),
-            ],
-          ),
-          Row(
-            children: [
               Expanded(
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                      child: Text('响应文件'),
-                    ),
-                    Expanded(
-                      // padding: EdgeInsets.all(ThemeConst.sideWidth),
-                      child: TextField(
-                        controller: _responseFileCtrlr,
-                        enabled: false,
-                      ),
-                    ),
-                  ],
+                flex: 5,
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: ThemeConst.paddingItem,
+                      right: ThemeConst.paddingItem),
+                  child: inputTargetHost,
                 ),
               ),
               Container(
                 height: 20,
                 child: Row(
                   children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 8.0, right: 4.0),
-                      child: Text('请求方法'),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: Text(widget.view.method),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 20,
-                child: Row(
-                  children: [
-                    Text('使用默认目标主机'),
+                    Text('默认目标主机'),
                     Switch(
                       value: widget.view.useDefaultTargetHost,
                       onChanged: (value) {
@@ -163,11 +148,72 @@ class _HeaderPanelState extends State<HeaderPanel> {
                   ],
                 ),
               ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 8,
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: ThemeConst.paddingItem,
+                      right: ThemeConst.paddingItem),
+                  color: widget.view.useMockService
+                      ? Colors.transparent
+                      : Colors.grey,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: '响应文件',
+                    ),
+                    controller: _responseFileCtrlr,
+                    enabled: false,
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: ThemeConst.paddingItem,
+                      right: ThemeConst.paddingItem),
+                  color: widget.view.useMockService
+                      ? Colors.transparent
+                      : Colors.grey,
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      labelText: '响应状态码',
+                    ),
+                    value: widget.view.statusCode.toString(),
+                    disabledHint: Text(widget.view.statusCode.toString()),
+                    onChanged: !widget.view.useMockService
+                        ? null // 不使用模拟服务时，禁用下拉框
+                        : (value) {
+                            if (value != widget.view.statusCode.toString()) {
+                              // 触发事件
+                              BlocProvider.of<InfoDetailBloc>(context).add(
+                                InfoDetailChangeItemValueEvent(
+                                  key: InfoDetailItemKey.statusCode,
+                                  newVal: value,
+                                ),
+                              );
+                            }
+                          },
+                    // isExpanded: true,
+                    items: widget.view.statusCodeList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
               Container(
                 height: 20,
                 child: Row(
                   children: [
-                    Text('使用模拟服务'),
+                    Text('模拟服务'),
                     Switch(
                       value: widget.view.useMockService,
                       onChanged: (value) {

@@ -13,6 +13,9 @@ class InfoDetailView extends Equatable {
   /// 使用默认目标主机
   final bool useDefaultTargetHost;
 
+  /// 使用模拟服务
+  final bool useMockService;
+
   /// 目标主机
   final String targetHost;
 
@@ -27,8 +30,11 @@ class InfoDetailView extends Equatable {
   /// HTTP请求方法
   final String method;
 
-  /// 使用模拟服务
-  final bool useMockService;
+  /// 响应状态码
+  final int statusCode;
+
+  /// 响应状态码列表
+  final List<String> statusCodeList;
 
   /// 响应文件
   final String responseFile;
@@ -40,11 +46,13 @@ class InfoDetailView extends Equatable {
     this.info = '',
     // this.defaultTargetHost = '',
     this.useDefaultTargetHost = false,
+    this.useMockService = false,
     this.targetHost = '',
     this.currentTargetHost = '',
     this.uri = '',
     this.method = '',
-    this.useMockService = false,
+    this.statusCode = 0,
+    this.statusCodeList = const [],
     this.responseFile = '',
     this.responseList = const [],
   });
@@ -54,11 +62,13 @@ class InfoDetailView extends Equatable {
         info,
         // defaultTargetHost,
         useDefaultTargetHost,
+        useMockService,
         targetHost,
         currentTargetHost,
         uri,
         method,
-        useMockService,
+        statusCode,
+        statusCodeList,
         responseFile,
         responseList,
       ];
@@ -67,11 +77,13 @@ class InfoDetailView extends Equatable {
     String info,
     // String defaultTargetHost,
     bool useDefaultTargetHost,
+    bool useMockService,
     String targetHost,
     String currentTargetHost,
     String uri,
     String method,
-    bool useMockService,
+    List<String> statusCodeList,
+    int statusCode,
     String responseFile,
     List<DetailResponseView> responseList,
   }) {
@@ -79,11 +91,13 @@ class InfoDetailView extends Equatable {
       info: info ?? this.info,
       // defaultTargetHost: defaultTargetHost ?? this.defaultTargetHost,
       useDefaultTargetHost: useDefaultTargetHost ?? this.useDefaultTargetHost,
+      useMockService: useMockService ?? this.useMockService,
       targetHost: targetHost ?? this.targetHost,
       currentTargetHost: currentTargetHost ?? this.currentTargetHost,
       uri: uri ?? this.uri,
       method: method ?? this.method,
-      useMockService: useMockService ?? this.useMockService,
+      statusCode: statusCode ?? this.statusCode,
+      statusCodeList: statusCodeList ?? this.statusCodeList,
       responseFile: responseFile ?? this.responseFile,
       responseList: responseList ?? this.responseList,
     );

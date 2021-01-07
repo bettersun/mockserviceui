@@ -1,13 +1,15 @@
 import 'package:kiwi/kiwi.dart';
 import 'package:mockserviceui/plugin/go/plugin.dart';
 
+import '../../biz/util/mock_service_util.dart';
 import '../bloc/bloc.dart';
 import '../const/const.dart';
 import '../service/service.dart';
 import '../vm/vm.dart';
 
 class InfoDetailServiceImpl extends InfoDetailService {
-  KiwiContainer container = KiwiContainer();
+  final KiwiContainer container = KiwiContainer();
+  final MockServiceUtil util = MockServiceUtil();
 
   @override
   Future<InfoDetailView> init(InfoDetailInitEvent e) async {
@@ -42,6 +44,8 @@ class InfoDetailServiceImpl extends InfoDetailService {
       useMockService: e.infoView.useMockService,
       uri: e.infoView.uri,
       method: e.infoView.method,
+      statusCode: e.infoView.statusCode,
+      statusCodeList: e.infoView.statusCodeList,
       targetHost: e.infoView.targetHost,
       currentTargetHost: currentTargetHost,
       responseFile: e.infoView.responseFile,
@@ -76,8 +80,14 @@ class InfoDetailServiceImpl extends InfoDetailService {
     String uri = '';
     if (e.key == InfoDetailItemKey.uri) {
       uri = (e.newVal as String) ?? '';
-
       newView = view.copyWith(uri: uri);
+    }
+
+    // 响应状态码
+    int statusCode = view.statusCode;
+    if (e.key == InfoDetailItemKey.statusCode) {
+      statusCode = int.tryParse(e.newVal as String) ?? 0;
+      newView = view.copyWith(statusCode: statusCode);
     }
 
     // 使用默认目标主机
@@ -100,7 +110,6 @@ class InfoDetailServiceImpl extends InfoDetailService {
     bool useMockService = false;
     if (e.key == InfoDetailItemKey.useMockService) {
       useMockService = (e.newVal as bool) ?? false;
-
       newView = view.copyWith(useMockService: useMockService);
     }
 

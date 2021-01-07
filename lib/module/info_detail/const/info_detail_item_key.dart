@@ -11,6 +11,9 @@ class InfoDetailItemKey {
   /// URI
   static const String uri = 'uri';
 
+  /// 响应状态码
+  static const String statusCode = 'statusCode';
+
   /// 模拟服务信息响应列表 设为响应
   static const String responseListIsResponse = 'responseListIsResponse';
 }
