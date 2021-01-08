@@ -15,14 +15,20 @@ abstract class MockServicePlugin {
   /// 关闭服务
   Future<bool> closeService();
 
-  /// 重新加载(运行时各种配置及输入文件)
+  /// 重新加载(配置及输入文件)
   Future<bool> reload();
 
   /// 运行中状态
   Future<bool> isRunning();
 
-  /// 保存
-  Future<bool> saveInfo(MockServiceInfo info);
+  /// 更新模拟服务信息
+  Future<bool> updateInfo(MockServiceInfo info);
+
+  /// 更新所有模拟服务信息
+  Future<bool> updateAllInfo(List<MockServiceInfo> infoList);
+
+  /// 保存模拟服务信息
+  Future<bool> saveInfo();
 
   /// 获取响应文件列表
   Future<List<String>> responseFileList(String uri, String method);

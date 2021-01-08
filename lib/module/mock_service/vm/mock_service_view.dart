@@ -14,22 +14,26 @@ class MockServiceView extends Equatable {
   /// 默认目标主机
   final String defaultTargetHost;
 
-  /// 全部使用模拟服务标志
-  final bool useMockServiceAll;
-
   /// 模拟服务信息View列表
   final List<MockServiceInfoView> infoList;
 
   /// 服务运行中
   final bool isRunning;
 
+  /// 全部使用默认目标主机标志
+  final bool allUseDefaultTargetHost;
+
+  /// 全部使用模拟服务标志
+  final bool allUseMockService;
+
   const MockServiceView({
     this.info = '',
     this.targetHostList = const [],
     this.defaultTargetHost = '',
-    this.useMockServiceAll = false,
     this.infoList = const [],
     this.isRunning = false,
+    this.allUseDefaultTargetHost = false,
+    this.allUseMockService = false,
   });
 
   @override
@@ -37,26 +41,31 @@ class MockServiceView extends Equatable {
         info,
         targetHostList,
         defaultTargetHost,
-        useMockServiceAll,
+        allUseMockService,
         infoList,
-        isRunning
+        isRunning,
+        allUseDefaultTargetHost,
+        allUseMockService,
       ];
 
   MockServiceView copyWith({
     String info,
     List<String> targetHostList,
     String defaultTargetHost,
-    bool useMockServiceAll,
     List<MockServiceInfoView> infoList,
     bool isRunning,
+    bool allUseDefaultTargetHost,
+    bool allUseMockService,
   }) {
     return MockServiceView(
       info: info ?? this.info,
       targetHostList: targetHostList ?? this.targetHostList,
       defaultTargetHost: defaultTargetHost ?? this.defaultTargetHost,
-      useMockServiceAll: useMockServiceAll ?? this.useMockServiceAll,
       infoList: infoList ?? this.infoList,
       isRunning: isRunning ?? this.isRunning,
+      allUseDefaultTargetHost:
+          allUseDefaultTargetHost ?? this.allUseDefaultTargetHost,
+      allUseMockService: allUseMockService ?? this.allUseMockService,
     );
   }
 }

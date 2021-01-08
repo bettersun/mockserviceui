@@ -82,7 +82,7 @@ class MockServicePluginImplMock extends MockServicePlugin {
     return result;
   }
 
-  /// 重新加载(运行时各种配置及输入文件)
+  /// 重新加载(配置及输入文件)
   @override
   Future<bool> reload() {
     // TODO: implement saveInfo
@@ -90,7 +90,7 @@ class MockServicePluginImplMock extends MockServicePlugin {
   }
 
   @override
-  Future<bool> saveInfo(MockServiceInfo info) {
+  Future<bool> saveInfo() {
     // TODO: implement saveInfo
     throw UnimplementedError();
   }
@@ -104,6 +104,18 @@ class MockServicePluginImplMock extends MockServicePlugin {
   @override
   Future<List<String>> responseFileList(String uri, String method) {
     // TODO: implement responseFileList
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> updateInfo(MockServiceInfo info) {
+    // TODO: implement updateInfo
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> updateAllInfo(List<MockServiceInfo> infoList) {
+    // TODO: implement updateAllInfo
     throw UnimplementedError();
   }
 }

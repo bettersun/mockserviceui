@@ -113,12 +113,10 @@ class InfoDetailServiceImpl extends InfoDetailService {
       newView = view.copyWith(useMockService: useMockService);
     }
 
-    // 保存到文件
-    final bool saved = await saveInfoDetail(newView);
-    if (!saved) {
-      newView = newView.copyWith(info: '保存失败');
-    } else {
-      newView = newView.copyWith(info: '');
+    // 更新Go端内存
+    final bool result = await updateInfoDetail(newView);
+    if (!result) {
+      print('更新失败');
     }
     return newView;
   }
@@ -130,8 +128,11 @@ class InfoDetailServiceImpl extends InfoDetailService {
       responseFile: e.newVal as String,
     );
 
-    // 保存到文件
-    await saveInfoDetail(newView);
+    // 更新Go端内存
+    final bool result = await updateInfoDetail(newView);
+    if (!result) {
+      print('更新失败');
+    }
 
     return newView;
   }
@@ -161,8 +162,8 @@ class InfoDetailServiceImpl extends InfoDetailService {
     return newView;
   }
 
-  /// 保存到文件
-  Future<bool> saveInfoDetail(InfoDetailView view) async {
+  /// 通知Go端更新内存
+  Future<bool> updateInfoDetail(InfoDetailView view) async {
     // 通知Go端更新
     final MockServicePlugin plugin = container<MockServicePlugin>();
     final MockServiceInfo info = MockServiceInfo(
@@ -174,7 +175,7 @@ class InfoDetailServiceImpl extends InfoDetailService {
       responseFile: view.responseFile,
     );
 
-    final bool result = await plugin.saveInfo(info);
+    final bool result = await plugin.updateInfo(info);
     return result;
   }
 }

@@ -17,6 +17,8 @@ class MockServicePluginImpl extends MockServicePlugin {
   final funcNameReload = 'reload';
   final funcNameIsRunning = 'IsRunning';
 
+  final funcNameUpdateInfo = 'updateInfo';
+  final funcNameUpdateAllInfo = 'updateAllInfo';
   final funcNameSaveInfo = 'saveInfo';
 
   final funcNameHostlist = 'hostlist';
@@ -59,7 +61,7 @@ class MockServicePluginImpl extends MockServicePlugin {
     return result;
   }
 
-  /// 重新加载(运行时各种配置及输入文件)
+  /// 重新加载(配置及输入文件)
   @override
   Future<bool> reload() async {
     final bool result = await channel.invokeMethod(funcNameReload);
@@ -69,11 +71,37 @@ class MockServicePluginImpl extends MockServicePlugin {
     return result;
   }
 
-  ///
+  /// 更新模拟服务信息
   @override
-  Future<bool> saveInfo(MockServiceInfo info) async {
+  Future<bool> updateInfo(MockServiceInfo info) async {
     final Map m = info.toJson();
-    final bool result = await channel.invokeMethod(funcNameSaveInfo, m);
+
+    final bool result = await channel.invokeMethod(funcNameUpdateInfo, m);
+    if (!result) {
+      print('更新失败');
+    }
+    return result;
+  }
+
+  /// 更新所有模拟服务信息
+  @override
+  Future<bool> updateAllInfo(List<MockServiceInfo> infoList) async {
+    final List<Map> list = [];
+    for (final MockServiceInfo info in infoList) {
+      list.add(info.toJson());
+    }
+
+    final bool result = await channel.invokeMethod(funcNameUpdateAllInfo, list);
+    if (!result) {
+      print('更新失败');
+    }
+    return result;
+  }
+
+  /// 保存模拟服务信息
+  @override
+  Future<bool> saveInfo() async {
+    final bool result = await channel.invokeMethod(funcNameSaveInfo);
     if (!result) {
       print('保存失败');
     }

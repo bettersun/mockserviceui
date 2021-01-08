@@ -15,6 +15,8 @@ class OperatePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String toggleText = view.isRunning ? '关闭服务' : '运行服务';
+    final Color toggleColor =
+        view.isRunning ? Colors.green[300] : Colors.deepOrangeAccent;
 
     return Container(
       alignment: Alignment.center,
@@ -29,8 +31,13 @@ class OperatePanel extends StatelessWidget {
             children: [
               // 启动服务/关闭服务
               FlatButton(
-                color: Colors.blue[300],
-                child: Text(toggleText),
+                color: toggleColor,
+                child: Text(
+                  toggleText,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
                 onPressed: () {
                   BlocProvider.of<MockServiceBloc>(context)
                       .add(MockServiceToggleServiceEvent());
@@ -42,8 +49,57 @@ class OperatePanel extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.only(right: 4.0),
-                child: Text(view.info),
+                margin: EdgeInsets.only(
+                    left: ThemeConst.marginButton,
+                    right: ThemeConst.marginButton),
+                child: FlatButton(
+                  color: Colors.blue[200],
+                  child: Text('全部返回200'),
+                  onPressed: () {
+                    BlocProvider.of<MockServiceBloc>(context)
+                        .add(MockServiceAllResponseOKEvent());
+                  },
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                    left: ThemeConst.marginButton,
+                    right: ThemeConst.marginButton),
+                child: Row(
+                  children: [
+                    Text('默认目标主机'),
+                    Switch(
+                      value: view.allUseDefaultTargetHost,
+                      onChanged: (value) {
+                        // 触发事件
+                        BlocProvider.of<MockServiceBloc>(context)
+                            .add(MockServiceAllUseDefaultTargetHostEvent(
+                          allUseDefaultTargetHost: value,
+                        ));
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                    left: ThemeConst.marginButton,
+                    right: ThemeConst.marginButton),
+                child: Row(
+                  children: [
+                    Text('模拟服务'),
+                    Switch(
+                      value: view.allUseMockService,
+                      onChanged: (value) {
+                        // 触发事件
+                        BlocProvider.of<MockServiceBloc>(context)
+                            .add(MockServiceAllUseMockServiceEvent(
+                          allUseMockService: value,
+                        ));
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

@@ -38,6 +38,13 @@ class MockServiceBloc extends Bloc<MockServiceEvent, MockServiceState> {
       yield MockServiceDoneState(view: view);
     }
 
+    // 保存
+    if (event is MockServiceSaveEvent) {
+      final MockServiceDoneState nowState = state as MockServiceDoneState;
+      final MockServiceView view = await service.save(nowState.view);
+      yield MockServiceDoneState(view: view);
+    }
+
     // 改变项目值
     if (event is MockServiceChangeItemValueEvent) {
       final MockServiceDoneState nowState = state as MockServiceDoneState;
@@ -58,7 +65,31 @@ class MockServiceBloc extends Bloc<MockServiceEvent, MockServiceState> {
     if (event is MockServiceUpdateInfoEvent) {
       final MockServiceDoneState nowState = state as MockServiceDoneState;
       final MockServiceView view =
-          await service.updateItem(nowState.view, event);
+          await service.updateFromDetail(nowState.view, event);
+      yield MockServiceDoneState(view: view);
+    }
+
+    // 全部响应返回OK
+    if (event is MockServiceAllResponseOKEvent) {
+      final MockServiceDoneState nowState = state as MockServiceDoneState;
+      final MockServiceView view =
+          await service.allResponseOK(nowState.view, event);
+      yield MockServiceDoneState(view: view);
+    }
+
+    // 全部使用默认目标主机
+    if (event is MockServiceAllUseDefaultTargetHostEvent) {
+      final MockServiceDoneState nowState = state as MockServiceDoneState;
+      final MockServiceView view =
+          await service.allUseDefaultTargetHost(nowState.view, event);
+      yield MockServiceDoneState(view: view);
+    }
+
+    // 全部使用模拟服务
+    if (event is MockServiceAllUseMockServiceEvent) {
+      final MockServiceDoneState nowState = state as MockServiceDoneState;
+      final MockServiceView view =
+          await service.allUseMockService(nowState.view, event);
       yield MockServiceDoneState(view: view);
     }
   }

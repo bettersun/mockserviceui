@@ -9,7 +9,11 @@ class ThemeConst {
   static const double marginCell = 2.0;
   static const double paddingCell = 4.0;
 
+  static const double marginButton = 4.0;
+
   static const double heightInfoBar = 30;
+
+  static const double heightAppBar = 40;
 
   static const double len0 = 2.0;
   static const double len1 = 4.0;

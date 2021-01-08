@@ -48,12 +48,20 @@ class MockServiceToggleServiceEvent extends MockServiceEvent {
   String toString() => 'MockServiceToggleServiceEvent';
 }
 
-/// 重新加载(运行时各种配置及输入文件)Event
+/// 重新加载(配置及输入文件)Event
 class MockServiceReloadEvent extends MockServiceEvent {
   MockServiceReloadEvent();
 
   @override
   String toString() => 'MockServiceReloadEvent';
+}
+
+/// 保存(配置及输入文件)Event
+class MockServiceSaveEvent extends MockServiceEvent {
+  MockServiceSaveEvent();
+
+  @override
+  String toString() => 'MockServiceSaveEvent';
 }
 
 /// 更新模拟服务信息Event
@@ -65,4 +73,34 @@ class MockServiceUpdateInfoEvent extends MockServiceEvent {
 
   @override
   String toString() => 'MockServiceUpdateInfoEvent';
+}
+
+/// 全部响应返回OK Event
+class MockServiceAllResponseOKEvent extends MockServiceEvent {
+  MockServiceAllResponseOKEvent();
+
+  @override
+  String toString() => 'MockServiceAllResponseOKEvent';
+}
+
+/// 全部使用默认目标主机Event
+class MockServiceAllUseDefaultTargetHostEvent extends MockServiceEvent {
+  /// 全部使用默认目标主机
+  final bool allUseDefaultTargetHost;
+
+  MockServiceAllUseDefaultTargetHostEvent({this.allUseDefaultTargetHost});
+
+  @override
+  String toString() => 'MockServiceAllUseDefaultTargetHostEvent';
+}
+
+/// 全部使用模拟服务Event
+class MockServiceAllUseMockServiceEvent extends MockServiceEvent {
+  /// 全部使用模拟服务
+  final bool allUseMockService;
+
+  MockServiceAllUseMockServiceEvent({this.allUseMockService});
+
+  @override
+  String toString() => 'MockServiceAllUseMockServiceEvent';
 }

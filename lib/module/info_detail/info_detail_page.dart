@@ -44,29 +44,32 @@ class _InfoDetailPageState extends State<InfoDetailPage> {
         if (state is InfoDetailDoneState) {
           // 构建组件
           return Scaffold(
-            appBar: AppBar(
-              title: Text('模拟服务信息详细'),
-              centerTitle: true,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  // 模拟服务信息详细View转模拟服务信息View
-                  final MockServiceInfoView infoView = MockServiceInfoView(
-                    useDefaultTargetHost: state.view.useDefaultTargetHost,
-                    useMockService: state.view.useMockService,
-                    currentTargetHost: state.view.currentTargetHost,
-                    targetHost: state.view.targetHost,
-                    uri: state.view.uri,
-                    method: state.view.method,
-                    statusCode: state.view.statusCode,
-                    statusCodeList: state.view.statusCodeList,
-                    responseFile: state.view.responseFile,
-                  );
+            appBar: PreferredSize(
+              child: AppBar(
+                title: Text('模拟服务信息详细'),
+                centerTitle: true,
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    // 模拟服务信息详细View转模拟服务信息View
+                    final MockServiceInfoView infoView = MockServiceInfoView(
+                      useDefaultTargetHost: state.view.useDefaultTargetHost,
+                      useMockService: state.view.useMockService,
+                      currentTargetHost: state.view.currentTargetHost,
+                      targetHost: state.view.targetHost,
+                      uri: state.view.uri,
+                      method: state.view.method,
+                      statusCode: state.view.statusCode,
+                      statusCodeList: state.view.statusCodeList,
+                      responseFile: state.view.responseFile,
+                    );
 
-                  // Pop
-                  Navigator.maybePop(context, infoView);
-                },
+                    // Pop
+                    Navigator.maybePop(context, infoView);
+                  },
+                ),
               ),
+              preferredSize: Size.fromHeight(ThemeConst.heightAppBar),
             ),
             body: Container(
               padding: EdgeInsets.all(ThemeConst.sideWidth),

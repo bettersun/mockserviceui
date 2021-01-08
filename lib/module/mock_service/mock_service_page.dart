@@ -33,12 +33,26 @@ class _MockServicePageState extends State<MockServicePage> {
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        // 返回
+        // 保存模拟服务信息
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: FloatingActionButton(
-            heroTag: 'b2',
+            heroTag: 'fab1',
+            child: const Icon(Icons.save),
+            tooltip: '保存模拟服务信息',
+            onPressed: () async {
+              // 初始化
+              _bloc.add(MockServiceSaveEvent());
+            },
+          ),
+        ),
+        // 重新加载模拟服务信息
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          child: FloatingActionButton(
+            heroTag: 'fab2',
             child: const Icon(Icons.refresh),
+            tooltip: '重新加载模拟服务信息',
             onPressed: () async {
               // 初始化
               _bloc.add(MockServiceReloadEvent());
@@ -56,9 +70,12 @@ class _MockServicePageState extends State<MockServicePage> {
         if (state is MockServiceDoneState) {
           // 构建组件
           return Scaffold(
-            appBar: AppBar(
-              title: Text('模拟服务'),
-              centerTitle: true,
+            appBar: PreferredSize(
+              child: AppBar(
+                title: Text('模拟服务'),
+                centerTitle: true,
+              ),
+              preferredSize: Size.fromHeight(ThemeConst.heightAppBar),
             ),
             body: Container(
               padding: EdgeInsets.all(ThemeConst.sideWidth),
@@ -72,7 +89,9 @@ class _MockServicePageState extends State<MockServicePage> {
                   // 详细面板
                   Expanded(
                     child: DetailPanel(view: state.view),
-                  )
+                  ),
+                  // 状态栏面板
+                  StatusPannel(view: state.view),
                 ],
               ),
             ),
