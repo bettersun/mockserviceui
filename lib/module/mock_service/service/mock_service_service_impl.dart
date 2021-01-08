@@ -387,7 +387,7 @@ class MockServiceServiceImpl extends MockServiceService {
     }
 
     // TODO 响应状态码
-    final List<String> statusCodeList = ['', '200', '401', '404', '500'];
+    final List<String> statusCodeList = ['', '200', '401', '403', '404', '500'];
     if (!statusCodeList.contains(model.statusCode.toString())) {
       statusCodeList.add(model.statusCode.toString());
     }

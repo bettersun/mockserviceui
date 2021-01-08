@@ -33,7 +33,7 @@ class ResponseCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(2.0)),
           color: index % 2 == 0 ? Colors.transparent : Colors.blue[50],
         ),
-        height: 20,
+        height: 30,
         child: Row(
           children: [
             Container(

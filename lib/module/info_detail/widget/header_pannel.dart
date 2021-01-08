@@ -158,9 +158,9 @@ class _HeaderPanelState extends State<HeaderPanel> {
                   padding: EdgeInsets.only(
                       left: ThemeConst.paddingItem,
                       right: ThemeConst.paddingItem),
-                  color: widget.view.useMockService
-                      ? Colors.transparent
-                      : Colors.grey,
+                  // color: widget.view.useMockService
+                  //     ? Colors.transparent
+                  //     : Colors.grey,
                   child: TextField(
                     decoration: InputDecoration(
                       labelText: '响应文件',
@@ -176,9 +176,9 @@ class _HeaderPanelState extends State<HeaderPanel> {
                   padding: EdgeInsets.only(
                       left: ThemeConst.paddingItem,
                       right: ThemeConst.paddingItem),
-                  color: widget.view.useMockService
-                      ? Colors.transparent
-                      : Colors.grey,
+                  // color: widget.view.useMockService
+                  //     ? Colors.transparent
+                  //     : Colors.grey,
                   child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       labelText: '响应状态码',

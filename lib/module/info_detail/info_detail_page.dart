@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/const/const.dart';
-import '../biz/util/mock_service_util.dart';
 import '../mock_service/vm/vm.dart';
 import 'bloc/bloc.dart';
 import 'widget/widget.dart';
@@ -83,7 +82,9 @@ class _InfoDetailPageState extends State<InfoDetailPage> {
                   // 详细面板
                   Expanded(
                     child: DetailPanel(view: state.view),
-                  )
+                  ),
+                  // 状态栏面板
+                  StatusPannel(view: state.view),
                 ],
               ),
             ),

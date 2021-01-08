@@ -6,7 +6,7 @@ import '../vm/vm.dart';
 /// 状态栏面板
 class StatusPannel extends StatelessWidget {
   /// 模拟服务View
-  final MockServiceView view;
+  final InfoDetailView view;
 
   const StatusPannel({this.view});
 
@@ -24,7 +24,6 @@ class StatusPannel extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(right: 4.0),
                 child: Text(view.info),
-                // color: view.isRunning ? Colors.teal[300] : Colors.grey[400],
               ),
             ],
           ),
