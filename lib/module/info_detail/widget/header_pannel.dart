@@ -135,15 +135,17 @@ class _HeaderPanelState extends State<HeaderPanel> {
                     Text('默认目标主机'),
                     Switch(
                       value: widget.view.useDefaultTargetHost,
-                      onChanged: (value) {
-                        if (value != widget.view.useDefaultTargetHost) {
-                          BlocProvider.of<InfoDetailBloc>(context)
-                              .add(InfoDetailChangeItemValueEvent(
-                            key: InfoDetailItemKey.useDefaultTargetHost,
-                            newVal: value,
-                          ));
-                        }
-                      },
+                      onChanged: widget.view.useMockService
+                          ? null // 使用模拟服务时，无需修改
+                          : (value) {
+                              if (value != widget.view.useDefaultTargetHost) {
+                                BlocProvider.of<InfoDetailBloc>(context)
+                                    .add(InfoDetailChangeItemValueEvent(
+                                  key: InfoDetailItemKey.useDefaultTargetHost,
+                                  newVal: value,
+                                ));
+                              }
+                            },
                     ),
                   ],
                 ),

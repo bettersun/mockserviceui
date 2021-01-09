@@ -19,8 +19,9 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const int firstIndex = 1;
     return Card(
-      margin: index == 0
+      margin: index == firstIndex
           ? EdgeInsets.all(ThemeConst.sideWidth)
           : EdgeInsets.only(
               left: ThemeConst.sideWidth,
@@ -29,7 +30,7 @@ class InfoCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(2.0)),
-          color: index % 2 == 0 ? Colors.transparent : Colors.blue[50],
+          color: index % 2 == 1 ? Colors.transparent : Colors.blue[50],
         ),
         child: Row(
           children: [
@@ -97,7 +98,7 @@ class InfoCard extends StatelessWidget {
                             // 触发事件
                             BlocProvider.of<MockServiceBloc>(context).add(
                               MockServiceChangeListValueEvent(
-                                index: index,
+                                infoView: infoView,
                                 key: MockServiceItemKey.infoListStatusCode,
                                 newVal: value,
                               ),
@@ -148,7 +149,7 @@ class InfoCard extends StatelessWidget {
                                 // 触发事件
                                 BlocProvider.of<MockServiceBloc>(context)
                                     .add(MockServiceChangeListValueEvent(
-                                  index: index,
+                                  infoView: infoView,
                                   key: MockServiceItemKey
                                       .infoListUseDefaultTargetHost,
                                   newVal: value,
@@ -170,7 +171,7 @@ class InfoCard extends StatelessWidget {
                           // 触发事件
                           BlocProvider.of<MockServiceBloc>(context)
                               .add(MockServiceChangeListValueEvent(
-                            index: index,
+                            infoView: infoView,
                             key: MockServiceItemKey.infoListUseMockService,
                             newVal: value,
                           ));

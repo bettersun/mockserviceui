@@ -39,4 +39,7 @@ abstract class MockServiceService {
   /// 全部使用模拟服务
   Future<MockServiceView> allUseMockService(
       MockServiceView view, MockServiceAllUseMockServiceEvent e);
+
+  /// 搜索
+  MockServiceView search(MockServiceView view, MockServiceSearchEvent e);
 }

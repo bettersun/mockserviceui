@@ -5,6 +5,8 @@ class ThemeConst {
   static const double sideWidth = 4.0;
 
   static const double paddingItem = 4.0;
+  static const double paddingFABBottom = 16.0;
+  static const double paddingFABListBottom = 60.0;
 
   static const double marginCell = 2.0;
   static const double paddingCell = 4.0;

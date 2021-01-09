@@ -1,4 +1,5 @@
 export 'detail_pannel.dart';
+export 'fab.dart';
 export 'header_pannel.dart';
 export 'info_card.dart';
 export 'operate_pannel.dart';

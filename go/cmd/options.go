@@ -8,7 +8,7 @@ import (
 
 var options = []flutter.Option{
 	flutter.WindowInitialDimensions(1200, 720),
-	flutter.WindowDimensionLimits(800, 500, 1280, 800),
+	flutter.WindowDimensionLimits(960, 600, 1280, 800),
 
 	// 添加插件
 	flutter.AddPlugin(mockservicechannel.MockServicePlugin{}),

@@ -200,21 +200,21 @@ class MockServiceServiceImpl extends MockServiceService {
     final List<MockServiceInfoView> infoList = [];
     bool isAllUseDefaultTargetHost = true;
     bool isAllUseMockService = true;
-    for (int i = 0; i < view.infoList.length; i++) {
-      if (i == e.index) {
+    for (final MockServiceInfoView v in view.infoList) {
+      if (v.uri == e.infoView.uri && v.method == e.infoView.method) {
         // 使用默认目标主机的值发生改变
         final bool isUseDefaultTargetHostChanged =
             e.key == MockServiceItemKey.infoListUseDefaultTargetHost;
 
         // 当前使用的目标主机
-        String currentTargetHost = view.infoList[i].currentTargetHost;
+        String currentTargetHost = v.currentTargetHost;
         // 使用默认目标主机的值发生改变 并且 使用默认目标主机时，当前使用的目标主机 设置为 默认目标主机
         if (isUseDefaultTargetHostChanged && (e.newVal as bool)) {
           currentTargetHost = view.defaultTargetHost;
         }
         // 使用默认目标主机的值发生改变 并且 不使用默认目标主机时，当前使用的目标主机 设置为 当前数据的 目标主机
         if (isUseDefaultTargetHostChanged && !(e.newVal as bool)) {
-          currentTargetHost = view.infoList[i].targetHost;
+          currentTargetHost = v.targetHost;
         }
 
         // 使用默认目标主机的值发生改变
@@ -222,20 +222,18 @@ class MockServiceServiceImpl extends MockServiceService {
             e.key == MockServiceItemKey.infoListUseMockService;
 
         // 响应状态码发生改变
-        int statusCode = view.infoList[i].statusCode;
+        int statusCode = v.statusCode;
         if (e.key == MockServiceItemKey.infoListStatusCode) {
-          statusCode =
-              int.tryParse(e.newVal as String) ?? view.infoList[i].statusCode;
+          statusCode = int.tryParse(e.newVal as String) ?? v.statusCode;
         }
 
-        final MockServiceInfoView infoView = view.infoList[i].copyWith(
+        final MockServiceInfoView infoView = v.copyWith(
           useDefaultTargetHost: isUseDefaultTargetHostChanged
               ? e.newVal as bool
-              : view.infoList[i].useDefaultTargetHost,
+              : v.useDefaultTargetHost,
           currentTargetHost: currentTargetHost,
-          useMockService: istUseMockServiceChanged
-              ? e.newVal as bool
-              : view.infoList[i].useMockService,
+          useMockService:
+              istUseMockServiceChanged ? e.newVal as bool : v.useMockService,
           statusCode: statusCode,
         );
 
@@ -249,16 +247,18 @@ class MockServiceServiceImpl extends MockServiceService {
 
         infoList.add(infoView);
       } else {
-        infoList.add(view.infoList[i]);
+        infoList.add(v);
       }
 
       // 全部使用默认目标主机标志
-      if (!infoList[i].useDefaultTargetHost) {
+      // 有一个为假则为假
+      if (!v.useDefaultTargetHost) {
         isAllUseDefaultTargetHost = false;
       }
 
       /// 全部使用模拟服务标志
-      if (!infoList[i].useMockService) {
+      // 有一个为假则为假
+      if (!v.useMockService) {
         isAllUseMockService = false;
       }
     }
@@ -272,6 +272,7 @@ class MockServiceServiceImpl extends MockServiceService {
     return newView;
   }
 
+  /// 更新模拟服务信息(反映详细)
   @override
   Future<MockServiceView> updateFromDetail(
       MockServiceView view, MockServiceUpdateInfoEvent e) async {
@@ -297,13 +298,14 @@ class MockServiceServiceImpl extends MockServiceService {
     return view.copyWith(infoList: infoList);
   }
 
-  // 全部响应返回OK
+  /// 全部响应返回OK
   @override
   Future<MockServiceView> allResponseOK(
       MockServiceView view, MockServiceAllResponseOKEvent e) async {
     return updateAll(view, MockServiceFlag.updateAllResponseOK, '');
   }
 
+  /// 全部使用默认目标主机
   @override
   Future<MockServiceView> allUseDefaultTargetHost(
       MockServiceView view, MockServiceAllUseDefaultTargetHostEvent e) async {
@@ -311,6 +313,7 @@ class MockServiceServiceImpl extends MockServiceService {
         e.allUseDefaultTargetHost);
   }
 
+  /// 全部使用模拟服务
   @override
   Future<MockServiceView> allUseMockService(
       MockServiceView view, MockServiceAllUseMockServiceEvent e) async {
@@ -318,7 +321,25 @@ class MockServiceServiceImpl extends MockServiceService {
         view, MockServiceFlag.updateAllUseMockService, e.allUseMockService);
   }
 
-  // 批量操作
+  /// 搜索
+  @override
+  MockServiceView search(MockServiceView view, MockServiceSearchEvent e) {
+    final List<MockServiceInfoView> infoList = [];
+
+    for (final MockServiceInfoView infoView in view.infoList) {
+      // 搜索关键字为空 或者 URI 包含搜索关键字时，可见。
+      final bool isSearchResult =
+          e.keyword.trim().isEmpty || infoView.uri.contains(e.keyword.trim());
+
+      final MockServiceInfoView newInfoView =
+          infoView.copyWith(visible: isSearchResult);
+      infoList.add(newInfoView);
+    }
+
+    return view.copyWith(infoList: infoList);
+  }
+
+  /// 批量操作
   Future<MockServiceView> updateAll(
       MockServiceView view, int flag, dynamic val) async {
     final MockServicePlugin plugin = container<MockServicePlugin>();
@@ -403,6 +424,7 @@ class MockServiceServiceImpl extends MockServiceService {
       statusCodeList: statusCodeList,
       useMockService: model.useMockService,
       responseFile: model.responseFile ?? '',
+      visible: true,
     );
   }
 

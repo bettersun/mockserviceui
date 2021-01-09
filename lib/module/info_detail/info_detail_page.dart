@@ -61,6 +61,7 @@ class _InfoDetailPageState extends State<InfoDetailPage> {
                       statusCode: state.view.statusCode,
                       statusCodeList: state.view.statusCodeList,
                       responseFile: state.view.responseFile,
+                      visible: true,
                     );
 
                     // Pop

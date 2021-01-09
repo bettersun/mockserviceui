@@ -25,8 +25,8 @@ class MockServiceChangeItemValueEvent extends MockServiceEvent {
 
 /// 改变列表值Event
 class MockServiceChangeListValueEvent extends MockServiceEvent {
-  /// 下标
-  final int index;
+  /// 模拟服务信息 View
+  final MockServiceInfoView infoView;
 
   /// Key
   final String key;
@@ -34,7 +34,7 @@ class MockServiceChangeListValueEvent extends MockServiceEvent {
   /// 最新值
   final dynamic newVal;
 
-  MockServiceChangeListValueEvent({this.index, this.key, this.newVal});
+  MockServiceChangeListValueEvent({this.infoView, this.key, this.newVal});
 
   @override
   String toString() => 'MockServiceChangeListValueEvent';
@@ -103,4 +103,15 @@ class MockServiceAllUseMockServiceEvent extends MockServiceEvent {
 
   @override
   String toString() => 'MockServiceAllUseMockServiceEvent';
+}
+
+/// 搜索Event
+class MockServiceSearchEvent extends MockServiceEvent {
+  ///  搜索关键字
+  final String keyword;
+
+  MockServiceSearchEvent({this.keyword});
+
+  @override
+  String toString() => 'MockServiceSearchEvent';
 }

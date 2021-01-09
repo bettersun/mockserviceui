@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/const/const.dart';
+
 import '../vm/vm.dart';
 import 'info_card.dart';
 
@@ -30,14 +32,22 @@ class DetailPanel extends StatelessWidget {
 
   /// 构建模拟服务信息Card列表
   List<Widget> buildInfoList() {
-    final List<InfoCard> infoCardList = [];
-    for (int i = 0; i < view.infoList.length; i++) {
-      //
-      infoCardList.add(InfoCard(
-        index: i,
-        infoView: view.infoList[i],
-      ));
+    final List<Widget> infoCardList = [];
+    int i = 0;
+    for (final MockServiceInfoView v in view.infoList) {
+      if (v.visible) {
+        i++;
+
+        // 各数据Card
+        infoCardList.add(InfoCard(
+          index: i,
+          infoView: v,
+        ));
+      }
     }
+
+    // 防止 FAB 遮挡
+    infoCardList.add(Container(height: ThemeConst.paddingFABListBottom));
 
     return infoCardList;
   }

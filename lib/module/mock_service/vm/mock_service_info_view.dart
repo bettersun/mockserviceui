@@ -34,6 +34,9 @@ class MockServiceInfoView extends Equatable {
   /// 响应文件
   final String responseFile;
 
+  /// 可见性
+  final bool visible;
+
   const MockServiceInfoView({
     // this.defaultTargetHost = '',
     this.useDefaultTargetHost = false,
@@ -45,6 +48,7 @@ class MockServiceInfoView extends Equatable {
     this.statusCode = 0,
     this.statusCodeList = const [],
     this.responseFile = '',
+    this.visible = false,
   });
 
   @override
@@ -58,7 +62,8 @@ class MockServiceInfoView extends Equatable {
         method,
         statusCode,
         statusCodeList,
-        responseFile
+        responseFile,
+        visible,
       ];
 
   MockServiceInfoView copyWith({
@@ -72,6 +77,7 @@ class MockServiceInfoView extends Equatable {
     int statusCode,
     List<String> statusCodeList,
     String responseFile,
+    bool visible,
   }) {
     return MockServiceInfoView(
       // defaultTargetHost: defaultTargetHost ?? this.defaultTargetHost,
@@ -84,6 +90,7 @@ class MockServiceInfoView extends Equatable {
       statusCode: statusCode ?? this.statusCode,
       statusCodeList: statusCodeList ?? this.statusCodeList,
       responseFile: responseFile ?? this.responseFile,
+      visible: visible ?? this.visible,
     );
   }
 }

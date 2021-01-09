@@ -29,37 +29,9 @@ class _MockServicePageState extends State<MockServicePage> {
   @override
   Widget build(BuildContext context) {
     // FAB
-    final fabs = Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        // 保存模拟服务信息
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0),
-          child: FloatingActionButton(
-            heroTag: 'fab1',
-            child: const Icon(Icons.save),
-            tooltip: '保存模拟服务信息',
-            onPressed: () async {
-              // 初始化
-              _bloc.add(MockServiceSaveEvent());
-            },
-          ),
-        ),
-        // 重新加载模拟服务信息
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0),
-          child: FloatingActionButton(
-            heroTag: 'fab2',
-            child: const Icon(Icons.refresh),
-            tooltip: '重新加载模拟服务信息',
-            onPressed: () async {
-              // 初始化
-              _bloc.add(MockServiceReloadEvent());
-            },
-          ),
-        ),
-      ],
+    final fabs = Container(
+      padding: EdgeInsets.only(bottom: ThemeConst.paddingFABBottom),
+      child: FAB(),
     );
 
     return BlocProvider(

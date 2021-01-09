@@ -92,5 +92,12 @@ class MockServiceBloc extends Bloc<MockServiceEvent, MockServiceState> {
           await service.allUseMockService(nowState.view, event);
       yield MockServiceDoneState(view: view);
     }
+
+    // 搜索
+    if (event is MockServiceSearchEvent) {
+      final MockServiceDoneState nowState = state as MockServiceDoneState;
+      final MockServiceView view = service.search(nowState.view, event);
+      yield MockServiceDoneState(view: view);
+    }
   }
 }
