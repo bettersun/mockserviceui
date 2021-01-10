@@ -41,15 +41,26 @@ class InfoCard extends StatelessWidget {
               child: Text(index.toString()),
             ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Container(
                 margin: ThemeConst.cellMarginLR,
                 padding: ThemeConst.cellPadding,
-                child: Tooltip(
-                  message: infoView.uri,
-                  preferBelow: false,
-                  verticalOffset: 10,
-                  child: Text(infoView.uri),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Tooltip(
+                      message: '说明',
+                      preferBelow: false,
+                      verticalOffset: 10,
+                      child: Text(infoView.description),
+                    ),
+                    Tooltip(
+                      message: 'URI',
+                      preferBelow: false,
+                      verticalOffset: 10,
+                      child: Text(infoView.uri),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -59,7 +70,7 @@ class InfoCard extends StatelessWidget {
                 margin: ThemeConst.cellMarginLR,
                 padding: ThemeConst.cellPadding,
                 child: Tooltip(
-                  message: '请求方法[' + infoView.method + ']',
+                  message: '请求方法',
                   preferBelow: false,
                   verticalOffset: 10,
                   child: Text(infoView.method),
@@ -71,13 +82,18 @@ class InfoCard extends StatelessWidget {
               child: Container(
                 margin: ThemeConst.cellMarginLR,
                 padding: ThemeConst.cellPadding,
-                child: Text(
-                  infoView.currentTargetHost,
-                  // 使用模拟服务时，字体颜色为灰色s
-                  style: TextStyle(
-                    color: infoView.useMockService
-                        ? Colors.grey
-                        : Theme.of(context).textTheme.bodyText1.color,
+                child: Tooltip(
+                  message: '目标主机',
+                  preferBelow: false,
+                  verticalOffset: 10,
+                  child: Text(
+                    infoView.currentTargetHost,
+                    // 使用模拟服务时，字体颜色为灰色s
+                    style: TextStyle(
+                      color: infoView.useMockService
+                          ? Colors.grey
+                          : Theme.of(context).textTheme.bodyText1.color,
+                    ),
                   ),
                 ),
               ),
@@ -88,31 +104,36 @@ class InfoCard extends StatelessWidget {
               child: Container(
                 margin: ThemeConst.cellMarginLR,
                 padding: ThemeConst.cellPaddingLR,
-                child: DropdownButton<String>(
-                  value: infoView.statusCode.toString(),
-                  disabledHint: Text(infoView.statusCode.toString()),
-                  onChanged: !infoView.useMockService
-                      ? null // 不使用模拟服务时，禁用下拉框
-                      : (value) {
-                          if (value != infoView.statusCode.toString()) {
-                            // 触发事件
-                            BlocProvider.of<MockServiceBloc>(context).add(
-                              MockServiceChangeListValueEvent(
-                                infoView: infoView,
-                                key: MockServiceItemKey.infoListStatusCode,
-                                newVal: value,
-                              ),
-                            );
-                          }
-                        },
-                  isExpanded: true,
-                  items: infoView.statusCodeList
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                child: Tooltip(
+                  message: '响应状态码',
+                  preferBelow: false,
+                  verticalOffset: 10,
+                  child: DropdownButton<String>(
+                    value: infoView.statusCode.toString(),
+                    disabledHint: Text(infoView.statusCode.toString()),
+                    onChanged: !infoView.useMockService
+                        ? null // 不使用模拟服务时，禁用下拉框
+                        : (value) {
+                            if (value != infoView.statusCode.toString()) {
+                              // 触发事件
+                              BlocProvider.of<MockServiceBloc>(context).add(
+                                MockServiceChangeListValueEvent(
+                                  infoView: infoView,
+                                  key: MockServiceItemKey.infoListStatusCode,
+                                  newVal: value,
+                                ),
+                              );
+                            }
+                          },
+                    isExpanded: true,
+                    items: infoView.statusCodeList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
             ),
@@ -122,13 +143,18 @@ class InfoCard extends StatelessWidget {
               child: Container(
                 margin: ThemeConst.cellMarginLR,
                 padding: ThemeConst.cellPadding,
-                child: Text(
-                  infoView.responseFile,
-                  // 使用模拟服务时，字体颜色为灰色
-                  style: TextStyle(
-                    color: infoView.useMockService
-                        ? Theme.of(context).textTheme.bodyText1.color
-                        : Colors.grey,
+                child: Tooltip(
+                  message: '响应文件',
+                  preferBelow: false,
+                  verticalOffset: 10,
+                  child: Text(
+                    infoView.responseFile,
+                    // 使用模拟服务时，字体颜色为灰色
+                    style: TextStyle(
+                      color: infoView.useMockService
+                          ? Theme.of(context).textTheme.bodyText1.color
+                          : Colors.grey,
+                    ),
                   ),
                 ),
               ),
@@ -138,69 +164,82 @@ class InfoCard extends StatelessWidget {
               children: [
                 Container(
                   height: 20,
-                  child: Row(
-                    children: [
-                      Text('默认目标主机'),
-                      Switch(
-                        value: infoView.useDefaultTargetHost,
-                        onChanged: infoView.useMockService
-                            ? null // 使用模拟服务时，无需设置 是否使用默认目标主机
-                            : (value) {
-                                // 触发事件
-                                BlocProvider.of<MockServiceBloc>(context)
-                                    .add(MockServiceChangeListValueEvent(
-                                  infoView: infoView,
-                                  key: MockServiceItemKey
-                                      .infoListUseDefaultTargetHost,
-                                  newVal: value,
-                                ));
-                              },
-                      ),
-                    ],
+                  child: Tooltip(
+                    message: '使用默认目标主机',
+                    preferBelow: false,
+                    verticalOffset: 10,
+                    child: Row(
+                      children: [
+                        Text('默认目标主机'),
+                        Switch(
+                          value: infoView.useDefaultTargetHost,
+                          onChanged: infoView.useMockService
+                              ? null // 使用模拟服务时，无需设置 是否使用默认目标主机
+                              : (value) {
+                                  // 触发事件
+                                  BlocProvider.of<MockServiceBloc>(context)
+                                      .add(MockServiceChangeListValueEvent(
+                                    infoView: infoView,
+                                    key: MockServiceItemKey
+                                        .infoListUseDefaultTargetHost,
+                                    newVal: value,
+                                  ));
+                                },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 // 使用模拟服务
                 Container(
                   height: 20,
-                  child: Row(
-                    children: [
-                      Text('模拟服务'),
-                      Switch(
-                        value: infoView.useMockService,
-                        onChanged: (value) {
-                          // 触发事件
-                          BlocProvider.of<MockServiceBloc>(context)
-                              .add(MockServiceChangeListValueEvent(
-                            infoView: infoView,
-                            key: MockServiceItemKey.infoListUseMockService,
-                            newVal: value,
-                          ));
-                        },
-                      ),
-                    ],
+                  child: Tooltip(
+                    message: '使用模拟服务',
+                    preferBelow: false,
+                    verticalOffset: 10,
+                    child: Row(
+                      children: [
+                        Text('模拟服务'),
+                        Switch(
+                          value: infoView.useMockService,
+                          onChanged: (value) {
+                            // 触发事件
+                            BlocProvider.of<MockServiceBloc>(context)
+                                .add(MockServiceChangeListValueEvent(
+                              infoView: infoView,
+                              key: MockServiceItemKey.infoListUseMockService,
+                              newVal: value,
+                            ));
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
             Container(
               margin: ThemeConst.cellMarginLR,
-              child: InkWell(
-                child: Icon(Icons.arrow_right),
-                onTap: () async {
-                  //
-                  print('详细');
-                  // 详细
-                  await Navigator.of(context).push<dynamic>(
-                    MaterialPageRoute<dynamic>(builder: (_) {
-                      return InfoDetailPage(infoView: infoView);
-                    }),
-                  ).then((value) {
-                    // 更新模拟服务信息
-                    BlocProvider.of<MockServiceBloc>(context).add(
-                        MockServiceUpdateInfoEvent(
-                            infoView: value as MockServiceInfoView));
-                  });
-                },
+              child: Tooltip(
+                message: '详细',
+                preferBelow: false,
+                verticalOffset: 10,
+                child: InkWell(
+                  child: Icon(Icons.arrow_right),
+                  onTap: () async {
+                    // 详细
+                    await Navigator.of(context).push<dynamic>(
+                      MaterialPageRoute<dynamic>(builder: (_) {
+                        return InfoDetailPage(infoView: infoView);
+                      }),
+                    ).then((value) {
+                      // 更新模拟服务信息
+                      BlocProvider.of<MockServiceBloc>(context).add(
+                          MockServiceUpdateInfoEvent(
+                              infoView: value as MockServiceInfoView));
+                    });
+                  },
+                ),
               ),
             ),
           ],

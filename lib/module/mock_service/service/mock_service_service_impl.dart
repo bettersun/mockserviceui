@@ -328,8 +328,9 @@ class MockServiceServiceImpl extends MockServiceService {
 
     for (final MockServiceInfoView infoView in view.infoList) {
       // 搜索关键字为空 或者 URI 包含搜索关键字时，可见。
-      final bool isSearchResult =
-          e.keyword.trim().isEmpty || infoView.uri.contains(e.keyword.trim());
+      final bool isSearchResult = e.keyword.trim().isEmpty ||
+          infoView.uri.contains(e.keyword.trim()) ||
+          infoView.description.contains(e.keyword.trim());
 
       final MockServiceInfoView newInfoView =
           infoView.copyWith(visible: isSearchResult);
@@ -414,16 +415,17 @@ class MockServiceServiceImpl extends MockServiceService {
     }
 
     return MockServiceInfoView(
-      // defaultTargetHost: defaultTargetHost,
-      useDefaultTargetHost: model.useDefaultTargetHost,
-      targetHost: model.targetHost ?? '',
-      currentTargetHost: currentTargetHost,
       uri: model.uri ?? '',
       method: model.method ?? '',
+      targetHost: model.targetHost ?? '',
+      currentTargetHost: currentTargetHost,
+      // defaultTargetHost: defaultTargetHost,
+      useDefaultTargetHost: model.useDefaultTargetHost,
       statusCode: model.statusCode ?? 0,
       statusCodeList: statusCodeList,
       useMockService: model.useMockService,
       responseFile: model.responseFile ?? '',
+      description: model.description,
       visible: true,
     );
   }
@@ -431,13 +433,14 @@ class MockServiceServiceImpl extends MockServiceService {
   /// 模拟服务信息View 转换为 模拟服务信息
   MockServiceInfo fromMockServiceInfoView(MockServiceInfoView view) {
     final MockServiceInfo info = MockServiceInfo(
-      useDefaultTargetHost: view.useDefaultTargetHost,
-      useMockService: view.useMockService,
       uri: view.uri,
       method: view.method,
-      statusCode: view.statusCode,
       targetHost: view.targetHost,
+      useDefaultTargetHost: view.useDefaultTargetHost,
+      useMockService: view.useMockService,
+      statusCode: view.statusCode,
       responseFile: view.responseFile,
+      description: view.description,
     );
 
     return info;

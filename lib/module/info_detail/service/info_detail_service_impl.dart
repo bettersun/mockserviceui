@@ -39,17 +39,18 @@ class InfoDetailServiceImpl extends InfoDetailService {
         : e.infoView.targetHost;
 
     final InfoDetailView view = InfoDetailView(
+      uri: e.infoView.uri,
+      method: e.infoView.method,
+      targetHost: e.infoView.targetHost,
+      currentTargetHost: currentTargetHost,
       // defaultTargetHost: e.infoView.defaultTargetHost,
       useDefaultTargetHost: e.infoView.useDefaultTargetHost,
       useMockService: e.infoView.useMockService,
-      uri: e.infoView.uri,
-      method: e.infoView.method,
       statusCode: e.infoView.statusCode,
       statusCodeList: e.infoView.statusCodeList,
-      targetHost: e.infoView.targetHost,
-      currentTargetHost: currentTargetHost,
       responseFile: e.infoView.responseFile,
       responseList: responseList,
+      description: e.infoView.description,
     );
 
     return view;
@@ -59,6 +60,13 @@ class InfoDetailServiceImpl extends InfoDetailService {
   Future<InfoDetailView> changeItemValue(
       InfoDetailView view, InfoDetailChangeItemValueEvent e) async {
     InfoDetailView newView = view;
+
+    // URI
+    String uri = '';
+    if (e.key == InfoDetailItemKey.uri) {
+      uri = (e.newVal as String) ?? '';
+      newView = view.copyWith(uri: uri);
+    }
 
     // 目标主机
     String targetHost = '';
@@ -74,13 +82,6 @@ class InfoDetailServiceImpl extends InfoDetailService {
         targetHost: targetHost,
         currentTargetHost: currentTargetHost,
       );
-    }
-
-    // URI
-    String uri = '';
-    if (e.key == InfoDetailItemKey.uri) {
-      uri = (e.newVal as String) ?? '';
-      newView = view.copyWith(uri: uri);
     }
 
     // 响应状态码
@@ -111,6 +112,11 @@ class InfoDetailServiceImpl extends InfoDetailService {
     if (e.key == InfoDetailItemKey.useMockService) {
       useMockService = (e.newVal as bool) ?? false;
       newView = view.copyWith(useMockService: useMockService);
+    }
+
+    // 说明
+    if (e.key == InfoDetailItemKey.description) {
+      newView = view.copyWith(description: (e.newVal as String) ?? '');
     }
 
     // 更新Go端内存
@@ -167,12 +173,14 @@ class InfoDetailServiceImpl extends InfoDetailService {
     // 通知Go端更新
     final MockServicePlugin plugin = container<MockServicePlugin>();
     final MockServiceInfo info = MockServiceInfo(
-      useDefaultTargetHost: view.useDefaultTargetHost,
       uri: view.uri,
       method: view.method,
       targetHost: view.targetHost,
+      useDefaultTargetHost: view.useDefaultTargetHost,
       useMockService: view.useMockService,
+      statusCode: view.statusCode,
       responseFile: view.responseFile,
+      description: view.description,
     );
 
     final bool result = await plugin.updateInfo(info);

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:mockserviceui/module/mock_service/bloc/bloc.dart';
+import '../../../common/const/const.dart';
+import '../../mock_service/bloc/bloc.dart';
 
 /// 模拟服务信息Card
 class FAB extends StatelessWidget {
@@ -10,6 +11,7 @@ class FAB extends StatelessWidget {
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       curve: Curves.bounceIn,
+      marginBottom: ThemeConst.marginFABBottom,
       children: [
         // 重新加载模拟服务信息
         SpeedDialChild(

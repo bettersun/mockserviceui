@@ -28,12 +28,6 @@ class _MockServicePageState extends State<MockServicePage> {
 
   @override
   Widget build(BuildContext context) {
-    // FAB
-    final fabs = Container(
-      padding: EdgeInsets.only(bottom: ThemeConst.paddingFABBottom),
-      child: FAB(),
-    );
-
     return BlocProvider(
       create: (BuildContext context) => _bloc,
       child: BlocBuilder<MockServiceBloc, MockServiceState>(
@@ -67,7 +61,7 @@ class _MockServicePageState extends State<MockServicePage> {
                 ],
               ),
             ),
-            floatingActionButton: fabs,
+            floatingActionButton: FAB(),
           );
         }
 

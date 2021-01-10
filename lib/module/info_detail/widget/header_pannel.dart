@@ -29,6 +29,8 @@ class _HeaderPanelState extends State<HeaderPanel> {
   final TextEditingController _targetHostPathCtrlr = TextEditingController();
   // 响应文件
   final TextEditingController _responseFileCtrlr = TextEditingController();
+  // 说明
+  final TextEditingController _descriptionCtrlr = TextEditingController();
 
   // 目标主机
   TextFormField inputTargetHost;
@@ -42,6 +44,8 @@ class _HeaderPanelState extends State<HeaderPanel> {
     _methodCtrlr.text = widget.view.method;
     // 目标主机
     _targetHostPathCtrlr.text = widget.view.targetHost;
+    // 说明
+    _descriptionCtrlr.text = widget.view.description;
   }
 
   @override
@@ -51,25 +55,38 @@ class _HeaderPanelState extends State<HeaderPanel> {
 
     const String lblTxtTargetHost = '目标主机';
 
+    // 目标主机是否可用
+    final bool isTargetHostEnabled =
+        !widget.view.useMockService && !widget.view.useDefaultTargetHost;
+    final Color colorTargetHost = isTargetHostEnabled
+        ? Theme.of(context).textTheme.bodyText1.color
+        : ThemeConst.colorDisabled;
+
     // 使用默认目标主机时
     if (widget.view.useDefaultTargetHost) {
       inputTargetHost = TextFormField(
+        style: TextStyle(
+          color: colorTargetHost,
+        ),
         decoration: InputDecoration(
           labelText: lblTxtTargetHost,
         ),
         controller: TextEditingController(text: widget.view.currentTargetHost),
         // 使用默认目标主机时，不可编辑
-        enabled: !widget.view.useDefaultTargetHost,
+        enabled: isTargetHostEnabled,
       );
     } else {
       // 不使用默认目标主机时
       inputTargetHost = TextFormField(
+        style: TextStyle(
+          color: colorTargetHost,
+        ),
         decoration: InputDecoration(
           labelText: lblTxtTargetHost,
         ),
         controller: _targetHostPathCtrlr,
         // 使用默认目标主机时，不可编辑
-        enabled: !widget.view.useDefaultTargetHost,
+        enabled: isTargetHostEnabled,
         onChanged: (value) {
           BlocProvider.of<InfoDetailBloc>(context)
               .add(InfoDetailChangeItemValueEvent(
@@ -96,11 +113,15 @@ class _HeaderPanelState extends State<HeaderPanel> {
                       left: ThemeConst.paddingItem,
                       right: ThemeConst.paddingItem),
                   child: TextFormField(
+                    // 不能编辑
+                    enabled: false,
+                    style: TextStyle(
+                      color: ThemeConst.colorDisabled,
+                    ),
                     decoration: InputDecoration(
                       labelText: 'URI',
                     ),
                     controller: _uriCtrlr,
-                    enabled: false,
                   ),
                 ),
               ),
@@ -111,64 +132,15 @@ class _HeaderPanelState extends State<HeaderPanel> {
                       left: ThemeConst.paddingItem,
                       right: ThemeConst.paddingItem),
                   child: TextFormField(
+                    // 不能编辑
+                    enabled: false,
+                    style: TextStyle(
+                      color: ThemeConst.colorDisabled,
+                    ),
                     decoration: InputDecoration(
                       labelText: '请求方法',
                     ),
                     controller: _methodCtrlr,
-                    enabled: false,
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 5,
-                child: Container(
-                  padding: EdgeInsets.only(
-                      left: ThemeConst.paddingItem,
-                      right: ThemeConst.paddingItem),
-                  child: inputTargetHost,
-                ),
-              ),
-              Container(
-                height: 20,
-                child: Row(
-                  children: [
-                    Text('默认目标主机'),
-                    Switch(
-                      value: widget.view.useDefaultTargetHost,
-                      onChanged: widget.view.useMockService
-                          ? null // 使用模拟服务时，无需修改
-                          : (value) {
-                              if (value != widget.view.useDefaultTargetHost) {
-                                BlocProvider.of<InfoDetailBloc>(context)
-                                    .add(InfoDetailChangeItemValueEvent(
-                                  key: InfoDetailItemKey.useDefaultTargetHost,
-                                  newVal: value,
-                                ));
-                              }
-                            },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                flex: 8,
-                child: Container(
-                  padding: EdgeInsets.only(
-                      left: ThemeConst.paddingItem,
-                      right: ThemeConst.paddingItem),
-                  // color: widget.view.useMockService
-                  //     ? Colors.transparent
-                  //     : Colors.grey,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: '响应文件',
-                    ),
-                    controller: _responseFileCtrlr,
-                    enabled: false,
                   ),
                 ),
               ),
@@ -211,6 +183,29 @@ class _HeaderPanelState extends State<HeaderPanel> {
                   ),
                 ),
               ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: ThemeConst.paddingItem,
+                      right: ThemeConst.paddingItem),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: '说明',
+                    ),
+                    controller: _descriptionCtrlr,
+                    onChanged: (value) {
+                      // 触发事件
+                      BlocProvider.of<InfoDetailBloc>(context).add(
+                        InfoDetailChangeItemValueEvent(
+                          key: InfoDetailItemKey.description,
+                          newVal: value,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
               Container(
                 height: 20,
                 child: Row(
@@ -227,6 +222,63 @@ class _HeaderPanelState extends State<HeaderPanel> {
                           ));
                         }
                       },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 5,
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: ThemeConst.paddingItem,
+                      right: ThemeConst.paddingItem),
+                  // color: widget.view.useMockService
+                  //     ? Colors.transparent
+                  //     : Colors.grey,
+                  child: TextField(
+                    // 不能编辑
+                    enabled: false,
+                    style: TextStyle(
+                      color: ThemeConst.colorDisabled,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: '响应文件',
+                    ),
+                    controller: _responseFileCtrlr,
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: EdgeInsets.only(
+                      left: ThemeConst.paddingItem,
+                      right: ThemeConst.paddingItem),
+                  child: inputTargetHost,
+                ),
+              ),
+              Container(
+                height: 20,
+                child: Row(
+                  children: [
+                    Text('默认目标主机'),
+                    Switch(
+                      value: widget.view.useDefaultTargetHost,
+                      onChanged: widget.view.useMockService
+                          ? null // 使用模拟服务时，无需修改
+                          : (value) {
+                              if (value != widget.view.useDefaultTargetHost) {
+                                BlocProvider.of<InfoDetailBloc>(context)
+                                    .add(InfoDetailChangeItemValueEvent(
+                                  key: InfoDetailItemKey.useDefaultTargetHost,
+                                  newVal: value,
+                                ));
+                              }
+                            },
                     ),
                   ],
                 ),
