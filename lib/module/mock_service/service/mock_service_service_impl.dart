@@ -239,11 +239,7 @@ class MockServiceServiceImpl extends MockServiceService {
 
         // 更新Go端内存
         final MockServiceInfo info = fromMockServiceInfoView(infoView);
-        final bool result = await plugin.updateInfo(info);
-        // TODO
-        if (!result) {
-          print('更新内存失败');
-        }
+        await plugin.updateInfo(info);
 
         infoList.add(infoView);
       } else {
@@ -380,10 +376,7 @@ class MockServiceServiceImpl extends MockServiceService {
     }
 
     // 更新Go端内存
-    final bool result = await plugin.updateAllInfo(infos);
-    if (!result) {
-      print('更新失败');
-    }
+    await plugin.updateAllInfo(infos);
 
     final MockServiceView newView = view.copyWith(
       allUseDefaultTargetHost: isAllUseDefaultTargetHost
@@ -408,7 +401,7 @@ class MockServiceServiceImpl extends MockServiceService {
       currentTargetHost = defaultTargetHost;
     }
 
-    // TODO 响应状态码
+    // 响应状态码
     final List<String> statusCodeList = ['', '200', '401', '403', '404', '500'];
     if (!statusCodeList.contains(model.statusCode.toString())) {
       statusCodeList.add(model.statusCode.toString());

@@ -41,7 +41,7 @@ class _AppPageState extends State<AppPage> {
               onPressed: () {},
             ),
           ),
-          body: Container(child: Text("a go-flutter application")),
+          body: Container(child: Text('a go-flutter application')),
         );
       }
 
