@@ -42,4 +42,10 @@ abstract class MockServiceService {
 
   /// 搜索
   MockServiceView search(MockServiceView view, MockServiceSearchEvent e);
+
+  /// 接收Go端通知
+  MockServiceView notify(MockServiceView view, MockServiceNotifiedEvent e);
+
+  /// 显示/隐藏通知
+  MockServiceView showNotification(MockServiceView view);
 }

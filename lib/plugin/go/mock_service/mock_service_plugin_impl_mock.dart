@@ -1,14 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:mockserviceui/plugin/go/mock_service/model/mock_service_info.dart';
 
 import 'mock_service_plugin.dart';
 
 class MockServicePluginImplMock extends MockServicePlugin {
-  // go-flutter插件中的包名，两者必须一致
-  final channel = MethodChannel('bettersun.go-flutter.plugin.mockservice');
-
   /// 获取目标主机列表
   @override
   Future<List<String>> targetHostList() async {
@@ -85,37 +81,31 @@ class MockServicePluginImplMock extends MockServicePlugin {
   /// 重新加载(配置及输入文件)
   @override
   Future<bool> reload() {
-    // TODO: implement saveInfo
     throw UnimplementedError();
   }
 
   @override
   Future<bool> saveInfo() {
-    // TODO: implement saveInfo
     throw UnimplementedError();
   }
 
   @override
   Future<bool> isRunning() {
-    // TODO: implement isRunning
     throw UnimplementedError();
   }
 
   @override
   Future<List<String>> responseFileList(String uri, String method) {
-    // TODO: implement responseFileList
     throw UnimplementedError();
   }
 
   @override
   Future<bool> updateInfo(MockServiceInfo info) {
-    // TODO: implement updateInfo
     throw UnimplementedError();
   }
 
   @override
   Future<bool> updateAllInfo(List<MockServiceInfo> infoList) {
-    // TODO: implement updateAllInfo
     throw UnimplementedError();
   }
 }

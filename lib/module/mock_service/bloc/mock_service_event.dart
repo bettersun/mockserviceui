@@ -115,3 +115,22 @@ class MockServiceSearchEvent extends MockServiceEvent {
   @override
   String toString() => 'MockServiceSearchEvent';
 }
+
+/// 接收Go端通知Event
+class MockServiceNotifiedEvent extends MockServiceEvent {
+  ///  通知
+  final String notification;
+
+  MockServiceNotifiedEvent({this.notification});
+
+  @override
+  String toString() => 'MockServiceNotifiedEvent';
+}
+
+/// 显示通知Event
+class MockServiceShowNotificationEvent extends MockServiceEvent {
+  MockServiceShowNotificationEvent();
+
+  @override
+  String toString() => 'MockServiceShowNotificationEvent';
+}

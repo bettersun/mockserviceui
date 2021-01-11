@@ -1,8 +1,30 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
+
 import 'model/mock_service_info.dart';
 
 abstract class MockServicePlugin {
+// go-flutter插件中的包名，两者必须一致
+  final channel = MethodChannel('bettersun.go-flutter.plugin.mockservice');
+
+  final funcNameHelo = 'hello';
+
+  final funcNameRun = 'run';
+  final funcNameClose = 'close';
+  final funcNameReload = 'reload';
+  final funcNameIsRunning = 'IsRunning';
+
+  final funcNameUpdateInfo = 'updateInfo';
+  final funcNameUpdateAllInfo = 'updateAllInfo';
+  final funcNameSaveInfo = 'saveInfo';
+
+  final funcNameHostlist = 'hostlist';
+  final funcNameInfolist = 'infolist';
+  final funcNameResponselist = 'responselist';
+
+  final funcNameNotify = 'notify';
+
   /// 获取目标主机列表
   Future<List<String>> targetHostList();
 

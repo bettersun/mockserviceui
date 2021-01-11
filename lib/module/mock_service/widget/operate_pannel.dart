@@ -40,113 +40,121 @@ class _OperatePanelState extends State<OperatePanel> {
           Row(
             children: [
               // 启动服务/关闭服务
-              FlatButton(
-                color: toggleColor,
-                child: Text(
-                  toggleText,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                onPressed: () {
-                  //触发事件
-                  BlocProvider.of<MockServiceBloc>(context)
-                      .add(MockServiceToggleServiceEvent());
-                },
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 4.0, right: 4.0),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: 32, maxWidth: 360),
-                  child: TextField(
-                    controller: _searchCtrlr,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(
-                          left: 0, right: 12.0, bottom: 0.0, top: 0.0),
-                      hintText: '搜索',
-                      prefixIcon: Icon(
-                        Icons.search,
-                        size: 18,
+              widget.view.visibleNotification
+                  ? Container()
+                  : FlatButton(
+                      color: toggleColor,
+                      child: Text(
+                        toggleText,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Colors.blue[100],
+                      onPressed: () {
+                        // 触发事件
+                        BlocProvider.of<MockServiceBloc>(context)
+                            .add(MockServiceToggleServiceEvent());
+                      },
                     ),
-                    onChanged: (value) {
-                      //触发事件
-                      BlocProvider.of<MockServiceBloc>(context)
-                          .add(MockServiceSearchEvent(keyword: value));
-                    },
-                  ),
-                ),
-              ),
+              // 搜索栏
+              widget.view.visibleNotification
+                  ? Container()
+                  : Container(
+                      padding: EdgeInsets.only(left: 4.0, right: 4.0),
+                      child: ConstrainedBox(
+                        constraints:
+                            BoxConstraints(maxHeight: 32, maxWidth: 360),
+                        child: TextField(
+                          controller: _searchCtrlr,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(
+                                left: 0, right: 12.0, bottom: 0.0, top: 0.0),
+                            hintText: '搜索',
+                            prefixIcon: Icon(
+                              Icons.search,
+                              size: 18,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            fillColor: Colors.blue[100],
+                          ),
+                          onChanged: (value) {
+                            // 触发事件
+                            BlocProvider.of<MockServiceBloc>(context)
+                                .add(MockServiceSearchEvent(keyword: value));
+                          },
+                        ),
+                      ),
+                    ),
             ],
           ),
           // 全部返回200
-          Row(
-            children: [
-              Container(
-                margin: EdgeInsets.only(
-                    left: ThemeConst.marginButton,
-                    right: ThemeConst.marginButton),
-                child: FlatButton(
-                  color: Colors.blue[200],
-                  child: Text('全部返回200'),
-                  onPressed: () {
-                    BlocProvider.of<MockServiceBloc>(context)
-                        .add(MockServiceAllResponseOKEvent());
-                  },
-                ),
-              ),
-              // 全部使用默认目标主机
-              Container(
-                margin: EdgeInsets.only(
-                    left: ThemeConst.marginButton,
-                    right: ThemeConst.marginButton),
-                child: Row(
+          widget.view.visibleNotification
+              ? Container()
+              : Row(
                   children: [
-                    Text('默认目标主机'),
-                    Switch(
-                      value: widget.view.allUseDefaultTargetHost,
-                      onChanged: widget.view.allUseMockService
-                          ? null // 使用模拟服务时，无需设置 是否使用默认目标主机
-                          : (value) {
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: ThemeConst.marginButton,
+                          right: ThemeConst.marginButton),
+                      child: FlatButton(
+                        color: Colors.blue[200],
+                        child: Text('全部返回200'),
+                        onPressed: () {
+                          BlocProvider.of<MockServiceBloc>(context)
+                              .add(MockServiceAllResponseOKEvent());
+                        },
+                      ),
+                    ),
+                    // 全部使用默认目标主机
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: ThemeConst.marginButton,
+                          right: ThemeConst.marginButton),
+                      child: Row(
+                        children: [
+                          Text('默认目标主机'),
+                          Switch(
+                            value: widget.view.allUseDefaultTargetHost,
+                            onChanged: widget.view.allUseMockService
+                                ? null // 使用模拟服务时，无需设置 是否使用默认目标主机
+                                : (value) {
+                                    // 触发事件
+                                    BlocProvider.of<MockServiceBloc>(context).add(
+                                        MockServiceAllUseDefaultTargetHostEvent(
+                                      allUseDefaultTargetHost: value,
+                                    ));
+                                  },
+                          ),
+                        ],
+                      ),
+                    ),
+                    // 全部使用模拟服务
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: ThemeConst.marginButton,
+                          right: ThemeConst.marginButton),
+                      child: Row(
+                        children: [
+                          Text('模拟服务'),
+                          Switch(
+                            value: widget.view.allUseMockService,
+                            onChanged: (value) {
                               // 触发事件
                               BlocProvider.of<MockServiceBloc>(context)
-                                  .add(MockServiceAllUseDefaultTargetHostEvent(
-                                allUseDefaultTargetHost: value,
+                                  .add(MockServiceAllUseMockServiceEvent(
+                                allUseMockService: value,
                               ));
                             },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ),
-              // 全部使用模拟服务
-              Container(
-                margin: EdgeInsets.only(
-                    left: ThemeConst.marginButton,
-                    right: ThemeConst.marginButton),
-                child: Row(
-                  children: [
-                    Text('模拟服务'),
-                    Switch(
-                      value: widget.view.allUseMockService,
-                      onChanged: (value) {
-                        // 触发事件
-                        BlocProvider.of<MockServiceBloc>(context)
-                            .add(MockServiceAllUseMockServiceEvent(
-                          allUseMockService: value,
-                        ));
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );

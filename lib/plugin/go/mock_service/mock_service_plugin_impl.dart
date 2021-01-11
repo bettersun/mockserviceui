@@ -1,38 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart';
-import 'package:mockserviceui/plugin/go/mock_service/model/mock_service_info.dart';
-
 import 'mock_service_plugin.dart';
 import 'model/model.dart';
 
 class MockServicePluginImpl extends MockServicePlugin {
-  // go-flutter插件中的包名，两者必须一致
-  final channel = MethodChannel('bettersun.go-flutter.plugin.mockservice');
-
-  final funcNameHelo = 'hello';
-
-  final funcNameRun = 'run';
-  final funcNameClose = 'close';
-  final funcNameReload = 'reload';
-  final funcNameIsRunning = 'IsRunning';
-
-  final funcNameUpdateInfo = 'updateInfo';
-  final funcNameUpdateAllInfo = 'updateAllInfo';
-  final funcNameSaveInfo = 'saveInfo';
-
-  final funcNameHostlist = 'hostlist';
-  final funcNameInfolist = 'infolist';
-  final funcNameResponselist = 'responselist';
-
-  final ModelGo modelGo = ModelGo();
-
   /// 获取目标主机列表
   @override
   Future<List<String>> targetHostList() async {
     final Map m = await channel.invokeMethod(funcNameHostlist);
 
-    final List<String> list = modelGo.fromGoHostList(m);
+    final List<String> list = ModelGo.fromGoHostList(m);
     return list;
   }
 
@@ -40,7 +17,7 @@ class MockServicePluginImpl extends MockServicePlugin {
   @override
   Future<List<MockServiceInfo>> mockServiceInfoList() async {
     final Map m = await channel.invokeMethod(funcNameInfolist);
-    final List<MockServiceInfo> list = modelGo.fromGoInfoList(m);
+    final List<MockServiceInfo> list = ModelGo.fromGoInfoList(m);
     return list;
   }
 
@@ -123,7 +100,7 @@ class MockServicePluginImpl extends MockServicePlugin {
     mParams['method'] = method;
 
     final Map m = await channel.invokeMethod(funcNameResponselist, mParams);
-    final List<String> list = modelGo.fromGoResponseList(m);
+    final List<String> list = ModelGo.fromGoResponseList(m);
 
     return list;
   }

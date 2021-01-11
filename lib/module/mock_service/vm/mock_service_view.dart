@@ -26,6 +26,12 @@ class MockServiceView extends Equatable {
   /// 全部使用模拟服务标志
   final bool allUseMockService;
 
+  /// Go端通知
+  final List<String> notification;
+
+  /// 通知可见标志
+  final bool visibleNotification;
+
   const MockServiceView({
     this.info = '',
     this.targetHostList = const [],
@@ -34,6 +40,8 @@ class MockServiceView extends Equatable {
     this.isRunning = false,
     this.allUseDefaultTargetHost = false,
     this.allUseMockService = false,
+    this.notification = const [],
+    this.visibleNotification = false,
   });
 
   @override
@@ -46,6 +54,8 @@ class MockServiceView extends Equatable {
         isRunning,
         allUseDefaultTargetHost,
         allUseMockService,
+        notification,
+        visibleNotification,
       ];
 
   MockServiceView copyWith({
@@ -56,6 +66,8 @@ class MockServiceView extends Equatable {
     bool isRunning,
     bool allUseDefaultTargetHost,
     bool allUseMockService,
+    List<String> notification,
+    bool visibleNotification,
   }) {
     return MockServiceView(
       info: info ?? this.info,
@@ -66,6 +78,8 @@ class MockServiceView extends Equatable {
       allUseDefaultTargetHost:
           allUseDefaultTargetHost ?? this.allUseDefaultTargetHost,
       allUseMockService: allUseMockService ?? this.allUseMockService,
+      notification: notification ?? this.notification,
+      visibleNotification: visibleNotification ?? this.visibleNotification,
     );
   }
 }

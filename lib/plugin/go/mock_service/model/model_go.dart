@@ -3,7 +3,7 @@ import 'mock_service_info.dart';
 ///
 class ModelGo {
   //
-  List<String> fromGoHostList(Map<dynamic, dynamic> json) {
+  static List<String> fromGoHostList(Map<dynamic, dynamic> json) {
     final List<String> list = [];
 
     // 对应Go端的Map键
@@ -17,7 +17,7 @@ class ModelGo {
   }
 
   //
-  List<MockServiceInfo> fromGoInfoList(Map<dynamic, dynamic> json) {
+  static List<MockServiceInfo> fromGoInfoList(Map<dynamic, dynamic> json) {
     final List<MockServiceInfo> list = [];
 
     // 对应Go端的Map键
@@ -31,7 +31,7 @@ class ModelGo {
   }
 
   //
-  List<String> fromGoResponseList(Map<dynamic, dynamic> json) {
+  static List<String> fromGoResponseList(Map<dynamic, dynamic> json) {
     final List<String> list = [];
 
     // 对应Go端的Map键

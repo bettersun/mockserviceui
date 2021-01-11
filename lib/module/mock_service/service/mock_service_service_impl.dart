@@ -438,4 +438,30 @@ class MockServiceServiceImpl extends MockServiceService {
 
     return info;
   }
+
+  /// 接收Go端通知
+  @override
+  MockServiceView notify(MockServiceView view, MockServiceNotifiedEvent e) {
+    final List<String> notification = [];
+
+    // 添加现有通知
+    view.notification.map((v) {
+      notification.add(v);
+    }).toList();
+
+    // 添加新的通知
+    notification.add(e.notification);
+
+    return view.copyWith(
+      notification: notification,
+    );
+  }
+
+  /// 显示/隐藏通知
+  @override
+  MockServiceView showNotification(MockServiceView view) {
+    return view.copyWith(
+      visibleNotification: !view.visibleNotification,
+    );
+  }
 }
