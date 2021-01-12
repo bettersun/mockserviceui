@@ -16,6 +16,9 @@ class MockServiceServiceImpl extends MockServiceService {
   Future<MockServiceView> init() async {
     final MockServicePlugin plugin = container<MockServicePlugin>();
 
+    // 加载(配置及输入文件)
+    await plugin.load();
+
     // 目标主机列表
     final List<String> targetHostList = await plugin.targetHostList();
 
@@ -66,8 +69,8 @@ class MockServiceServiceImpl extends MockServiceService {
   @override
   Future<MockServiceView> reload() async {
     final MockServicePlugin plugin = container<MockServicePlugin>();
-    // 重新加载(配置及输入文件)
-    await plugin.reload();
+    // 加载(配置及输入文件)
+    await plugin.load();
 
     // 目标主机列表
     final List<String> targetHostList = await plugin.targetHostList();

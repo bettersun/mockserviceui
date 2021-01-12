@@ -5,7 +5,6 @@ import 'package:mockserviceui/plugin/go/mock_service/model/mock_service_info.dar
 import 'mock_service_plugin.dart';
 
 class MockServicePluginImplMock extends MockServicePlugin {
-  /// 获取目标主机列表
   @override
   Future<List<String>> targetHostList() async {
     final List<String> list = [];
@@ -20,7 +19,6 @@ class MockServicePluginImplMock extends MockServicePlugin {
     return list;
   }
 
-  /// 获取模拟服务信息列表
   @override
   Future<List<MockServiceInfo>> mockServiceInfoList() async {
     final List<MockServiceInfo> list = [];
@@ -64,23 +62,20 @@ class MockServicePluginImplMock extends MockServicePlugin {
     return list;
   }
 
-  /// 运行服务
   @override
   Future<String> runService() async {
     final String result = await channel.invokeMethod('run');
     return result;
   }
 
-  /// 关闭服务
   @override
   Future<bool> closeService() async {
     final bool result = await channel.invokeMethod('close');
     return result;
   }
 
-  /// 重新加载(配置及输入文件)
   @override
-  Future<bool> reload() {
+  Future<bool> load() {
     throw UnimplementedError();
   }
 

@@ -12,7 +12,7 @@ abstract class MockServicePlugin {
 
   final funcNameRun = 'run';
   final funcNameClose = 'close';
-  final funcNameReload = 'reload';
+  final funcNameLoad = "load";
   final funcNameIsRunning = 'IsRunning';
 
   final funcNameUpdateInfo = 'updateInfo';
@@ -37,8 +37,8 @@ abstract class MockServicePlugin {
   /// 关闭服务
   Future<bool> closeService();
 
-  /// 重新加载(配置及输入文件)
-  Future<bool> reload();
+  /// 加载(配置及输入文件)
+  Future<bool> load();
 
   /// 运行中状态
   Future<bool> isRunning();

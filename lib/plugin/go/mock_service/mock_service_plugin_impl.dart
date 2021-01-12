@@ -38,10 +38,10 @@ class MockServicePluginImpl extends MockServicePlugin {
     return result;
   }
 
-  /// 重新加载(配置及输入文件)
+  /// 加载(配置及输入文件)
   @override
-  Future<bool> reload() async {
-    final bool result = await channel.invokeMethod(funcNameReload);
+  Future<bool> load() async {
+    final bool result = await channel.invokeMethod(funcNameLoad);
     if (!result) {
       print('保存失败');
     }
