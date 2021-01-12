@@ -60,26 +60,28 @@ class _MockServicePageState extends State<MockServicePage> {
                 title: Text('模拟服务'),
                 centerTitle: true,
                 actions: [
+                  // TODO 暂不显示通知
+                  Container()
                   // 显示通知
-                  state.view.notification.isEmpty
-                      ? Container()
-                      : Container(
-                          padding: EdgeInsets.only(right: 40),
-                          child: IconButton(
-                            icon: Icon(
-                              state.view.visibleNotification
-                                  ? Icons.close_outlined
-                                  : Icons.info,
-                              color: colorNotificationIcon,
-                              size: 30,
-                            ),
-                            onPressed: () async {
-                              // 触发事件
-                              BlocProvider.of<MockServiceBloc>(context)
-                                  .add(MockServiceShowNotificationEvent());
-                            },
-                          ),
-                        ),
+                  // state.view.notification.isEmpty
+                  //     ? Container()
+                  //     : Container(
+                  //         padding: EdgeInsets.only(right: 40),
+                  //         child: IconButton(
+                  //           icon: Icon(
+                  //             state.view.visibleNotification
+                  //                 ? Icons.close_outlined
+                  //                 : Icons.info,
+                  //             color: colorNotificationIcon,
+                  //             size: 30,
+                  //           ),
+                  //           onPressed: () async {
+                  //             // 触发事件
+                  //             BlocProvider.of<MockServiceBloc>(context)
+                  //                 .add(MockServiceShowNotificationEvent());
+                  //           },
+                  //         ),
+                  //       ),
                 ],
               ),
               preferredSize: Size.fromHeight(ThemeConst.heightAppBar),
