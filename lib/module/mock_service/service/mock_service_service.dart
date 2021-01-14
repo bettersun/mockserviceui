@@ -8,7 +8,7 @@ abstract class MockServiceService {
   Future<MockServiceView> init();
 
   /// 重新加载(配置及输入文件)
-  Future<MockServiceView> reload();
+  Future<MockServiceView> reload(MockServiceView view);
 
   /// 保存(配置及输入文件)
   Future<MockServiceView> save(MockServiceView view);
@@ -43,8 +43,12 @@ abstract class MockServiceService {
   /// 搜索
   MockServiceView search(MockServiceView view, MockServiceSearchEvent e);
 
-  /// 接收Go端通知
+  /// 接收Go端通知表示信息
   MockServiceView notify(MockServiceView view, MockServiceNotifiedEvent e);
+
+  /// 接收Go端通知添加新的模拟服务信息
+  MockServiceView addMockServiceInfo(
+      MockServiceView view, MockServiceAddMockServiceInfoEvent e);
 
   /// 显示/隐藏通知
   MockServiceView showNotification(MockServiceView view);

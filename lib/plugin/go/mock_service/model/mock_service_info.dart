@@ -1,7 +1,7 @@
 /// 模拟服务信息(对应Go端的MockServiceInfo结构体)
 class MockServiceInfo {
-  /// URI
-  String uri;
+  /// URL
+  String url;
 
   /// HTTP请求方法
   String method;
@@ -28,7 +28,7 @@ class MockServiceInfo {
     this.useDefaultTargetHost = false,
     this.useMockService = false,
     this.targetHost = '',
-    this.uri = '',
+    this.url = '',
     this.method = '',
     this.statusCode = 0,
     this.responseFile = '',
@@ -39,7 +39,7 @@ class MockServiceInfo {
     useDefaultTargetHost = json['useDefaultTargetHost'] as bool;
     useMockService = json['useMockService'] as bool;
     targetHost = json['targetHost'] as String;
-    uri = json['uri'] as String;
+    url = json['url'] as String;
     method = json['method'] as String;
     statusCode = (json['statusCode'] as double).toInt();
     responseFile = json['responseFile'] as String;
@@ -52,7 +52,7 @@ class MockServiceInfo {
     data['useDefaultTargetHost'] = useDefaultTargetHost;
     data['useMockService'] = useMockService;
     data['targetHost'] = targetHost;
-    data['uri'] = uri;
+    data['url'] = url;
     data['method'] = method;
     data['statusCode'] = statusCode;
     data['responseFile'] = responseFile;

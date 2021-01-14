@@ -9,7 +9,7 @@ class MockServiceUtil {
   //     useMockService: v.useMockService,
   //     currentTargetHost: v.currentTargetHost,
   //     targetHost: v.targetHost,
-  //     uri: v.uri,
+  //     url: v.url,
   //     method: v.method,
   //     statusCode: v.statusCode,
   //     responseFile: v.responseFile,

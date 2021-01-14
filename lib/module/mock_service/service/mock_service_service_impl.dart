@@ -1,7 +1,7 @@
 import 'package:kiwi/kiwi.dart';
-import 'package:mockserviceui/plugin/go/plugin.dart';
 
-import '../..//biz/const/http_const.dart';
+import '../../../plugin/go/plugin.dart';
+import '../../biz/const/http_const.dart';
 import '../bloc/mock_service_event.dart';
 import '../const/const.dart';
 import '../vm/vm.dart';
@@ -67,8 +67,9 @@ class MockServiceServiceImpl extends MockServiceService {
 
   /// 重新加载(配置及输入文件)
   @override
-  Future<MockServiceView> reload() async {
+  Future<MockServiceView> reload(MockServiceView view) async {
     final MockServicePlugin plugin = container<MockServicePlugin>();
+
     // 加载(配置及输入文件)
     await plugin.load();
 
@@ -76,10 +77,8 @@ class MockServiceServiceImpl extends MockServiceService {
     final List<String> targetHostList = await plugin.targetHostList();
 
     // 默认目标主机
-    String defaultTargetHost = '';
-    if (targetHostList.isNotEmpty) {
-      defaultTargetHost = targetHostList[0];
-    }
+    final String defaultTargetHost =
+        targetHostList.isNotEmpty ? targetHostList[0] : '';
 
     // 模拟服务信息列表
     final List<MockServiceInfo> mockServiceInfoList =
@@ -106,20 +105,12 @@ class MockServiceServiceImpl extends MockServiceService {
       infoViewList.add(infoView);
     }
 
-    // 服务运行中标志
-    final bool isRunning = await plugin.isRunning();
-
-    // 服务运行中标志为true时，重新运行下服务(主要用于新添加的URI)
-    if (isRunning) {
-      await plugin.runService();
-    }
-
     final MockServiceView newView = MockServiceView(
       info: '模拟服务信息已重新加载',
       defaultTargetHost: defaultTargetHost,
       targetHostList: targetHostList,
       infoList: infoViewList,
-      isRunning: isRunning,
+      isRunning: view.isRunning,
       allUseDefaultTargetHost: isAllUseDefaultTargetHost,
       allUseMockService: isAllUseMockService,
     );
@@ -143,6 +134,15 @@ class MockServiceServiceImpl extends MockServiceService {
   @override
   Future<MockServiceView> toggleService(MockServiceView view) async {
     final MockServicePlugin plugin = container<MockServicePlugin>();
+
+    // 默认目标主机未设置且模拟服务信息不存在时，无法开启服务
+    if (view.defaultTargetHost.isEmpty && view.infoList.isEmpty) {
+      final MockServiceView newView = view.copyWith(
+        info: '默认目标主机未设置且模拟服务信息不存在时，无法开启服务',
+      );
+
+      return newView;
+    }
 
     bool isRunning;
     if (view.isRunning) {
@@ -204,7 +204,7 @@ class MockServiceServiceImpl extends MockServiceService {
     bool isAllUseDefaultTargetHost = true;
     bool isAllUseMockService = true;
     for (final MockServiceInfoView v in view.infoList) {
-      if (v.uri == e.infoView.uri && v.method == e.infoView.method) {
+      if (v.url == e.infoView.url && v.method == e.infoView.method) {
         // 使用默认目标主机的值发生改变
         final bool isUseDefaultTargetHostChanged =
             e.key == MockServiceItemKey.infoListUseDefaultTargetHost;
@@ -278,7 +278,7 @@ class MockServiceServiceImpl extends MockServiceService {
     final List<MockServiceInfoView> infoList = [];
 
     for (final MockServiceInfoView infoView in view.infoList) {
-      if (infoView.uri == e.infoView.uri &&
+      if (infoView.url == e.infoView.url &&
           infoView.method == e.infoView.method) {
         // 当前使用的目标主机
         final String currentTargetHost = e.infoView.useDefaultTargetHost
@@ -326,9 +326,9 @@ class MockServiceServiceImpl extends MockServiceService {
     final List<MockServiceInfoView> infoList = [];
 
     for (final MockServiceInfoView infoView in view.infoList) {
-      // 搜索关键字为空 或者 URI 包含搜索关键字时，可见。
+      // 搜索关键字为空 或者 URL 包含搜索关键字时，可见。
       final bool isSearchResult = e.keyword.trim().isEmpty ||
-          infoView.uri.contains(e.keyword.trim()) ||
+          infoView.url.contains(e.keyword.trim()) ||
           infoView.description.contains(e.keyword.trim());
 
       final MockServiceInfoView newInfoView =
@@ -411,7 +411,7 @@ class MockServiceServiceImpl extends MockServiceService {
     }
 
     return MockServiceInfoView(
-      uri: model.uri ?? '',
+      url: model.url ?? '',
       method: model.method ?? '',
       targetHost: model.targetHost ?? '',
       currentTargetHost: currentTargetHost,
@@ -429,7 +429,7 @@ class MockServiceServiceImpl extends MockServiceService {
   /// 模拟服务信息View 转换为 模拟服务信息
   MockServiceInfo fromMockServiceInfoView(MockServiceInfoView view) {
     final MockServiceInfo info = MockServiceInfo(
-      uri: view.uri,
+      url: view.url,
       method: view.method,
       targetHost: view.targetHost,
       useDefaultTargetHost: view.useDefaultTargetHost,
@@ -442,7 +442,7 @@ class MockServiceServiceImpl extends MockServiceService {
     return info;
   }
 
-  /// 接收Go端通知
+  /// 接收Go端通知表示信息
   @override
   MockServiceView notify(MockServiceView view, MockServiceNotifiedEvent e) {
     final List<String> notification = [];
@@ -458,6 +458,27 @@ class MockServiceServiceImpl extends MockServiceService {
     return view.copyWith(
       notification: notification,
     );
+  }
+
+  /// 接收Go端通知添加新的模拟服务信息
+  @override
+  MockServiceView addMockServiceInfo(
+      MockServiceView view, MockServiceAddMockServiceInfoEvent e) {
+    final MockServiceInfo info = MockServiceInfo.fromJson(e.info);
+
+    final MockServiceInfoView infoView =
+        fromMockServiceInfo(info, view.defaultTargetHost);
+
+    final List<MockServiceInfoView> newInfoList = [];
+
+    // 添加现有模拟服务信息View
+    view.infoList.map((v) {
+      newInfoList.add(v);
+    }).toList();
+
+    newInfoList.add(infoView);
+
+    return view.copyWith(infoList: newInfoList);
   }
 
   /// 显示/隐藏通知

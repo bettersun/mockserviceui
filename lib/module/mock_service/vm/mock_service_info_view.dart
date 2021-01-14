@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 
 /// 模拟服务信息View
 class MockServiceInfoView extends Equatable {
-  /// URI
-  final String uri;
+  /// URL
+  final String url;
 
   /// HTTP请求方法
   final String method;
@@ -41,11 +41,10 @@ class MockServiceInfoView extends Equatable {
   final bool visible;
 
   const MockServiceInfoView({
-    this.uri = '',
+    this.url = '',
     this.method = '',
     this.targetHost = '',
     this.currentTargetHost = '',
-    // this.defaultTargetHost = '',
     this.useDefaultTargetHost = false,
     this.useMockService = false,
     this.statusCode = 0,
@@ -57,11 +56,10 @@ class MockServiceInfoView extends Equatable {
 
   @override
   List<Object> get props => [
-        uri,
+        url,
         method,
         targetHost,
         currentTargetHost,
-        // defaultTargetHost,
         useDefaultTargetHost,
         useMockService,
         statusCode,
@@ -72,11 +70,10 @@ class MockServiceInfoView extends Equatable {
       ];
 
   MockServiceInfoView copyWith({
-    String uri,
+    String url,
     String method,
     String targetHost,
     String currentTargetHost,
-    // String defaultTargetHost,
     bool useDefaultTargetHost,
     bool useMockService,
     int statusCode,
@@ -86,11 +83,10 @@ class MockServiceInfoView extends Equatable {
     bool visible,
   }) {
     return MockServiceInfoView(
-      uri: uri ?? this.uri,
+      url: url ?? this.url,
       method: method ?? this.method,
       targetHost: targetHost ?? this.targetHost,
       currentTargetHost: currentTargetHost ?? this.currentTargetHost,
-      // defaultTargetHost: defaultTargetHost ?? this.defaultTargetHost,
       useDefaultTargetHost: useDefaultTargetHost ?? this.useDefaultTargetHost,
       useMockService: useMockService ?? this.useMockService,
       statusCode: statusCode ?? this.statusCode,

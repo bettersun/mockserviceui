@@ -34,7 +34,8 @@ class MockServiceBloc extends Bloc<MockServiceEvent, MockServiceState> {
 
     // 重载
     if (event is MockServiceReloadEvent) {
-      final MockServiceView view = await service.reload();
+      final MockServiceDoneState nowState = state as MockServiceDoneState;
+      final MockServiceView view = await service.reload(nowState.view);
       yield MockServiceDoneState(view: view);
     }
 
@@ -100,10 +101,18 @@ class MockServiceBloc extends Bloc<MockServiceEvent, MockServiceState> {
       yield MockServiceDoneState(view: view);
     }
 
-    // 接收Go端通知
+    // 接收Go端通知表示信息
     if (event is MockServiceNotifiedEvent) {
       final MockServiceDoneState nowState = state as MockServiceDoneState;
       final MockServiceView view = service.notify(nowState.view, event);
+      yield MockServiceDoneState(view: view);
+    }
+
+    // 接收Go端通知添加新的模拟服务信息
+    if (event is MockServiceAddMockServiceInfoEvent) {
+      final MockServiceDoneState nowState = state as MockServiceDoneState;
+      final MockServiceView view =
+          service.addMockServiceInfo(nowState.view, event);
       yield MockServiceDoneState(view: view);
     }
 

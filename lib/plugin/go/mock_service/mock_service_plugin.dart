@@ -12,7 +12,7 @@ abstract class MockServicePlugin {
 
   final funcNameRun = 'run';
   final funcNameClose = 'close';
-  final funcNameLoad = "load";
+  final funcNameLoad = 'load';
   final funcNameIsRunning = 'IsRunning';
 
   final funcNameUpdateInfo = 'updateInfo';
@@ -23,7 +23,11 @@ abstract class MockServicePlugin {
   final funcNameInfolist = 'infolist';
   final funcNameResponselist = 'responselist';
 
+  // 接收Go端通知表示信息
   final funcNameNotify = 'notify';
+
+  // 接收Go端消息的方法，添加新的模拟服务信息
+  final funcNameNotifyAddMockServiceInfo = 'notifyAddMockServiceInfo';
 
   /// 获取目标主机列表
   Future<List<String>> targetHostList();
@@ -40,9 +44,6 @@ abstract class MockServicePlugin {
   /// 加载(配置及输入文件)
   Future<bool> load();
 
-  /// 运行中状态
-  Future<bool> isRunning();
-
   /// 更新模拟服务信息
   Future<bool> updateInfo(MockServiceInfo info);
 
@@ -53,5 +54,5 @@ abstract class MockServicePlugin {
   Future<bool> saveInfo();
 
   /// 获取响应文件列表
-  Future<List<String>> responseFileList(String uri, String method);
+  Future<List<String>> responseFileList(String url, String method);
 }

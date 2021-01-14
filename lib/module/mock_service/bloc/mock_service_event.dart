@@ -1,4 +1,4 @@
-import 'package:mockserviceui/module/mock_service/vm/vm.dart';
+import '../vm/vm.dart';
 
 /// 模拟服务Event
 abstract class MockServiceEvent {}
@@ -116,7 +116,7 @@ class MockServiceSearchEvent extends MockServiceEvent {
   String toString() => 'MockServiceSearchEvent';
 }
 
-/// 接收Go端通知Event
+/// 接收Go端通知表示信息Event
 class MockServiceNotifiedEvent extends MockServiceEvent {
   ///  通知
   final String notification;
@@ -125,6 +125,17 @@ class MockServiceNotifiedEvent extends MockServiceEvent {
 
   @override
   String toString() => 'MockServiceNotifiedEvent';
+}
+
+/// 接收Go端通知添加新的模拟服务信息Event
+class MockServiceAddMockServiceInfoEvent extends MockServiceEvent {
+  ///  模拟服务信息Map
+  final Map info;
+
+  MockServiceAddMockServiceInfoEvent({this.info});
+
+  @override
+  String toString() => 'MockServiceAddMockServiceInfoEvent';
 }
 
 /// 显示通知Event

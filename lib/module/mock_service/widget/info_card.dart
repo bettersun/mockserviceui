@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mockserviceui/common/const/const.dart';
 
+import '../../../common/const/const.dart';
 import '../../info_detail/info_detail_page.dart';
 import '../../mock_service/const/const.dart';
 import '../bloc/bloc.dart';
@@ -55,10 +55,10 @@ class InfoCard extends StatelessWidget {
                       child: Text(infoView.description),
                     ),
                     Tooltip(
-                      message: 'URI',
+                      message: 'URL',
                       preferBelow: false,
                       verticalOffset: 10,
-                      child: Text(infoView.uri),
+                      child: Text(infoView.url),
                     ),
                   ],
                 ),

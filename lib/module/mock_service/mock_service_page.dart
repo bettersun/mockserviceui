@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:mockserviceui/plugin/go/plugin.dart';
 
 import '../../common/const/const.dart';
+import '../../plugin/go/plugin.dart';
 import 'bloc/bloc.dart';
 import 'widget/widget.dart';
 
@@ -32,11 +32,20 @@ class _MockServicePageState extends State<MockServicePage> {
     final MockServicePlugin plugin = container<MockServicePlugin>();
     // 监听Go端发过来的消息
     plugin.channel.setMethodCallHandler((MethodCall methodCall) async {
+      // 接收通知表示消息
       if (methodCall.method == plugin.funcNameNotify) {
         final String notification = methodCall.arguments as String;
 
         // 触发事件
         _bloc.add(MockServiceNotifiedEvent(notification: notification));
+      }
+
+      // 接收通知添加新的模拟服务信息
+      if (methodCall.method == plugin.funcNameNotifyAddMockServiceInfo) {
+        final Map info = methodCall.arguments as Map;
+
+        // 触发事件
+        _bloc.add(MockServiceAddMockServiceInfoEvent(info: info));
       }
     });
   }
@@ -60,28 +69,27 @@ class _MockServicePageState extends State<MockServicePage> {
                 title: Text('模拟服务'),
                 centerTitle: true,
                 actions: [
-                  // TODO 暂不显示通知
-                  Container()
                   // 显示通知
-                  // state.view.notification.isEmpty
-                  //     ? Container()
-                  //     : Container(
-                  //         padding: EdgeInsets.only(right: 40),
-                  //         child: IconButton(
-                  //           icon: Icon(
-                  //             state.view.visibleNotification
-                  //                 ? Icons.close_outlined
-                  //                 : Icons.info,
-                  //             color: colorNotificationIcon,
-                  //             size: 30,
-                  //           ),
-                  //           onPressed: () async {
-                  //             // 触发事件
-                  //             BlocProvider.of<MockServiceBloc>(context)
-                  //                 .add(MockServiceShowNotificationEvent());
-                  //           },
-                  //         ),
-                  //       ),
+                  if (state.view.notification.isEmpty)
+                    Container()
+                  else
+                    Container(
+                      padding: EdgeInsets.only(right: 40),
+                      child: IconButton(
+                        icon: Icon(
+                          state.view.visibleNotification
+                              ? Icons.close_outlined
+                              : Icons.info,
+                          color: colorNotificationIcon,
+                          size: 30,
+                        ),
+                        onPressed: () async {
+                          // 触发事件
+                          BlocProvider.of<MockServiceBloc>(context)
+                              .add(MockServiceShowNotificationEvent());
+                        },
+                      ),
+                    ),
                 ],
               ),
               preferredSize: Size.fromHeight(ThemeConst.heightAppBar),

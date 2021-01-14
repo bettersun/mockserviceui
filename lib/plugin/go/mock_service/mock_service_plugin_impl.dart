@@ -33,7 +33,7 @@ class MockServicePluginImpl extends MockServicePlugin {
   Future<bool> closeService() async {
     final bool result = await channel.invokeMethod(funcNameClose);
     if (!result) {
-      print('服务关闭失败');
+      print('关闭服务失败');
     }
     return result;
   }
@@ -43,7 +43,7 @@ class MockServicePluginImpl extends MockServicePlugin {
   Future<bool> load() async {
     final bool result = await channel.invokeMethod(funcNameLoad);
     if (!result) {
-      print('保存失败');
+      print('加载失败');
     }
     return result;
   }
@@ -85,18 +85,11 @@ class MockServicePluginImpl extends MockServicePlugin {
     return result;
   }
 
-  /// 运行中状态
-  @override
-  Future<bool> isRunning() async {
-    final bool result = await channel.invokeMethod(funcNameIsRunning);
-    return result;
-  }
-
   /// 获取响应文件列表
   @override
-  Future<List<String>> responseFileList(String uri, String method) async {
+  Future<List<String>> responseFileList(String url, String method) async {
     final Map mParams = {};
-    mParams['uri'] = uri;
+    mParams['url'] = url;
     mParams['method'] = method;
 
     final Map m = await channel.invokeMethod(funcNameResponselist, mParams);

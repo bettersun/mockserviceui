@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:mockserviceui/plugin/go/mock_service/model/mock_service_info.dart';
-
 import 'mock_service_plugin.dart';
+import 'model/mock_service_info.dart';
 
 class MockServicePluginImplMock extends MockServicePlugin {
   @override
@@ -26,7 +25,7 @@ class MockServicePluginImplMock extends MockServicePlugin {
     final MockServiceInfo info = MockServiceInfo(
       targetHost: 'http://127.0.0.1:8012',
       useDefaultTargetHost: true,
-      uri: '/bettersun',
+      url: '/bettersun',
       useMockService: false,
       responseFile: '/json/bettersun.json',
     );
@@ -34,7 +33,7 @@ class MockServicePluginImplMock extends MockServicePlugin {
     final MockServiceInfo info1 = MockServiceInfo(
       targetHost: 'http://127.0.0.1:8012',
       useDefaultTargetHost: false,
-      uri: '/bettersun/hello',
+      url: '/bettersun/hello',
       useMockService: false,
       responseFile: '/json/hello.json',
     );
@@ -42,7 +41,7 @@ class MockServicePluginImplMock extends MockServicePlugin {
     final MockServiceInfo info2 = MockServiceInfo(
       targetHost: 'http://127.0.0.1:8012',
       useDefaultTargetHost: true,
-      uri: '/bettersun/goodbye',
+      url: '/bettersun/goodbye',
       useMockService: true,
       responseFile: '/json/goodbye.json',
     );
@@ -85,12 +84,7 @@ class MockServicePluginImplMock extends MockServicePlugin {
   }
 
   @override
-  Future<bool> isRunning() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<String>> responseFileList(String uri, String method) {
+  Future<List<String>> responseFileList(String url, String method) {
     throw UnimplementedError();
   }
 

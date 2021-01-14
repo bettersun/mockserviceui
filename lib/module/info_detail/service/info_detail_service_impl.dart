@@ -1,5 +1,5 @@
 import 'package:kiwi/kiwi.dart';
-import 'package:mockserviceui/plugin/go/plugin.dart';
+import '../../../plugin/go/plugin.dart';
 
 import '../../biz/util/mock_service_util.dart';
 import '../bloc/bloc.dart';
@@ -20,7 +20,7 @@ class InfoDetailServiceImpl extends InfoDetailService {
     // 获取响应文件列表
     final MockServicePlugin plugin = container<MockServicePlugin>();
     final List<String> responseFileList =
-        await plugin.responseFileList(e.infoView.uri, e.infoView.method);
+        await plugin.responseFileList(e.infoView.url, e.infoView.method);
 
     // 响应文件View列表
     final List<DetailResponseView> responseList = [];
@@ -39,7 +39,7 @@ class InfoDetailServiceImpl extends InfoDetailService {
         : e.infoView.targetHost;
 
     final InfoDetailView view = InfoDetailView(
-      uri: e.infoView.uri,
+      url: e.infoView.url,
       method: e.infoView.method,
       targetHost: e.infoView.targetHost,
       currentTargetHost: currentTargetHost,
@@ -61,11 +61,11 @@ class InfoDetailServiceImpl extends InfoDetailService {
       InfoDetailView view, InfoDetailChangeItemValueEvent e) async {
     InfoDetailView newView = view;
 
-    // URI
-    String uri = '';
-    if (e.key == InfoDetailItemKey.uri) {
-      uri = (e.newVal as String) ?? '';
-      newView = view.copyWith(uri: uri);
+    // URL
+    String url = '';
+    if (e.key == InfoDetailItemKey.url) {
+      url = (e.newVal as String) ?? '';
+      newView = view.copyWith(url: url);
     }
 
     // 目标主机
@@ -148,7 +148,7 @@ class InfoDetailServiceImpl extends InfoDetailService {
     // 获取响应文件列表
     final MockServicePlugin plugin = container<MockServicePlugin>();
     final List<String> responseFileList =
-        await plugin.responseFileList(view.uri, view.method);
+        await plugin.responseFileList(view.url, view.method);
 
     // 响应文件View列表
     final List<DetailResponseView> responseList = [];
@@ -173,7 +173,7 @@ class InfoDetailServiceImpl extends InfoDetailService {
     // 通知Go端更新
     final MockServicePlugin plugin = container<MockServicePlugin>();
     final MockServiceInfo info = MockServiceInfo(
-      uri: view.uri,
+      url: view.url,
       method: view.method,
       targetHost: view.targetHost,
       useDefaultTargetHost: view.useDefaultTargetHost,

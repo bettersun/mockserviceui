@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mockserviceui/common/const/const.dart';
 
+import '../../../common/const/const.dart';
 import '../bloc/bloc.dart';
 import '../vm/vm.dart';
 

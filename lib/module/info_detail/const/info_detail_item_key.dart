@@ -1,6 +1,6 @@
 class InfoDetailItemKey {
-  /// URI
-  static const String uri = 'uri';
+  /// URL
+  static const String url = 'url';
 
   /// 使用默认目标主机
   static const String useDefaultTargetHost = 'useDefaultTargetHost';

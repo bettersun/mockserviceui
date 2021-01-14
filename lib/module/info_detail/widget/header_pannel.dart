@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mockserviceui/common/const/const.dart';
+import '../../../common/const/const.dart';
 
 import '../bloc/bloc.dart';
 import '../const/const.dart';
@@ -21,8 +21,8 @@ class HeaderPanel extends StatefulWidget {
 
 /// 画面State
 class _HeaderPanelState extends State<HeaderPanel> {
-  // URI
-  final TextEditingController _uriCtrlr = TextEditingController();
+  // URL
+  final TextEditingController _urlCtrlr = TextEditingController();
   // 请求方法
   final TextEditingController _methodCtrlr = TextEditingController();
   // 目标主机
@@ -38,8 +38,8 @@ class _HeaderPanelState extends State<HeaderPanel> {
   @override
   void initState() {
     super.initState();
-    // URI
-    _uriCtrlr.text = widget.view.uri;
+    // URL
+    _urlCtrlr.text = widget.view.url;
     // 请求方法
     _methodCtrlr.text = widget.view.method;
     // 目标主机
@@ -119,9 +119,9 @@ class _HeaderPanelState extends State<HeaderPanel> {
                       color: ThemeConst.colorDisabled,
                     ),
                     decoration: InputDecoration(
-                      labelText: 'URI',
+                      labelText: 'URL',
                     ),
-                    controller: _uriCtrlr,
+                    controller: _urlCtrlr,
                   ),
                 ),
               ),

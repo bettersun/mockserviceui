@@ -52,7 +52,7 @@ class _InfoDetailPageState extends State<InfoDetailPage> {
                   onPressed: () {
                     // 模拟服务信息详细View转模拟服务信息View
                     final MockServiceInfoView infoView = MockServiceInfoView(
-                      uri: state.view.uri,
+                      url: state.view.url,
                       method: state.view.method,
                       targetHost: state.view.targetHost,
                       currentTargetHost: state.view.currentTargetHost,

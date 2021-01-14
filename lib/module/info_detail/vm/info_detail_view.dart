@@ -7,8 +7,8 @@ class InfoDetailView extends Equatable {
   /// 运行时信息
   final String info;
 
-  /// URI
-  final String uri;
+  /// URL
+  final String url;
 
   /// HTTP请求方法
   final String method;
@@ -47,7 +47,7 @@ class InfoDetailView extends Equatable {
 
   const InfoDetailView({
     this.info = '',
-    this.uri = '',
+    this.url = '',
     this.method = '',
     this.targetHost = '',
     this.currentTargetHost = '',
@@ -64,7 +64,7 @@ class InfoDetailView extends Equatable {
   @override
   List<Object> get props => [
         info,
-        uri,
+        url,
         method,
         targetHost,
         currentTargetHost,
@@ -80,7 +80,7 @@ class InfoDetailView extends Equatable {
 
   InfoDetailView copyWith({
     String info,
-    String uri,
+    String url,
     String method,
     String targetHost,
     String currentTargetHost,
@@ -95,7 +95,7 @@ class InfoDetailView extends Equatable {
   }) {
     return InfoDetailView(
       info: info ?? this.info,
-      uri: uri ?? this.uri,
+      url: url ?? this.url,
       method: method ?? this.method,
       targetHost: targetHost ?? this.targetHost,
       currentTargetHost: currentTargetHost ?? this.currentTargetHost,
