@@ -215,14 +215,22 @@ class MockServiceServiceImpl extends MockServiceService {
         if (isUseDefaultTargetHostChanged && (e.newVal as bool)) {
           currentTargetHost = view.defaultTargetHost;
         }
-        // 使用默认目标主机的值发生改变 并且 不使用默认目标主机时，当前使用的目标主机 设置为 当前数据的 目标主机
+        // 使用默认目标主机的值发生改变 并且 不使用默认目标主机时，
         if (isUseDefaultTargetHostChanged && !(e.newVal as bool)) {
+          // 当前使用的目标主机 设置为 当前数据的 目标主机
           currentTargetHost = v.targetHost;
+          // 全部使用默认目标主机标志设为 false
+          isAllUseDefaultTargetHost = false;
         }
 
-        // 使用默认目标主机的值发生改变
-        final bool istUseMockServiceChanged =
+        // 使用模拟服务的值发生改变
+        final bool isUseMockServiceChanged =
             e.key == MockServiceItemKey.infoListUseMockService;
+        // 使用模拟服务的值发生改变，且变更后的值为false
+        if (isUseMockServiceChanged && !(e.newVal as bool)) {
+          // 全部使用模拟服务标志设为 false
+          isAllUseMockService = false;
+        }
 
         // 响应状态码发生改变
         int statusCode = v.statusCode;
@@ -236,7 +244,7 @@ class MockServiceServiceImpl extends MockServiceService {
               : v.useDefaultTargetHost,
           currentTargetHost: currentTargetHost,
           useMockService:
-              istUseMockServiceChanged ? e.newVal as bool : v.useMockService,
+              isUseMockServiceChanged ? e.newVal as bool : v.useMockService,
           statusCode: statusCode,
         );
 
@@ -247,18 +255,18 @@ class MockServiceServiceImpl extends MockServiceService {
         infoList.add(infoView);
       } else {
         infoList.add(v);
-      }
 
-      // 全部使用默认目标主机标志
-      // 有一个为假则为假
-      if (!v.useDefaultTargetHost) {
-        isAllUseDefaultTargetHost = false;
-      }
+        // 全部使用默认目标主机标志
+        // 有一个为假则为假
+        if (!v.useDefaultTargetHost) {
+          isAllUseDefaultTargetHost = false;
+        }
 
-      /// 全部使用模拟服务标志
-      // 有一个为假则为假
-      if (!v.useMockService) {
-        isAllUseMockService = false;
+        /// 全部使用模拟服务标志
+        // 有一个为假则为假
+        if (!v.useMockService) {
+          isAllUseMockService = false;
+        }
       }
     }
 
