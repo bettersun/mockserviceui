@@ -11,6 +11,8 @@ require (
 // 使用本地目录改写依赖
 replace github.com/bettersun/moist => ../../moist
 
+replace github.com/bettersun/moist/yaml => ../../moist/yaml
+
 replace github.com/bettersun/mockservice => ../../mockservice
 
 replace github.com/bettersun/mockservice/channel => ../../mockservice/channel
