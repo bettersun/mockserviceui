@@ -50,7 +50,6 @@ class _ResponseCardState extends State<ResponseCard> {
           borderRadius: BorderRadius.all(Radius.circular(2.0)),
           color: widget.index % 2 == 0 ? Colors.transparent : Colors.blue[50],
         ),
-        height: 30,
         child: Row(
           children: [
             Container(
@@ -77,6 +76,7 @@ class _ResponseCardState extends State<ResponseCard> {
                     groupValue: widget.responseFile,
                     value: widget.responseView.fileName,
                     onChanged: (value) {
+                      // 触发事件
                       BlocProvider.of<InfoDetailBloc>(context)
                           .add(InfoDetailChangeListValueEvent(
                         key: InfoDetailItemKey.responseListIsResponse,
@@ -89,91 +89,67 @@ class _ResponseCardState extends State<ResponseCard> {
               ),
             ),
             Container(
-                margin: EdgeInsets.only(
-                    left: ThemeConst.sideWidth, right: ThemeConst.sideWidth),
-                child: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    showRenameDialog();
-
-                    // BlocProvider.of<InfoDetailBloc>(context)
-                    //     .add(InfoDetailChangeListValueEvent(
-                    //   key: InfoDetailItemKey.responseListIsResponse,
-                    //   index: widget.index,
-                    // ));
-                  },
-                )
-
-                // Row(
-                //   children: [
-                //     Text('设为响应'),
-                //     Radio(
-                //       groupValue: responseFile,
-                //       value: responseView.fileName,
-                //       onChanged: (value) {
-                //         BlocProvider.of<InfoDetailBloc>(context)
-                //             .add(InfoDetailChangeListValueEvent(
-                //           key: InfoDetailItemKey.responseListIsResponse,
-                //           widget.index: widget.index,
-                //           newVal: value,
-                //         ));
-                //       },
-                //     ),
-                //   ],
-                // ),
-                ),
+              child: IconButton(
+                icon: Icon(Icons.edit, color: Colors.blue[400]),
+                onPressed: () async {
+                  // 显示重命名对话框
+                  await showRenameDialog();
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  void showRenameDialog() async {
+  // 显示重命名对话框
+  Future<void> showRenameDialog() async {
     await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('重命名文件'),
-            content: Container(
-              height: 100,
-              width: 500,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      color: Colors.grey[100],
-                      child: Text(widget.responseView.fileName),
-                    ),
-                    TextFormField(
-                      controller: fileNameCtrlr,
-                    ),
-                  ]),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('重命名文件'),
+          content: Container(
+            height: 100,
+            width: 500,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                color: Colors.grey[100],
+                child: Text(widget.responseView.fileName),
+              ),
+              TextFormField(
+                controller: fileNameCtrlr,
+              ),
+            ]),
+          ),
+          actions: <Widget>[
+            RaisedButton(
+              child: Text('取消'),
+              color: Colors.blue[200],
+              textColor: Colors.white,
+              onPressed: () {
+                // 触发事件
+                Navigator.pop(context);
+              },
             ),
-            actions: <Widget>[
-              RaisedButton(
-                child: Text('取消'),
-                color: Colors.blue,
-                textColor: Colors.white,
-                onPressed: () {
-                  // print('取消');
-                  Navigator.pop(context);
-                },
-              ),
-              RaisedButton(
-                child: Text('确定'),
-                color: Colors.blue,
-                textColor: Colors.white,
-                onPressed: () {
-                  // print('确定');
-                  bloc.add(InfoDetailRenameEvent(
-                    responseFile: widget.responseView.responseFile,
-                    newFileName: fileNameCtrlr.value.text,
-                  ));
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
-        });
+            RaisedButton(
+              child: Text('确定'),
+              color: Colors.blue[400],
+              textColor: Colors.white,
+              onPressed: () {
+                // 触发事件
+                bloc.add(InfoDetailRenameEvent(
+                  responseFile: widget.responseView.responseFile,
+                  newFileName: fileNameCtrlr.value.text,
+                ));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

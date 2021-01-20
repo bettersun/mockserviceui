@@ -17,7 +17,7 @@ class MiddlePanel extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       color: Colors.blue[50],
-      height: 30,
+      height: 36,
       padding: EdgeInsets.all(ThemeConst.sideWidth),
       child: Row(
         children: [
