@@ -23,6 +23,8 @@ abstract class MockServicePlugin {
   final funcNameInfolist = 'infolist';
   final funcNameResponselist = 'responselist';
 
+  final funcNameRenameResponseFile = 'renameResponseFile';
+
   // 接收Go端通知表示信息
   final funcNameNotify = 'notify';
 
@@ -55,4 +57,7 @@ abstract class MockServicePlugin {
 
   /// 获取响应文件列表
   Future<List<String>> responseFileList(String url, String method);
+
+  /// 重命名响应文件
+  Future<bool> renameResponseFile(String responseFile, String fileName);
 }

@@ -47,5 +47,13 @@ class InfoDetailBloc extends Bloc<InfoDetailEvent, InfoDetailState> {
       final InfoDetailView view = await service.reloadResponse(nowState.view);
       yield InfoDetailDoneState(view: view);
     }
+
+    // 重命名响应文件
+    if (event is InfoDetailRenameEvent) {
+      final InfoDetailDoneState nowState = state as InfoDetailDoneState;
+      final InfoDetailView view =
+          await service.renameResponseFile(nowState.view, event);
+      yield InfoDetailDoneState(view: view);
+    }
   }
 }

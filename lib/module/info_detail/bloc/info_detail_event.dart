@@ -49,3 +49,17 @@ class InfoDetailReloadResponseEvent extends InfoDetailEvent {
   @override
   String toString() => 'InfoDetailReloadResponseEvent';
 }
+
+/// 重命名文件Event
+class InfoDetailRenameEvent extends InfoDetailEvent {
+  // 响应文件
+  final String responseFile;
+
+  // 新文件名
+  final String newFileName;
+
+  InfoDetailRenameEvent({this.responseFile, this.newFileName});
+
+  @override
+  String toString() => 'InfoDetailRenameEvent';
+}

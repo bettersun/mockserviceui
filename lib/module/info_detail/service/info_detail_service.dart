@@ -17,4 +17,8 @@ abstract class InfoDetailService {
 
   /// 重新加载响应文件列表
   Future<InfoDetailView> reloadResponse(InfoDetailView view);
+
+  /// 重命名响应文件
+  Future<InfoDetailView> renameResponseFile(
+      InfoDetailView view, InfoDetailRenameEvent e);
 }

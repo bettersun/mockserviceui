@@ -97,4 +97,9 @@ class MockServicePluginImplMock extends MockServicePlugin {
   Future<bool> updateAllInfo(List<MockServiceInfo> infoList) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> renameResponseFile(String responseFile, String fileName) {
+    throw UnimplementedError();
+  }
 }

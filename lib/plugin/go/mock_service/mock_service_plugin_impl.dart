@@ -97,4 +97,16 @@ class MockServicePluginImpl extends MockServicePlugin {
 
     return list;
   }
+
+  @override
+  Future<bool> renameResponseFile(String responseFile, String fileName) async {
+    final Map mParams = {};
+    mParams['responseFile'] = responseFile;
+    mParams['fileName'] = fileName;
+
+    final bool result =
+        await channel.invokeMethod(funcNameRenameResponseFile, mParams);
+
+    return result;
+  }
 }

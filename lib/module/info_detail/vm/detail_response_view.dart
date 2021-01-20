@@ -8,12 +8,16 @@ class DetailResponseView extends Equatable {
   /// JSON合法标志
   final bool isJsonValid;
 
+  /// 响应文件
+  final String responseFile;
+
   /// 文件名
   final String fileName;
 
   const DetailResponseView({
     this.isJson = false,
     this.isJsonValid = false,
+    this.responseFile = '',
     this.fileName = '',
   });
 
@@ -21,6 +25,7 @@ class DetailResponseView extends Equatable {
   List<Object> get props => [
         isJson,
         isJsonValid,
+        responseFile,
         fileName,
       ];
 
@@ -28,11 +33,13 @@ class DetailResponseView extends Equatable {
     bool isResponse,
     bool isJson,
     bool isJsonValid,
+    String responseFile,
     String fileName,
   }) {
     return DetailResponseView(
       isJson: isJson ?? this.isJson,
       isJsonValid: isJsonValid ?? this.isJsonValid,
+      responseFile: responseFile ?? this.responseFile,
       fileName: fileName ?? this.fileName,
     );
   }

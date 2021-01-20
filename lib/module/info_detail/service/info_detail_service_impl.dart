@@ -1,4 +1,5 @@
 import 'package:kiwi/kiwi.dart';
+import '../../../common/util/util.dart';
 import '../../../plugin/go/plugin.dart';
 
 import '../../biz/util/mock_service_util.dart';
@@ -18,20 +19,8 @@ class InfoDetailServiceImpl extends InfoDetailService {
     }
 
     // 获取响应文件列表
-    final MockServicePlugin plugin = container<MockServicePlugin>();
-    final List<String> responseFileList =
-        await plugin.responseFileList(e.infoView.url, e.infoView.method);
-
-    // 响应文件View列表
-    final List<DetailResponseView> responseList = [];
-    for (final String responseFile in responseFileList) {
-      final DetailResponseView responseView = DetailResponseView(
-        fileName: responseFile,
-        isJson: true,
-        isJsonValid: true,
-      );
-      responseList.add(responseView);
-    }
+    final List<DetailResponseView> responseList =
+        await loadResponseFile(e.infoView.url, e.infoView.method);
 
     // 使用中的目标主机
     final String currentTargetHost = e.infoView.useDefaultTargetHost
@@ -146,26 +135,40 @@ class InfoDetailServiceImpl extends InfoDetailService {
   @override
   Future<InfoDetailView> reloadResponse(InfoDetailView view) async {
     // 获取响应文件列表
-    final MockServicePlugin plugin = container<MockServicePlugin>();
-    final List<String> responseFileList =
-        await plugin.responseFileList(view.url, view.method);
-
-    // 响应文件View列表
-    final List<DetailResponseView> responseList = [];
-    for (final String responseFile in responseFileList) {
-      final DetailResponseView responseView = DetailResponseView(
-        fileName: responseFile,
-        isJson: true,
-        isJsonValid: true,
-      );
-      responseList.add(responseView);
-    }
+    final List<DetailResponseView> responseList =
+        await loadResponseFile(view.url, view.method);
 
     final InfoDetailView newView = view.copyWith(
       responseList: responseList,
     );
 
     return newView;
+  }
+
+  @override
+  Future<InfoDetailView> renameResponseFile(
+      InfoDetailView view, InfoDetailRenameEvent e) async {
+    final MockServicePlugin plugin = container<MockServicePlugin>();
+
+    // 重命名响应文件
+    final bool result =
+        await plugin.renameResponseFile(e.responseFile, e.newFileName);
+
+    // 重命名成功，重新加载响应文件列表
+    if (result) {
+      // 获取响应文件列表
+      final List<DetailResponseView> responseList =
+          await loadResponseFile(view.url, view.method);
+
+      final InfoDetailView newView = view.copyWith(
+        responseList: responseList,
+        info: '文件已重命名',
+      );
+
+      return newView;
+    }
+
+    return view.copyWith(info: '文件重命名失败');
   }
 
   /// 通知Go端更新内存
@@ -185,5 +188,29 @@ class InfoDetailServiceImpl extends InfoDetailService {
 
     final bool result = await plugin.updateInfo(info);
     return result;
+  }
+
+  /// 加载响应文件列表
+  Future<List<DetailResponseView>> loadResponseFile(
+      String url, String method) async {
+    final MockServicePlugin plugin = container<MockServicePlugin>();
+
+    // 加载响应文件列表
+    final List<String> responseFileList =
+        await plugin.responseFileList(url, method);
+
+    // 响应文件View列表
+    final List<DetailResponseView> responseList = [];
+    for (final String responseFile in responseFileList) {
+      final DetailResponseView responseView = DetailResponseView(
+        responseFile: responseFile,
+        fileName: Util.getFileName(responseFile),
+        isJson: true,
+        isJsonValid: true,
+      );
+      responseList.add(responseView);
+    }
+
+    return responseList;
   }
 }
