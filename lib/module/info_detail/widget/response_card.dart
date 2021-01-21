@@ -74,7 +74,7 @@ class _ResponseCardState extends State<ResponseCard> {
                   Text('设为响应'),
                   Radio(
                     groupValue: widget.responseFile,
-                    value: widget.responseView.fileName,
+                    value: widget.responseView.responseFile,
                     onChanged: (value) {
                       // 触发事件
                       BlocProvider.of<InfoDetailBloc>(context)

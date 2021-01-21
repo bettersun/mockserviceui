@@ -236,9 +236,6 @@ class _HeaderPanelState extends State<HeaderPanel> {
                   padding: EdgeInsets.only(
                       left: ThemeConst.paddingItem,
                       right: ThemeConst.paddingItem),
-                  // color: widget.view.useMockService
-                  //     ? Colors.transparent
-                  //     : Colors.grey,
                   child: TextField(
                     // 不能编辑
                     enabled: false,
