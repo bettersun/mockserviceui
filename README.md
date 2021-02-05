@@ -7,6 +7,13 @@
 https://github.com/bettersun/mockservice
 https://github.com/bettersun/moist
 
+主界面：  
+![avatar](001.png)
+日志界面：  
+![avatar](002.png)
+配置详细界面：  
+![avatar](003.png)
+
 ## 简介
 
 前端连接到该工具，该工具实现请求转发、请求和响应信息的保存。  
@@ -54,7 +61,7 @@ useMockCommonResponseHeader: true
     端口为该工具的监听接口，前端连接到此工具所在主机的该端口。  
     本机连接的话，手机的模拟器不能连接 127.0.0.1 或者 localhost。  
 
-    若不配置，默认使用 8527。  
+    若不配置，默认使用 9527。  
 
 2. 日志文件
 
