@@ -8,11 +8,11 @@ https://github.com/bettersun/mockservice
 https://github.com/bettersun/moist
 
 主界面：  
-![avatar](001.png)
+![主界面](001.png)
 日志界面：  
-![avatar](002.png)
+![日志界面](002.png)
 配置详细界面：  
-![avatar](003.png)
+![配置详细界面](003.png)
 
 ## 简介
 
