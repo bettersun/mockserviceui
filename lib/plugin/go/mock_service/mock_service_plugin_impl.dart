@@ -98,6 +98,7 @@ class MockServicePluginImpl extends MockServicePlugin {
     return list;
   }
 
+  /// 重命名响应文件
   @override
   Future<bool> renameResponseFile(String responseFile, String fileName) async {
     final Map mParams = {};
@@ -106,6 +107,18 @@ class MockServicePluginImpl extends MockServicePlugin {
 
     final bool result =
         await channel.invokeMethod(funcNameRenameResponseFile, mParams);
+
+    return result;
+  }
+
+  /// 设置默认目标主机
+  @override
+  Future<bool> setDefaultTargetHost(String targetHost) async {
+    final Map mParams = {};
+    mParams['targetHost'] = targetHost;
+
+    final bool result =
+        await channel.invokeMethod(funcNameSetDefaultTargetHost, mParams);
 
     return result;
   }

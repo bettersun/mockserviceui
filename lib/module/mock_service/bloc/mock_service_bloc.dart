@@ -50,7 +50,7 @@ class MockServiceBloc extends Bloc<MockServiceEvent, MockServiceState> {
     if (event is MockServiceChangeItemValueEvent) {
       final MockServiceDoneState nowState = state as MockServiceDoneState;
       final MockServiceView view =
-          service.changeItemValue(nowState.view, event);
+          await service.changeItemValue(nowState.view, event);
       yield MockServiceDoneState(view: view);
     }
 

@@ -102,4 +102,9 @@ class MockServicePluginImplMock extends MockServicePlugin {
   Future<bool> renameResponseFile(String responseFile, String fileName) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> setDefaultTargetHost(String targetHost) {
+    throw UnimplementedError();
+  }
 }

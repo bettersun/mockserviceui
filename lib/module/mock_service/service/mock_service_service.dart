@@ -17,7 +17,7 @@ abstract class MockServiceService {
   Future<MockServiceView> toggleService(MockServiceView view);
 
   /// 改变项目值
-  MockServiceView changeItemValue(
+  Future<MockServiceView> changeItemValue(
       MockServiceView view, MockServiceChangeItemValueEvent e);
 
   /// 改变列表值

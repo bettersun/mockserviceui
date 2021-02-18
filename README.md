@@ -4,8 +4,8 @@
 使用 go-flutter 开发
 
 依赖Github仓库:  
-https://github.com/bettersun/mockservice
-https://github.com/bettersun/moist
+https://github.com/bettersun/mockservice  
+https://github.com/bettersun/moist  
 
 主界面：  
 ![主界面](./001.png)

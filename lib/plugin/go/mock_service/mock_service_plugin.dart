@@ -20,6 +20,8 @@ abstract class MockServicePlugin {
   final funcNameSaveInfo = 'saveInfo';
 
   final funcNameHostlist = 'hostlist';
+  final funcNameSetDefaultTargetHost = 'setDefaultTargetHost';
+
   final funcNameInfolist = 'infolist';
   final funcNameResponselist = 'responselist';
 
@@ -33,6 +35,9 @@ abstract class MockServicePlugin {
 
   /// 获取目标主机列表
   Future<List<String>> targetHostList();
+
+  /// 设置默认目标主机
+  Future<bool> setDefaultTargetHost(String targetHost);
 
   /// 获取模拟服务信息列表
   Future<List<MockServiceInfo>> mockServiceInfoList();

@@ -166,12 +166,16 @@ class MockServiceServiceImpl extends MockServiceService {
 
   /// 改变项目值
   @override
-  MockServiceView changeItemValue(
-      MockServiceView view, MockServiceChangeItemValueEvent e) {
+  Future<MockServiceView> changeItemValue(
+      MockServiceView view, MockServiceChangeItemValueEvent e) async {
     // 默认目标主机
     String defaultTargetHost = '';
     if (e.key == MockServiceItemKey.defaultTargetHost) {
       defaultTargetHost = (e.newVal as String) ?? '';
+
+      final MockServicePlugin plugin = container<MockServicePlugin>();
+      // 设置服务端默认目标主机
+      await plugin.setDefaultTargetHost(defaultTargetHost);
     }
 
     final List<MockServiceInfoView> infoList = [];
